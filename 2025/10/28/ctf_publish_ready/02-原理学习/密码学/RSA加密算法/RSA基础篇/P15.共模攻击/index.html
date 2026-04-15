@@ -1,0 +1,658 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="P15.共模攻击P07.共模攻击共模攻击，也称同模攻击。 同模攻击利用的大前提就是，RSA体系在生成密钥的过程中使用了相同的模数n。 在CTF题目中，就是 同一明文，同一n,不同e，进行加密。 m，n相同；e，c不同，且e1 和 e2互质 出题脚本随机生成flag1234567891011121314import randomimport hashlibimport string#字符串列表a&#x3D;s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P15.共模攻击">
+<meta property="og:url" content="https://stefansky07.github.io/2025/10/28/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P15.%E5%85%B1%E6%A8%A1%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="P15.共模攻击P07.共模攻击共模攻击，也称同模攻击。 同模攻击利用的大前提就是，RSA体系在生成密钥的过程中使用了相同的模数n。 在CTF题目中，就是 同一明文，同一n,不同e，进行加密。 m，n相同；e，c不同，且e1 和 e2互质 出题脚本随机生成flag1234567891011121314import randomimport hashlibimport string#字符串列表a&#x3D;s">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-28T06:23:00.000Z">
+<meta property="article:modified_time" content="2026-04-15T03:13:19.545Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>P15.共模攻击 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">P15.共模攻击</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-28 14:23" pubdate>
+          2025年10月28日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">P15.共模攻击</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="P15-共模攻击"><a href="#P15-共模攻击" class="headerlink" title="P15.共模攻击"></a>P15.共模攻击</h1><h2 id="P07-共模攻击"><a href="#P07-共模攻击" class="headerlink" title="P07.共模攻击"></a>P07.共模攻击</h2><p>共模攻击，也称同模攻击。</p>
+<p>同模攻击利用的大前提就是，RSA体系在生成密钥的过程中使用了相同的模数n。</p>
+<p>在CTF题目中，就是 同一明文，同一n,不同e，进行加密。</p>
+<p>m，n相同；e，c不同，且e1 和 e2互质</p>
+<h3 id="出题脚本"><a href="#出题脚本" class="headerlink" title="出题脚本"></a>出题脚本</h3><h4 id="随机生成flag"><a href="#随机生成flag" class="headerlink" title="随机生成flag"></a>随机生成flag</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs stylus">import random<br>import hashlib<br>import string<br><br>#字符串列表<br>a=string<span class="hljs-selector-class">.printable</span><br>#随机生成flag<br><span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>    flag = <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>        flag += <span class="hljs-selector-tag">a</span><span class="hljs-selector-attr">[random.randint(0, 99)]</span><br>    flag = hashlib<span class="hljs-selector-class">.md5</span>(flag<span class="hljs-selector-class">.encode</span>())<span class="hljs-selector-class">.hexdigest</span>()<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;flag&#123;&quot;</span> + flag + <span class="hljs-string">&quot;&#125;&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="题目1"><a href="#题目1" class="headerlink" title="题目1"></a>题目1</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#coding:utf-8</span><br>import libnum<br>import gmpy2<br><span class="hljs-comment">#生成素数</span><br><span class="hljs-attribute">p</span>=libnum.generate_prime(1024)<br><span class="hljs-attribute">q</span>=libnum.generate_prime(1024)<br><span class="hljs-attribute">e1</span>=2333<br><span class="hljs-attribute">e2</span>=23333<br><span class="hljs-attribute">m</span>=<span class="hljs-string">&quot;flag&#123;6ed4c74e022cb18c8039e96de93aa9ce&#125;&quot;</span><br><span class="hljs-attribute">m</span>=libnum.s2n(m)<br><span class="hljs-attribute">n</span>=p*q<br><span class="hljs-comment">#pow(x, y[, z])</span><br><span class="hljs-comment">#函数是计算 x 的 y 次方，如果 z 在存在，则再对结果进行取模</span><br><span class="hljs-attribute">c1</span>=pow(m,e1,n)<br><span class="hljs-attribute">c2</span>=pow(m,e2,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n1:&quot;</span>,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;e1:&quot;</span>,e1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;c1:&quot;</span>,c1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n2:&quot;</span>,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;e2:&quot;</span>,e2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;c2:&quot;</span>,c2)<br><br></code></pre></td></tr></table></figure>
+
+<h4 id="题目1解密"><a href="#题目1解密" class="headerlink" title="题目1解密"></a>题目1解密</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#coding:utf-8</span><br>import gmpy2<br>import libnum<br><br><span class="hljs-attribute">n</span>=10509135007927020910961570498020654777820601579825669027410027026173076573380693204454238919762243178647774720169342528691085983225219960236799370268896666867164869238677749575679762611540687182614629847614275763451130215062534086871119259415866636857654106010518677919485438729877453549868724935457349692430637646827845074169704597756894678350214029352130966923159025112991395150214022844221949818486992653054085916326074567355928744181958934887632087019273037034539054980148783728604561167417571308543568511557184742388987903995431328908643666134429145944816840592528868078022503367301892068877343146684216682292031<br><span class="hljs-attribute">e1</span>=2333<br><span class="hljs-attribute">c1</span>=7817747253100075445080016685151086112268236401548478039383697586624131257005712900744875480257235019856465005133060251952853265167801711501859975585492982445693865641552507292652891995513965716569403068769379922648392091598433743576490830481993190692094310002540291082497060442504191087716491306341060343322555758506922102525722142895936303098845293736052077805416603114326241892440936798612985329887620848022507113494020806335634837064221561034485913416272720657761870572787579710754920585427628542146537468299211892356070884683021760416483687996756045071803827949139730328011630778732391114457251096093112357217218<br><span class="hljs-attribute">n2</span>=10509135007927020910961570498020654777820601579825669027410027026173076573380693204454238919762243178647774720169342528691085983225219960236799370268896666867164869238677749575679762611540687182614629847614275763451130215062534086871119259415866636857654106010518677919485438729877453549868724935457349692430637646827845074169704597756894678350214029352130966923159025112991395150214022844221949818486992653054085916326074567355928744181958934887632087019273037034539054980148783728604561167417571308543568511557184742388987903995431328908643666134429145944816840592528868078022503367301892068877343146684216682292031<br><span class="hljs-attribute">e2</span>=23333<br><span class="hljs-attribute">c2</span>=4005739533838233872100900192412804692746056018222370689494999429600683965220671145551011781360384072398973847079099863801781412654844344905559510784496389730242858693821886631397324132791823439680955157172958658051082121321917953586754734740594115385719917993135141183252010390389651513644552790616554115701338569755344442572426665297172781226400939991451728779259308086811204397695171302495091439788703682660000347393283282772216143916787270940246611837483151694679246528820414931162726657909701256510917389048934521382784300651451892299324944208983841733409704979351560563883697858790944929943311340614454947233485<br><br><br><span class="hljs-comment">#共模攻击</span><br><span class="hljs-comment">#共模攻击函数</span><br>def rsa_gong_N_def(e1,e2,c1,c2,n):<br>    e1, e2, c1, c2, <span class="hljs-attribute">n</span>=int(e1),int(e2),int(c1),int(c2),int(n)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;e1,e2:&quot;</span>,e1,e2)<br>    <span class="hljs-built_in">print</span>(gmpy2.gcd(e1,e2))<br>    s = gmpy2.gcdext(e1, e2)<br>    <span class="hljs-built_in">print</span>(s)<br>    s1 = s[1]<br>    s2 = s[2]<br>    <span class="hljs-keyword">if</span> s1 &lt; 0:<br>        s1 = - s1<br>        c1 = gmpy2.invert(c1, n)<br>    elif s2 &lt; 0:<br>        s2 = - s2<br>        c2 = gmpy2.invert(c2, n)<br>    m = (pow(c1,s1,n) * pow(c2 ,s2 ,n)) % n<br>    return int(m)<br><br>m = rsa_gong_N_def(e1,e2,c1,c2,n)<br><span class="hljs-built_in">print</span>(m)<br><span class="hljs-built_in">print</span>(libnum.n2s(int(m)).decode())<br></code></pre></td></tr></table></figure>
+
+<h4 id="题目2（密钥型，跟2018年巅峰极客的类似）"><a href="#题目2（密钥型，跟2018年巅峰极客的类似）" class="headerlink" title="题目2（密钥型，跟2018年巅峰极客的类似）"></a>题目2（密钥型，跟2018年巅峰极客的类似）</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs stylus">import libnum<br>from Crypto<span class="hljs-selector-class">.PublicKey</span> import RSA<br>import base64<br>p=libnum<span class="hljs-selector-class">.generate_prime</span>(<span class="hljs-number">1024</span>)<br>q=libnum<span class="hljs-selector-class">.generate_prime</span>(<span class="hljs-number">1024</span>)<br>e1=<span class="hljs-number">2333</span><br>e2=<span class="hljs-number">23333</span><br>n=p*<span class="hljs-selector-tag">q</span><br>m=<span class="hljs-string">&quot;flag&#123;09edeb8aa1db60814c34da8994590758&#125;&quot;</span><br>m=libnum<span class="hljs-selector-class">.s2n</span>(m)<br>n=p*<span class="hljs-selector-tag">q</span><br>c1=<span class="hljs-built_in">pow</span>(m,e1,n)<br>c2=<span class="hljs-built_in">pow</span>(m,e2,n)<br><span class="hljs-selector-id">#print</span> <span class="hljs-string">&quot;d:&quot;</span>,d<br><br>rsa_components = (n, e1)<br>keypair = RSA<span class="hljs-selector-class">.construct</span>(rsa_components)<br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;pubkey1.pem&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) as f :<br>    f<span class="hljs-selector-class">.write</span>(keypair<span class="hljs-selector-class">.exportKey</span>())<br><br>rsa_components = (n, e2)<br>keypair = RSA<span class="hljs-selector-class">.construct</span>(rsa_components)<br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;pubkey2.pem&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) as f :<br>    f<span class="hljs-selector-class">.write</span>(keypair<span class="hljs-selector-class">.exportKey</span>())<br><br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;c1.enc&quot;</span>,<span class="hljs-string">&quot;wb&quot;</span>) as f:<br>    f<span class="hljs-selector-class">.write</span>(base64<span class="hljs-selector-class">.b64encode</span>(libnum<span class="hljs-selector-class">.n2s</span>(c1)))<br>with <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;c2.enc&quot;</span>,<span class="hljs-string">&quot;wb&quot;</span>) as f:<br>    f<span class="hljs-selector-class">.write</span>(base64<span class="hljs-selector-class">.b64encode</span>(libnum<span class="hljs-selector-class">.n2s</span>(c2)))<br></code></pre></td></tr></table></figure>
+
+<h4 id="题目2解密脚本"><a href="#题目2解密脚本" class="headerlink" title="题目2解密脚本"></a>题目2解密脚本</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#coding:utf-8</span><br>import gmpy2<br>import libnum<br><span class="hljs-keyword">from</span> Crypto.PublicKey import RSA<br>import base64<br><br>with open(<span class="hljs-string">&quot;pubkey1.pem&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>) as f:<br>    key = RSA.import_key(f.read())<br>    <span class="hljs-attribute">n1</span>=key.n<br>    <span class="hljs-attribute">e1</span>=key.e<br><br>with open(<span class="hljs-string">&quot;pubkey2.pem&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>) as f:<br>    key = RSA.import_key(f.read())<br>    <span class="hljs-attribute">n2</span>=key.n<br>    <span class="hljs-attribute">e2</span>=key.e<br><br>with open(<span class="hljs-string">&quot;c1.enc&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>) as f:<br>    <span class="hljs-attribute">c1</span>=f.read()<br>    <span class="hljs-attribute">c1</span>=base64.b64decode(c1)<br>    <span class="hljs-attribute">c1</span>=libnum.s2n(c1)<br>with open(<span class="hljs-string">&quot;c2.enc&quot;</span>,<span class="hljs-string">&quot;rb&quot;</span>) as f:<br>    <span class="hljs-attribute">c2</span>=f.read()<br>    <span class="hljs-attribute">c2</span>=base64.b64decode(c2)<br>    <span class="hljs-attribute">c2</span>=libnum.s2n(c2)<br><br><span class="hljs-attribute">n</span>=n1<br><span class="hljs-comment"># 共模攻击</span><br><span class="hljs-comment"># 扩展欧几里得算法</span><br>s = gmpy2.gcdext(e1, e2)<br>s1 = s[1]<br>s2 = -s[2]<br><span class="hljs-comment">#求逆元</span><br>c2 = gmpy2.invert(c2, n)<br>m = (pow(c1,s1,n) * pow(c2 , s2 , n)) % n<br><span class="hljs-built_in">print</span>(m)<br><span class="hljs-built_in">print</span>(libnum.n2s(int(m)).decode())<br></code></pre></td></tr></table></figure>
+
+<h3 id="共模攻击原理"><a href="#共模攻击原理" class="headerlink" title="共模攻击原理"></a>共模攻击原理</h3><p><a target="_blank" rel="noopener" href="https://www.dazhuanlan.com/2019/12/18/5df98f54585e8/">https://www.dazhuanlan.com/2019/12/18/5df98f54585e8/</a></p>
+<p>两个及以上的公钥(n,e)来加密同一条信息m</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">c1</span> = pow(m, e1, n)<br><span class="hljs-attr">c2</span> = pow(m, e2, n)<br></code></pre></td></tr></table></figure>
+
+<p>e1，e2互质，则有</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">gcd</span><span class="hljs-params">(e1,e2)</span></span>=<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>根据扩展欧几里德算法<br>对于不完全为 0 的整数 a，b，gcd（a，b）表示 a，b 的最大公约数。那么一定存在整数 x，y 使得 gcd（a，b）&#x3D;ax+by</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-symbol">e1</span>*<span class="hljs-built_in">s1</span>+e2*<span class="hljs-built_in">s2</span> = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>s1、s2皆为整数，但是一正一负，假设s1为正数,s2为负数</p>
+<p>因为</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cos">c1 = m<span class="hljs-symbol">^e1</span><span class="hljs-built_in">%n</span><br>c2 = m<span class="hljs-symbol">^e2</span><span class="hljs-built_in">%n</span><br></code></pre></td></tr></table></figure>
+
+<p>可得：</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cos">(c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m<span class="hljs-symbol">^e1</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s1</span>(m<span class="hljs-symbol">^e2</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span><br></code></pre></td></tr></table></figure>
+
+<p>根据模运算性质：<br>幂运算是一种关于幂的数学运算。同底数幂相乘，底数不变，指数相加。同底数幂相除，底数不变，指数相减。幂的乘方，底数不变，指数相乘。</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gcode"><span class="hljs-comment">(a * b)</span> <span class="hljs-meta">%</span> p = <span class="hljs-comment">(a % p * b % p)</span> <span class="hljs-meta">%</span> p<br>a ^ b <span class="hljs-meta">%</span> p = <span class="hljs-comment">((a % p)</span> ^ b) <span class="hljs-meta">%</span> p<br></code></pre></td></tr></table></figure>
+
+<p>简化公式为：</p>
+<figure class="highlight cos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs cos">(c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m<span class="hljs-symbol">^e1</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s1</span>*(m<span class="hljs-symbol">^e2</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span><br><br>=&gt; (c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m<span class="hljs-symbol">^e1</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s1</span><span class="hljs-built_in">%n</span>*(m<span class="hljs-symbol">^e2</span><span class="hljs-built_in">%n</span>)<span class="hljs-symbol">^s2</span><span class="hljs-built_in">%n</span>)<span class="hljs-built_in">%n</span> #(a * b) % p = (a % p * b % p) % p<br><br>=&gt; (c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m<span class="hljs-symbol">^e1</span>)<span class="hljs-symbol">^s1</span><span class="hljs-built_in">%n</span>*(m<span class="hljs-symbol">^e2</span>)<span class="hljs-symbol">^s2</span><span class="hljs-built_in">%n</span>)<span class="hljs-built_in">%n</span> #((a % p) ^ b) % p =a ^ b % p<br><br>=&gt; (c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m<span class="hljs-symbol">^e1</span>)<span class="hljs-symbol">^s1</span>*(m<span class="hljs-symbol">^e2</span>)<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> # (a % p * b % p) % p=(a * b) % p<br><br>=&gt;(c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = ((m^(e1*s1)*(m^(e2*s2))<span class="hljs-built_in">%n</span> #。幂的乘方，底数不变，指数相乘。<br><br>(c1<span class="hljs-symbol">^s1</span>*c2<span class="hljs-symbol">^s2</span>)<span class="hljs-built_in">%n</span> = (m^(e1*s1+e2*s2))<span class="hljs-built_in">%n</span>  # 同底数幂相乘，底数不变，指数相加。<br><br></code></pre></td></tr></table></figure>
+
+<p>因为 e1*s1+e2*s2 &#x3D; 1 得：</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs armasm">(<span class="hljs-built_in">c1</span>^<span class="hljs-built_in">s1</span>*<span class="hljs-built_in">c2</span>^<span class="hljs-built_in">s2</span>)%n = (m^<span class="hljs-number">1</span>)%n<br><br>(<span class="hljs-built_in">c1</span>^<span class="hljs-built_in">s1</span>*<span class="hljs-built_in">c2</span>^<span class="hljs-built_in">s2</span>）%n<span class="hljs-symbol">=m</span><br></code></pre></td></tr></table></figure>
+
+<p>上述就是rsa共模攻击的过程</p>
+<p>因此，同一m，同一n,不同e，进行加密。在不需要知道d的情况下，可以进行解密。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>P15.共模攻击</div>
+      <div>https://stefansky07.github.io/2025/10/28/ctf_publish_ready/02-原理学习/密码学/RSA加密算法/RSA基础篇/P15.共模攻击/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/29/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P16.N%E5%88%86%E8%A7%A3%E4%B8%89%E4%B8%AA%E7%B4%A0%E6%95%B0/" title="P16.N分解三个素数">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">P16.N分解三个素数</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/26/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P14.n%E6%98%AFp%E7%9A%84r%E6%AC%A1%E6%96%B9/" title="P14.n是p的r次方">
+                        <span class="hidden-mobile">P14.n是p的r次方</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

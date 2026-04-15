@@ -242,15 +242,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/LitCTF%202023%E4%BD%A0%E6%98%AF%E6%88%91%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D(Keyworld)/" target="_self">
-          LitCTF 2023你是我的关键词(Keyworld)
+        <a href="/2025/11/10/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P24.%E5%B9%B3%E6%96%B9%E5%B7%AE%E9%81%8D%E5%8E%86%E6%B3%95/" target="_self">
+          P24.平方差遍历法
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/LitCTF%202023%E4%BD%A0%E6%98%AF%E6%88%91%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D(Keyworld)/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/10/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P24.%E5%B9%B3%E6%96%B9%E5%B7%AE%E9%81%8D%E5%8E%86%E6%B3%95/" target="_self">
         <div>
-          LitCTF 2023你是我的关键词(Keyworld)一：题目类型带key解密；随波逐流 二：题目1IFRURC&#123;X0S_YP3_JX_HBXV0PA&#125;  ![[Pasted image 20240927151322.png]] 三：解题思路与代码方法一：随波逐流看到题目描述，感觉应该是带key解密，试试用随波逐流。![[Pasted image 20240927151419
+          P24.平方差遍历法原理核心总结就是：令a是n的”中间值”（）,然后让a以步长为1自增遍历，直到pow(a,2)-n的结果可以正好开方为止。那个结果开方就是b。 12345678910111213141516171819&#x27;&#x27;&#x27;生成两个挨得近的素数p，q&#x27;&#x27;&#x27;p = getPrime(512)q = gmpy2.next_prime(p)n
         </div>
       </a>
 
@@ -258,8 +258,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-10 19:19" pubdate>
+              2025-11-10
             </time>
           </div>
         
@@ -275,15 +275,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/ez_rsasasa/" target="_self">
-          ez_rsasasa
+        <a href="/2025/11/09/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P23%20%E5%8F%8D%E7%B4%A0%E6%95%B0/" target="_self">
+          P23 反素数
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/ez_rsasasa/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/09/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P23%20%E5%8F%8D%E7%B4%A0%E6%95%B0/" target="_self">
         <div>
-          ez_rsasasa一：题目类型P23 反素数 二：题目123456789101112131415161718192021222324252627282930313233from Crypto.Util.number import getPrime, isPrime, bytes_to_longfrom secret import flagimport base64def emirp(x):
+          P23 反素数一：原理：emirp（逆序素数）是指将十进制素数反转后会得到另一个素数的素数。此定义不包括回文素数，术语可逆素数同指此素数。所有 emirps 对之间的差始终是 18 的倍数。这是因为所有大于 2 的素数都是奇数（使得它们的差为偶数，即 2 的倍数），并且数字反转的自然数对之间的差是 9 的倍数（这本身是$10^{n-1}$对于每个非负整数来说都是 9 的倍数n）。所有非回文可置换素
         </div>
       </a>
 
@@ -291,8 +291,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-09 18:42" pubdate>
+              2025-11-09
             </time>
           </div>
         
@@ -308,15 +308,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/base%E5%AE%B6%E6%97%8F%E5%A5%97%E5%A8%83/" target="_self">
-          base家族套娃
+        <a href="/2025/11/07/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P22%E5%8D%95%E7%B4%A0%E6%95%B0rsa/" target="_self">
+          P22单素数rsa
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/base%E5%AE%B6%E6%97%8F%E5%A5%97%E5%A8%83/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/07/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P22%E5%8D%95%E7%B4%A0%E6%95%B0rsa/" target="_self">
         <div>
-          base家族套娃1.先看题目：var&#x3D;“************************************”flag&#x3D;‘NSSCTF{’ + base64.b16encode(base64.b32encode(base64.b64encode(var.encode()))) + ‘}’print(flag) 小明不小心泄露了源码，输出结果为：4A5A4C564B36434
+          P22单素数rsa一：题目：1234567891011121314from Crypto.Util.number import bytes_to_long, getPrimeflag=b&#x27;flag&#123;*****&#125;&#x27;n = getPrime(512)e = 65537m = bytes_to_long(flag)c = pow(m,e,n)print(&quot
         </div>
       </a>
 
@@ -324,8 +324,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-07 18:05" pubdate>
+              2025-11-07
             </time>
           </div>
         
@@ -341,15 +341,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/ezxor/" target="_self">
-          ezxor
+        <a href="/2025/11/05/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P21.dp%E6%B3%84%E9%9C%B2%E5%8F%98%E7%A7%8D%E4%B9%8Be%E8%BE%83%E5%A4%A7/" target="_self">
+          P21.dp泄露变种之e较大
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/ezxor/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/05/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P21.dp%E6%B3%84%E9%9C%B2%E5%8F%98%E7%A7%8D%E4%B9%8Be%E8%BE%83%E5%A4%A7/" target="_self">
         <div>
-          ezxor一：题目类型异或 二：题目1234567891011121314151617181920212223242526272829303132333435363738394041from functools import reducefrom operator import xorfrom random import sample, randint, shufflefrom libnum im
+          P21.dp泄露变种之e较大一：类型：dp泄露变种之e较大二：原理dp泄露但是e比较大，无法通过遍历e去找k了,这里讲一下另外一种解法的推导过程​ 三：例子例一：
         </div>
       </a>
 
@@ -357,8 +357,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-05 17:28" pubdate>
+              2025-11-05
             </time>
           </div>
         
@@ -374,15 +374,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/BASe64%E5%8F%98%E5%BD%A2/" target="_self">
-          BASe64变形
+        <a href="/2025/11/03/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P20%20P+1%E6%88%96p-1%E5%85%89%E6%BB%91/" target="_self">
+          P20 P+1或p-1光滑
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/BASe64%E5%8F%98%E5%BD%A2/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/03/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P20%20P+1%E6%88%96p-1%E5%85%89%E6%BB%91/" target="_self">
         <div>
-          BASe64变形一：题目类型Base64加密 二：题目1234dict:&#123;0: &#x27;J&#x27;, 1: &#x27;K&#x27;, 2: &#x27;L&#x27;, 3: &#x27;M&#x27;, 4: &#x27;N&#x27;, 5: &#x27;O&#x27;, 6: &#x27;x&#x27;, 7: &#x27;y&#x27;, 8: &#x27;U&#x2
+          P20 P+1或p-1光滑一：类型：P+1或p-1光滑二：原理1.p-1光滑（Pollard‘s p-1 method）：根据费马小定理(Fermat Theorem)，若p是素数，且p不整除a，则有： $$a^{p-1}\equiv1(\bmod p)$$ B-Smooth数：如果一个整数的所有素因子都不大于B，我们称这个数为B-Smooth数例：12 &#x3D; 2 ∗ 2 ∗ 3 ， 所
         </div>
       </a>
 
@@ -390,8 +390,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-03 16:51" pubdate>
+              2025-11-03
             </time>
           </div>
         
@@ -407,15 +407,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E4%B8%80%E6%AE%B5base64%EF%BC%88%E5%A4%9A%E5%B1%82%E5%A5%97%E5%A8%83%EF%BC%89/" target="_self">
-          一段base64（多层套娃）
+        <a href="/2025/11/02/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P19.Franklin-Reiter%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/" target="_self">
+          P19.Franklin-Reiter攻击脚本
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E4%B8%80%E6%AE%B5base64%EF%BC%88%E5%A4%9A%E5%B1%82%E5%A5%97%E5%A8%83%EF%BC%89/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/11/02/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P19.Franklin-Reiter%E6%94%BB%E5%87%BB%E8%84%9A%E6%9C%AC/" target="_self">
         <div>
-          一段base64（多层套娃）一段 Base64  本来看到题目名字和分数以为是一道水题，后来解的时候才发现有这么多编码方式，当然如果熟悉这些编码方式找在线工具解得话很快就能拿到 flag，这篇 writeup 主要是记录一下用 python 实现所有解码第一种方法：python 跑一下 12345678910111213141516171819202122232425262728293031323
+          P19.Franklin-Reiter攻击脚本P19.sage Franklin-Reiter攻击脚本网上脚本https://github.com/ValarDragon/CTF-Crypto/blob/master/RSA/FranklinReiter.sage 1234567891011121314151617181920212223242526272829303132333435363738
         </div>
       </a>
 
@@ -423,8 +423,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-11-02 16:14" pubdate>
+              2025-11-02
             </time>
           </div>
         
@@ -440,15 +440,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/g4%E7%9A%84%E5%AF%86%E7%A0%81%E5%B0%8F%E8%AF%BE%E5%A0%82/" target="_self">
-          g4的密码小课堂
+        <a href="/2025/10/31/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P17.e%E5%92%8Cphi_n%E4%B8%8D%E4%BA%92%E7%B4%A0/" target="_self">
+          P17.e和phi_n不互素
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/g4%E7%9A%84%E5%AF%86%E7%A0%81%E5%B0%8F%E8%AF%BE%E5%A0%82/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/31/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P17.e%E5%92%8Cphi_n%E4%B8%8D%E4%BA%92%E7%B4%A0/" target="_self">
         <div>
-          g4的密码小课堂题目 分析​根据内容可以判断为 RSA 算法。需要得出两对​$p$和$q$后算出$\varphi(n)$，结合$e$得到$d$，由$c^d\equiv m \mod n$计算出m，将m转换为bytes类型即可得到flag。 12345678910111213141516171819202122232425262728293031# -*- coding: utf-8 -*-# @A
+          P17.e和phi_n不互素P18.e和phi_n不互素出题脚本123456789101112131415161718192021import gmpy2import libnumimport randomimport uuidflag=&quot;flag&#123;&quot;+str(uuid.uuid4())+&quot;&#125;&quot;m=libnum.s2n(flag)whil
         </div>
       </a>
 
@@ -456,8 +456,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-10-31 15:37" pubdate>
+              2025-10-31
             </time>
           </div>
         
@@ -473,15 +473,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/math_rsa/" target="_self">
-          math_rsa
+        <a href="/2025/10/29/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P16.N%E5%88%86%E8%A7%A3%E4%B8%89%E4%B8%AA%E7%B4%A0%E6%95%B0/" target="_self">
+          P16.N分解三个素数
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/math_rsa/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/29/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P16.N%E5%88%86%E8%A7%A3%E4%B8%89%E4%B8%AA%E7%B4%A0%E6%95%B0/" target="_self">
         <div>
-          math_rsa题目123456789101112131415161718192021222324252627282930313233343536373839404142from random import randomfrom Crypto.Util.number import *from math import factorialflag = b&#x27;ctfshow&#123;*****
+          P16.N分解三个素数P16.N分解三个素数对n进行分解，得到了3个素数n&#x3D;p*q*r 随机生成flag12345678910111213import randomimport hashlibimport string#字符串列表a=string.printable#随机生成flagfor i in range(10):    flag = &quot;&quot;    for i i
         </div>
       </a>
 
@@ -489,8 +489,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-10-29 15:00" pubdate>
+              2025-10-29
             </time>
           </div>
         
@@ -506,15 +506,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/factor/" target="_self">
-          factor
+        <a href="/2025/10/28/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P15.%E5%85%B1%E6%A8%A1%E6%94%BB%E5%87%BB/" target="_self">
+          P15.共模攻击
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/factor/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/28/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P15.%E5%85%B1%E6%A8%A1%E6%94%BB%E5%87%BB/" target="_self">
         <div>
-          factor题目1234567891011121314151617181920212223242526272829from Crypto.Util.number import *import gmpy2import osfrom enc import flaghint = os.urandom(36)tmp = bytes_to_long(hint)m = bytes_to_long(flag)p
+          P15.共模攻击P07.共模攻击共模攻击，也称同模攻击。 同模攻击利用的大前提就是，RSA体系在生成密钥的过程中使用了相同的模数n。 在CTF题目中，就是 同一明文，同一n,不同e，进行加密。 m，n相同；e，c不同，且e1 和 e2互质 出题脚本随机生成flag1234567891011121314import randomimport hashlibimport string#字符串列表a=s
         </div>
       </a>
 
@@ -522,8 +522,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-10-28 14:23" pubdate>
+              2025-10-28
             </time>
           </div>
         
@@ -539,15 +539,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E6%8A%B1%E6%88%91/" target="_self">
-          抱我
+        <a href="/2025/10/26/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P14.n%E6%98%AFp%E7%9A%84r%E6%AC%A1%E6%96%B9/" target="_self">
+          P14.n是p的r次方
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E6%8A%B1%E6%88%91/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/10/26/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P14.n%E6%98%AFp%E7%9A%84r%E6%AC%A1%E6%96%B9/" target="_self">
         <div>
-          抱我一：题目类型词频分析 二：题目123456789101112131415cstring = &#x27;abcdefghijklmnopqrstuvwxyz&#123;&#125;_0123456789&#x27;key = &#x27;flag&#123;********&#125;&#x27;length = 300def encode():    res = &#x27;&#x27;
+          P14.n是p的r次方ctf中，遇到过这样的题目：1n = p^r ，p为素数，没有q了。因为p=q。  那么计算n的欧拉函数φ(n)就是1φ(n)=p^r-p^&#123;r-1&#125;  推导过程为：123456789欧拉函数φ(n)的定义是小于n的自然数中与n互质的数的个数。p^r 质因数就只有p，那么不与它互质的数都含有p， 和它不互质的数的个数：p^r/p=p^r-1/p=p^&#1
         </div>
       </a>
 
@@ -555,8 +555,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2026-04-15 02:33" pubdate>
-              2026-04-15
+            <time datetime="2025-10-26 13:46" pubdate>
+              2025-10-26
             </time>
           </div>
         

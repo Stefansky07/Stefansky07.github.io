@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="特殊剪枝一：题目类型特殊剪枝 二：题目123456789101112131415161718192021import sympy  from Crypto.Util.number import *  from secret import flag  e &#x3D; 65537  p1 &#x3D; sympy.randprime(2 ** 1023,2 ** 1024)  q1 &#x3D; sympy.randprime(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特殊剪枝">
+<meta property="og:url" content="https://stefansky07.github.io/2025/09/09/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/Crypto%E8%B6%A3%E9%A2%98-%E5%89%AA%E6%9E%9D/%E7%89%B9%E6%AE%8A%E5%89%AA%E6%9E%9D/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="特殊剪枝一：题目类型特殊剪枝 二：题目123456789101112131415161718192021import sympy  from Crypto.Util.number import *  from secret import flag  e &#x3D; 65537  p1 &#x3D; sympy.randprime(2 ** 1023,2 ** 1024)  q1 &#x3D; sympy.randprime(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-09T12:30:00.000Z">
+<meta property="article:modified_time" content="2026-04-15T03:13:19.454Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>特殊剪枝 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">特殊剪枝</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-09 20:30" pubdate>
+          2025年9月9日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          799 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">特殊剪枝</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="特殊剪枝"><a href="#特殊剪枝" class="headerlink" title="特殊剪枝"></a>特殊剪枝</h1><h1 id="一：题目类型"><a href="#一：题目类型" class="headerlink" title="一：题目类型"></a>一：题目类型</h1><p>特殊剪枝</p>
+<h1 id="二：题目"><a href="#二：题目" class="headerlink" title="二：题目"></a>二：题目</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> sympy  <br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *  <br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag  <br>e = <span class="hljs-number">65537</span>  <br>p1 = sympy.randprime(<span class="hljs-number">2</span> ** <span class="hljs-number">1023</span>,<span class="hljs-number">2</span> ** <span class="hljs-number">1024</span>)  <br>q1 = sympy.randprime(<span class="hljs-number">2</span> ** <span class="hljs-number">1023</span>,<span class="hljs-number">2</span> ** <span class="hljs-number">1024</span>)  <br>a1 = p1 ^ q1  <br>b1 = p1 * q1  <br>c1 = <span class="hljs-built_in">pow</span>(bytes_to_long(flag[:<span class="hljs-number">19</span>]),e,p1*q1)  <br>p2 = sympy.randprime(<span class="hljs-number">2</span> ** <span class="hljs-number">511</span>, <span class="hljs-number">2</span> ** <span class="hljs-number">512</span>)  <br>q2 = sympy.randprime(<span class="hljs-number">2</span> ** <span class="hljs-number">511</span>, <span class="hljs-number">2</span> ** <span class="hljs-number">512</span>)  <br>a2 = (p2 * q2) ^ (p2 + q2)  <br>b2 = (p2 * q2) ^ (p2 - q2)  <br>c2 = <span class="hljs-built_in">pow</span>(bytes_to_long(flag[<span class="hljs-number">19</span>:]),e,p2*q2)  <br>f= <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;output.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(a1)+<span class="hljs-string">&#x27;\n&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(b1)+<span class="hljs-string">&#x27;\n&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(c1)+<span class="hljs-string">&#x27;\n&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(a2)+<span class="hljs-string">&#x27;\n&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(b2)+<span class="hljs-string">&#x27;\n&#x27;</span>)  <br>f.write(<span class="hljs-built_in">str</span>(c2)+<span class="hljs-string">&#x27;\n&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>题目txt：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">a1=<span class="hljs-number">67739512154277162085770157687437441198363095490607019903179640765859289435128844487312739643781929328039885340492248268381181927215444058044731882600621443249379470235583032722854561171610662253187419453432598163528304052508578209017561499836803166110456130462444164049945234353225230736363194196935115979960</span>  <br>b1=<span class="hljs-number">17185396829856546439605443867156437815015135756541052637907770783830686534153389303291740769607944691156059669175157827203495395745826694347428694508457493991041224390283763876476601200114028282946724348906485066220181559142937065978299071246507281834301352443856315199896106182934770582627129779923357891915723961923663378398066801894395956482176730300442901078199030200112352639266103862753546370851947797706641058966862813099369195689336228579744994641830699890792017097474275824545664085264972274642572927392940910981115837831275773192989084712813373293435228956787629490757407431010258942490818726318175944867633</span>  c1=<span class="hljs-number">2180773316568266715369209198734610509148388893757598741330158376506447322216176787253641696053169188685408469718202047474660716095850135317790263924418449270019680259700945680062960717565507426032265137192689118286560945331123730529355709043463330231284484658907466172538703301303440062783852136344472063837313195697915205569416630439851250171277336484771753816776835527532090668694986220968152676688392975798850738947165707984817923309381811015047150056144403783079156300625762879231698942313672034730244627530962258121618021680413439757194393609777357848156392150372631861473658135778661768208071991812674187273360</span>  a2=<span class="hljs-number">102834527596695950719979111423985349726489864165244791755647652205679952999516919199218636781810880771255724153293007819995198831162629014290926266777774940370836206596205967641213842702547665263659933022253549718321445029287279257463914991950587622466780705329578580061019164231870445205566240956950369224751</span>  b2=<span class="hljs-number">102834527596695950719979111423985349726489864165244791755647652205679952999516919199218636781810880771255724153293007819995198831162629014290926266777774949520538413350277489291427420271328741830415622921056457371226207219443304838109001023043838810016379140438034881290332449739051404396455209891630254998985</span>  c2=<span class="hljs-number">46285230821397377383998198689981002335902850753318921384068480704506522918467396194184971163720421808774010121239873784436865080818119851642074388303787396280596526597467664310187113430990219486840906481260493087443528880139543560763852844535689852804877233056126591516506599561944164619603448246607830867682</span>|<br></code></pre></td></tr></table></figure>
+
+<h1 id="三：解题思路"><a href="#三：解题思路" class="headerlink" title="三：解题思路"></a>三：解题思路</h1><p>可以明显看出，题目分为两部分，均是利用剪枝：</p>
+<h4 id="第一部分："><a href="#第一部分：" class="headerlink" title="第一部分："></a>第一部分：</h4><p><strong>已知条件：</strong></p>
+<ul>
+<li>p1 与 q1 的异或值，共1024bit，记为a1<br><strong>搜索方式：</strong></li>
+<li>从高位向低位搜索</li>
+<li>每一次搜索，需利用当前 a1 的最高位</li>
+<li>若当前 a1 的最高位为”1”，则对应两种可能：p该位为1，q该位为0；p该位为0，q该位为1。剩下依此类推<br><strong>剪枝条件：</strong></li>
+<li>将p1、q1未搜索到的位全填0，乘积应小于n</li>
+<li>将p1、q1未搜索到的位全填1，乘积应大于n</li>
+<li>p1 &gt; q1（这是因为，p1和q1肯定一个比另一个大，因此可以减少一半复杂度）</li>
+</ul>
+<h4 id="第二部分："><a href="#第二部分：" class="headerlink" title="第二部分："></a>第二部分：</h4><p><strong>已知条件：</strong></p>
+<ul>
+<li>(p2 * q2)与(p2 + q2)的异或值，记为a2</li>
+<li>(p2 * q2)与(p2 - q2)的异或值，记为b2<br><strong>搜索方式：</strong></li>
+<li>从低位向高位搜索</li>
+<li>每一次搜索，需利用当前 a2、b2 的最低位</li>
+<li>硬搜索当前位的所有四种可能：00、01、10、11<br><strong>剪枝条件：</strong></li>
+<li>若当前已搜索了 k 位，则需满足：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">t1 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)*<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>t2 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)+<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>t3 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)-<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>mask = <span class="hljs-number">2</span>**k-<span class="hljs-number">1</span>  <br>  <br>((t1^t2)&amp;mask) == (a2&amp;mask) <span class="hljs-keyword">and</span> ((t1^t3)&amp;mask) == (b2&amp;mask)<br></code></pre></td></tr></table></figure>
+
+<p>按照此方式就可以递归深搜出p2、q2</p>
+<h1 id="四：解题代码"><a href="#四：解题代码" class="headerlink" title="四：解题代码"></a>四：解题代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *  <br><span class="hljs-keyword">import</span> sys  <br>sys.setrecursionlimit(<span class="hljs-number">1500</span>)  <br>  <br><span class="hljs-comment">#part1,剪枝  </span><br>a1=<span class="hljs-number">67739512154277162085770157687437441198363095490607019903179640765859289435128844487312739643781929328039885340492248268381181927215444058044731882600621443249379470235583032722854561171610662253187419453432598163528304052508578209017561499836803166110456130462444164049945234353225230736363194196935115979960</span>  <br>b1=<span class="hljs-number">17185396829856546439605443867156437815015135756541052637907770783830686534153389303291740769607944691156059669175157827203495395745826694347428694508457493991041224390283763876476601200114028282946724348906485066220181559142937065978299071246507281834301352443856315199896106182934770582627129779923357891915723961923663378398066801894395956482176730300442901078199030200112352639266103862753546370851947797706641058966862813099369195689336228579744994641830699890792017097474275824545664085264972274642572927392940910981115837831275773192989084712813373293435228956787629490757407431010258942490818726318175944867633</span>  <br>c1=<span class="hljs-number">2180773316568266715369209198734610509148388893757598741330158376506447322216176787253641696053169188685408469718202047474660716095850135317790263924418449270019680259700945680062960717565507426032265137192689118286560945331123730529355709043463330231284484658907466172538703301303440062783852136344472063837313195697915205569416630439851250171277336484771753816776835527532090668694986220968152676688392975798850738947165707984817923309381811015047150056144403783079156300625762879231698942313672034730244627530962258121618021680413439757194393609777357848156392150372631861473658135778661768208071991812674187273360</span>  <br>e = <span class="hljs-number">65537</span>  <br>a1 = <span class="hljs-string">&quot;0&quot;</span> + <span class="hljs-built_in">str</span>(<span class="hljs-built_in">bin</span>(a1)[<span class="hljs-number">2</span>:])  <br>  <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">find</span>(<span class="hljs-params">p,q</span>):  <br>    l = <span class="hljs-built_in">len</span>(p)  <br>    tmp0 = p + (<span class="hljs-number">1024</span>-l)*<span class="hljs-string">&quot;0&quot;</span>  <br>    tmp1 = p + (<span class="hljs-number">1024</span>-l)*<span class="hljs-string">&quot;1&quot;</span>  <br>    tmq0 = q + (<span class="hljs-number">1024</span>-l)*<span class="hljs-string">&quot;0&quot;</span>  <br>    tmq1 = q + (<span class="hljs-number">1024</span>-l)*<span class="hljs-string">&quot;1&quot;</span>  <br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">int</span>(tmp0,<span class="hljs-number">2</span>) &lt; <span class="hljs-built_in">int</span>(tmq0,<span class="hljs-number">2</span>)):  <br>        <span class="hljs-keyword">return</span>   <br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">int</span>(tmp0,<span class="hljs-number">2</span>)*<span class="hljs-built_in">int</span>(tmq0,<span class="hljs-number">2</span>) &gt; b1):  <br>        <span class="hljs-keyword">return</span>   <br>    <span class="hljs-keyword">elif</span>(<span class="hljs-built_in">int</span>(tmp1,<span class="hljs-number">2</span>)*<span class="hljs-built_in">int</span>(tmq1,<span class="hljs-number">2</span>) &lt; b1):  <br>        <span class="hljs-keyword">return</span>  <br>  <br>    <span class="hljs-keyword">if</span>(l == <span class="hljs-number">1024</span>):  <br>        pp = <span class="hljs-built_in">int</span>(tmp0,<span class="hljs-number">2</span>)  <br>        qq = <span class="hljs-built_in">int</span>(tmq0,<span class="hljs-number">2</span>)  <br>        d = inverse(e,(pp-<span class="hljs-number">1</span>)*(qq-<span class="hljs-number">1</span>))  <br>        m = long_to_bytes(<span class="hljs-built_in">pow</span>(c1,d,pp*qq))  <br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(m)[<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>],end = <span class="hljs-string">&quot;&quot;</span>)  <br>          <br>    <span class="hljs-keyword">else</span>:  <br>        <span class="hljs-keyword">if</span>(a1[l] == <span class="hljs-string">&quot;1&quot;</span>):  <br>            find(p+<span class="hljs-string">&quot;1&quot;</span>,q+<span class="hljs-string">&quot;0&quot;</span>)  <br>            find(p+<span class="hljs-string">&quot;0&quot;</span>,q+<span class="hljs-string">&quot;1&quot;</span>)  <br>        <span class="hljs-keyword">else</span>:  <br>            find(p+<span class="hljs-string">&quot;0&quot;</span>,q+<span class="hljs-string">&quot;0&quot;</span>)  <br>            find(p+<span class="hljs-string">&quot;1&quot;</span>,q+<span class="hljs-string">&quot;1&quot;</span>)  <br>  <br>tempp = <span class="hljs-string">&quot;&quot;</span>  <br>tempq = <span class="hljs-string">&quot;&quot;</span>  <br>find(tempp,tempq)  <br>  <br>  <br><span class="hljs-comment">#part2 硬剪枝  </span><br>a2=<span class="hljs-number">102834527596695950719979111423985349726489864165244791755647652205679952999516919199218636781810880771255724153293007819995198831162629014290926266777774940370836206596205967641213842702547665263659933022253549718321445029287279257463914991950587622466780705329578580061019164231870445205566240956950369224751</span>  <br>b2=<span class="hljs-number">102834527596695950719979111423985349726489864165244791755647652205679952999516919199218636781810880771255724153293007819995198831162629014290926266777774949520538413350277489291427420271328741830415622921056457371226207219443304838109001023043838810016379140438034881290332449739051404396455209891630254998985</span>  <br>c2=<span class="hljs-number">46285230821397377383998198689981002335902850753318921384068480704506522918467396194184971163720421808774010121239873784436865080818119851642074388303787396280596526597467664310187113430990219486840906481260493087443528880139543560763852844535689852804877233056126591516506599561944164619603448246607830867682</span>  <br>e = <span class="hljs-number">65537</span>  <br>  <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">find</span>(<span class="hljs-params">p,q,k</span>):  <br>    mask = <span class="hljs-number">2</span>**k-<span class="hljs-number">1</span>  <br>  <br>    t1 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)*<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>    t2 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)+<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>    t3 = (<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)-<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))  <br>      <br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">len</span>(<span class="hljs-built_in">bin</span>(<span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>))[<span class="hljs-number">2</span>:]) == <span class="hljs-number">512</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">len</span>(<span class="hljs-built_in">bin</span>(<span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>))[<span class="hljs-number">2</span>:]) == <span class="hljs-number">512</span>):  <br>        pp = <span class="hljs-built_in">int</span>(p,<span class="hljs-number">2</span>)  <br>        qq = <span class="hljs-built_in">int</span>(q,<span class="hljs-number">2</span>)  <br>        d = inverse(e,(pp-<span class="hljs-number">1</span>)*(qq-<span class="hljs-number">1</span>))  <br>        m = long_to_bytes(<span class="hljs-built_in">pow</span>(c2,d,pp*qq))  <br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">len</span>(m) &lt; <span class="hljs-number">20</span>):  <br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(m)[<span class="hljs-number">2</span>:-<span class="hljs-number">1</span>])  <br>            exit()  <br>  <br>    <span class="hljs-keyword">if</span>(((t1^t2)&amp;mask) == (a2&amp;mask) <span class="hljs-keyword">and</span> ((t1^t3)&amp;mask) == (b2&amp;mask)):  <br>        find(<span class="hljs-string">&quot;0&quot;</span>+p,<span class="hljs-string">&quot;0&quot;</span>+q,k+<span class="hljs-number">1</span>)  <br>        find(<span class="hljs-string">&quot;0&quot;</span>+p,<span class="hljs-string">&quot;1&quot;</span>+q,k+<span class="hljs-number">1</span>)  <br>        find(<span class="hljs-string">&quot;1&quot;</span>+p,<span class="hljs-string">&quot;0&quot;</span>+q,k+<span class="hljs-number">1</span>)  <br>        find(<span class="hljs-string">&quot;1&quot;</span>+p,<span class="hljs-string">&quot;1&quot;</span>+q,k+<span class="hljs-number">1</span>)  <br>    <span class="hljs-keyword">else</span>:  <br>        <span class="hljs-keyword">return</span>  <br>  <br>p = <span class="hljs-string">&quot;1&quot;</span>  <br>q = <span class="hljs-string">&quot;1&quot;</span>  <br>  <br>find(p,q,<span class="hljs-number">1</span>)  <br>  <br><span class="hljs-comment">#flag&#123;u2w6tnettv2a9fbo5qh73k8082h2q9j3&#125;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>大概需要十几秒。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>特殊剪枝</div>
+      <div>https://stefansky07.github.io/2025/09/09/ctf_publish_ready/02-原理学习/密码学/Crypto趣题-剪枝/特殊剪枝/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年9月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/09/11/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/CTF%20Crypto%20%E4%B8%AD%E6%B6%89%E5%8F%8A%E7%9A%84%20AES%20%E9%A2%98%E7%9B%AE/" title="CTF Crypto 中涉及的 AES 题目">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CTF Crypto 中涉及的 AES 题目</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/07/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/Crypto%E8%B6%A3%E9%A2%98-%E5%89%AA%E6%9E%9D/%E9%A6%96%E5%B0%BE%E5%89%AA%E6%9E%9D/" title="首尾剪枝">
+                        <span class="hidden-mobile">首尾剪枝</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="GKCTF 2021 XOR一：题目类型异或 二：题目1234567891011121314151617181920212223from Crypto.Util.number import *from hashlib import md5a &#x3D; getPrime(512)b &#x3D; getPrime(512)c &#x3D; getPrime(512)d &#x3D; getPrime(512)d1 &#x3D; int(bin(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GKCTF 2021 XOR">
+<meta property="og:url" content="https://stefansky07.github.io/2025/06/17/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/GKCTF%202021%20XOR/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="GKCTF 2021 XOR一：题目类型异或 二：题目1234567891011121314151617181920212223from Crypto.Util.number import *from hashlib import md5a &#x3D; getPrime(512)b &#x3D; getPrime(512)c &#x3D; getPrime(512)d &#x3D; getPrime(512)d1 &#x3D; int(bin(">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-17T05:40:00.000Z">
+<meta property="article:modified_time" content="2026-04-15T03:13:19.297Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>GKCTF 2021 XOR - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">GKCTF 2021 XOR</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-17 13:40" pubdate>
+          2025年6月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          774 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GKCTF 2021 XOR</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="GKCTF-2021-XOR"><a href="#GKCTF-2021-XOR" class="headerlink" title="GKCTF 2021 XOR"></a>GKCTF 2021 XOR</h1><h1 id="一：题目类型"><a href="#一：题目类型" class="headerlink" title="一：题目类型"></a>一：题目类型</h1><p>异或</p>
+<h1 id="二：题目"><a href="#二：题目" class="headerlink" title="二：题目"></a>二：题目</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br><br>a = getPrime(<span class="hljs-number">512</span>)<br>b = getPrime(<span class="hljs-number">512</span>)<br>c = getPrime(<span class="hljs-number">512</span>)<br>d = getPrime(<span class="hljs-number">512</span>)<br>d1 = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">bin</span>(d)[<span class="hljs-number">2</span>:][::-<span class="hljs-number">1</span>] , <span class="hljs-number">2</span>)<br>n1 = a*b<br>x1 = a^b<br>n2 = c*d<br>x2 = c^d1<br>flag = md5(<span class="hljs-built_in">str</span>(a+b+c+d).encode()).hexdigest()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n1 =&quot;</span>,n1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;x1 =&quot;</span>,x1)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n2 =&quot;</span>,n2)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;x2 =&quot;</span>,x2)<br><br><span class="hljs-comment">#n1 = 83876349443792695800858107026041183982320923732817788196403038436907852045968678032744364820591254653790102051548732974272946672219653204468640915315703578520430635535892870037920414827506578157530920987388471203455357776260856432484054297100045972527097719870947170053306375598308878558204734888246779716599</span><br><span class="hljs-comment">#x1 = 4700741767515367755988979759237706359789790281090690245800324350837677624645184526110027943983952690246679445279368999008839183406301475579349891952257846</span><br><span class="hljs-comment">#n2 = 65288148454377101841888871848806704694477906587010755286451216632701868457722848139696036928561888850717442616782583309975714172626476485483361217174514747468099567870640277441004322344671717444306055398513733053054597586090074921540794347615153542286893272415931709396262118416062887003290070001173035587341</span><br><span class="hljs-comment">#x2 = 3604386688612320874143532262988384562213659798578583210892143261576908281112223356678900083870327527242238237513170367660043954376063004167228550592110478</span><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="三：解题思路"><a href="#三：解题思路" class="headerlink" title="三：解题思路"></a>三：解题思路</h1><p>根据已知的n1、n2、x1、x2解出a、b、c、d就行了。<br>⾸先算a、b，<br>两个数异或，从低位开始爆破<br>当异或结果为1时，a b对应的位置上只有两种情况， 1 0或者0 1<br>当异或结果为0时，a b对应的位置上也只有两种情况， 1 1或者0 0</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> itertools<br><br>n1 = <span class="hljs-number">83876349443792695800858107026041183982320923732817788196403038436907852045968678032744364820591254653790102051548732974272946672219653204468640915315703578520430635535892870037920414827506578157530920987388471203455357776260856432484054297100045972527097719870947170053306375598308878558204734888246779716599</span><br>x1 = <span class="hljs-number">4700741767515367755988979759237706359789790281090690245800324350837677624645184526110027943983952690246679445279368999008839183406301475579349891952257846</span><br><br>a_list, b_list = [<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>]<br><br>cur_mod = <span class="hljs-number">1</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">720</span>):<br>    cur_mod *= <span class="hljs-number">2</span><br>    nxt_as, nxt_bs = [], []<br>    <span class="hljs-keyword">for</span> al, bl <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a_list, b_list):<br>        <span class="hljs-keyword">for</span> ah, bh <span class="hljs-keyword">in</span> itertools.product([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], repeat=<span class="hljs-number">2</span>):<br>            aa, bb = ah*(cur_mod // <span class="hljs-number">2</span>) + al, bh*(cur_mod // <span class="hljs-number">2</span>) + bl<br>            <span class="hljs-keyword">if</span> ((aa * bb % cur_mod == n1 % cur_mod) <span class="hljs-keyword">and</span> ((aa ^ bb) == x1 % cur_mod)):<br>                nxt_as.append(aa)<br>                nxt_bs.append(bb)<br>    <br>    a_list, b_list = nxt_as, nxt_bs<br><br><span class="hljs-keyword">for</span> a, b <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a_list, b_list):<br>    <span class="hljs-keyword">if</span> a * b == n1 <span class="hljs-keyword">and</span> a*b-n1==<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> (a^b)-x1==<span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">break</span><br><br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br></code></pre></td></tr></table></figure>
+
+<p>运行得到</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">7836147139610655223711469747200164069484878894626166870664740637786609468164555354874619497753277560280939259937394201154154977382033483373128424196987617<br>10703774182571073361112791376032380096360697926840362483242105878115552437021674861528714598089603406032844418758725744879476596359225265333530235803365847<br><br></code></pre></td></tr></table></figure>
+
+<p>然后求c、d，和a、b不同，这次是和d1异或，而d1是d的二进制的逆序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> itertools<br><br>n1 = <span class="hljs-number">65288148454377101841888871848806704694477906587010755286451216632701868457722848139696036928561888850717442616782583309975714172626476485483361217174514747468099567870640277441004322344671717444306055398513733053054597586090074921540794347615153542286893272415931709396262118416062887003290070001173035587341</span><br><br>x1 = <span class="hljs-number">3604386688612320874143532262988384562213659798578583210892143261576908281112223356678900083870327527242238237513170367660043954376063004167228550592110478</span><br><br>a_list, b_list, aa_list, bb_list = [<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>]<br><br>x1_bits = [<span class="hljs-built_in">int</span>(x) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;x1:0512b&#125;</span>&#x27;</span>[::-<span class="hljs-number">1</span>]]<br><br>cur_mod = <span class="hljs-number">1</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>    cur_mod *= <span class="hljs-number">2</span><br>    nxt_as, nxt_bs, nxt_aas, nxt_bbs = [], [], [], []<br>    <span class="hljs-keyword">for</span> al, bl, a2, b2 <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a_list, b_list, aa_list, bb_list):<br>        <span class="hljs-keyword">for</span> ah, bh, ah2, bh2 <span class="hljs-keyword">in</span> itertools.product([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], repeat=<span class="hljs-number">4</span>):<br>            aa, bb, aa2, bb2 = ah*(cur_mod // <span class="hljs-number">2</span>) + al, bh*(cur_mod // <span class="hljs-number">2</span>) + bl, ah2*(cur_mod // <span class="hljs-number">2</span>) + a2, bh2*(cur_mod // <span class="hljs-number">2</span>) + b2<br>            bb2_rev = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;bb2:0512b&#125;</span>&#x27;</span>[::-<span class="hljs-number">1</span>]<br>            bb2_rev = <span class="hljs-built_in">int</span>(bb2_rev, <span class="hljs-number">2</span>)<br>            aa2_rev = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;aa2:0512b&#125;</span>&#x27;</span>[::-<span class="hljs-number">1</span>]<br>            aa2_rev = <span class="hljs-built_in">int</span>(aa2_rev, <span class="hljs-number">2</span>)<br><br>            gujie = <span class="hljs-string">&#x27;0&#x27;</span> * (i+<span class="hljs-number">1</span>) + <span class="hljs-string">&#x27;1&#x27;</span> * (<span class="hljs-number">510</span> - <span class="hljs-number">2</span> * i) + <span class="hljs-string">&#x27;0&#x27;</span> * (i+<span class="hljs-number">1</span>)<br>            gujie = <span class="hljs-built_in">int</span>(gujie, <span class="hljs-number">2</span>)<br>            <span class="hljs-keyword">if</span> ((aa * bb % cur_mod == n1 % cur_mod) <span class="hljs-keyword">and</span> ((ah ^ bh2) == x1_bits[i]) <span class="hljs-keyword">and</span> (ah2 ^ bh == x1_bits[<span class="hljs-number">511</span>-i]) <span class="hljs-keyword">and</span> ((aa2_rev + aa) * (bb2_rev + bb) &lt;= n1) <span class="hljs-keyword">and</span> ((aa2_rev + aa + gujie) * (bb2_rev + bb + gujie) &gt;= n1)):<br>                nxt_as.append(aa)<br>                nxt_bs.append(bb)<br>                nxt_aas.append(aa2)<br>                nxt_bbs.append(bb2)<br>    <br>    a_list, b_list, aa_list, bb_list = nxt_as, nxt_bs, nxt_aas, nxt_bbs<br><br><span class="hljs-keyword">for</span> a, b, aa2, bb2 <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(a_list, b_list, aa_list, bb_list):<br>    aa2_rev = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;aa2:0512b&#125;</span>&#x27;</span>[::-<span class="hljs-number">1</span>]<br>    aa2_rev = <span class="hljs-built_in">int</span>(aa2_rev, <span class="hljs-number">2</span>)<br>    bb2_rev = <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;bb2:0512b&#125;</span>&#x27;</span>[::-<span class="hljs-number">1</span>]<br>    bb2_rev = <span class="hljs-built_in">int</span>(bb2_rev, <span class="hljs-number">2</span>)<br>    a = aa2_rev + a<br>    b = bb2_rev + b<br>    <span class="hljs-keyword">if</span> (a * b == n1):<br>        <span class="hljs-keyword">break</span><br><br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(a * b - n1)<br><span class="hljs-built_in">print</span>((a ^ b) - x1)<br><br></code></pre></td></tr></table></figure>
+
+<p>但是我没看懂这位师傅是怎么求的c、d，所以找了<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1844889">另一位</a>的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_ab</span>(<span class="hljs-params">n,x</span>):<br>    a = [<span class="hljs-number">0</span>]<br>    b = [<span class="hljs-number">0</span>]<br>    maskx = <span class="hljs-number">1</span><br>    maskn = <span class="hljs-number">2</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1024</span>):<br>        xbit = (x&amp;maskx)&gt;&gt;i<br>        nbit = n%maskn<br>        taa = []<br>        tbb = []<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>            <span class="hljs-keyword">for</span> aa <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                <span class="hljs-keyword">for</span> bb <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                    <span class="hljs-keyword">if</span> aa^bb == xbit:<br>                        temp2 = n%maskn<br>                        temp1 = (aa*maskn//<span class="hljs-number">2</span>+a[j])*(bb*maskn//<span class="hljs-number">2</span>+b[j])%maskn<br>                        <span class="hljs-keyword">if</span> temp1==temp2:<br>                            taa.append(aa*maskn//<span class="hljs-number">2</span>+a[j])<br>                            tbb.append(bb*maskn//<span class="hljs-number">2</span>+b[j])<br>        maskx *= <span class="hljs-number">2</span><br>        maskn *= <span class="hljs-number">2</span><br>        a = taa<br>        b = tbb<br>    <span class="hljs-keyword">for</span> a1 <span class="hljs-keyword">in</span> a:<br>        <span class="hljs-keyword">if</span> n % a1 == <span class="hljs-number">0</span>:<br>            a = a1<br>            b = n//a1<br>            <span class="hljs-keyword">return</span> a,b<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_cd</span>(<span class="hljs-params">n,x</span>):<br>    p_low = [<span class="hljs-number">0</span>]<br>    p_high = [<span class="hljs-number">0</span>]<br>    q_low = [<span class="hljs-number">0</span>]<br>    q_high = [<span class="hljs-number">0</span>]<br>    maskx = <span class="hljs-number">1</span><br>    maskn = <span class="hljs-number">2</span><br>    si = <span class="hljs-number">2</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        x_lowbit = (x&amp; maskx)&gt;&gt;i<br>        n_lowbits = (n % maskn)<br>        tmppp_low = []<br>        tmpqq_low =[]<br>        tmppp_high = []<br>        tmpqq_high = []<br>        x_highbit = (x&gt;&gt;(<span class="hljs-number">511</span>-i)) &amp; <span class="hljs-number">1</span><br>        n_highbits = (n) &gt;&gt;(<span class="hljs-number">1022</span>-<span class="hljs-number">2</span>*i)<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(p_low)):<br>            <span class="hljs-keyword">for</span> pp_low <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                <span class="hljs-keyword">for</span> qq_low <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                    <span class="hljs-keyword">for</span> pp_high <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                        <span class="hljs-keyword">for</span> qq_high <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>                            <span class="hljs-keyword">if</span> pp_low^qq_high ==x_lowbit <span class="hljs-keyword">and</span> qq_low^pp_high == x_highbit:<br>                                temp1 = ((pp_low * maskn//<span class="hljs-number">2</span> +p_low[j])*(qq_low*maskn//<span class="hljs-number">2</span> +q_low[j]))% maskn<br>                                temp2 = (((pp_high &lt;&lt; (<span class="hljs-number">511</span>-i))+p_high[j])* ((qq_high&lt;&lt;(<span class="hljs-number">511</span>-i))+q_high[j]))&gt;&gt;(<span class="hljs-number">1022</span>-<span class="hljs-number">2</span>*i)<br>                                <span class="hljs-keyword">if</span> temp1 == n_lowbits:<br>                                    <span class="hljs-keyword">if</span> n_highbits-temp2 &gt;=<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> n_highbits-temp2 &lt;=((<span class="hljs-number">2</span>&lt;&lt;i+<span class="hljs-number">1</span>)-<span class="hljs-number">1</span>):<br>                                        tmppp_low.append(pp_low*maskn//<span class="hljs-number">2</span> + p_low[j])<br>                                        tmpqq_low.append(qq_low*maskn//<span class="hljs-number">2</span>+q_low[j])<br>                                        tmppp_high.append((pp_high&lt;&lt;(<span class="hljs-number">511</span>-i))+p_high[j])<br>                                        tmpqq_high.append((qq_high&lt;&lt;(<span class="hljs-number">511</span>-i))+q_high[j])<br>        maskn  *= <span class="hljs-number">2</span><br>        maskx *= <span class="hljs-number">2</span><br>        p_low = tmppp_low<br>        q_low = tmpqq_low<br>        p_high = tmppp_high<br>        q_high = tmpqq_high<br>    <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> p_low:<br>        <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> p_high:<br>            <span class="hljs-keyword">if</span> n %(a+b) ==<span class="hljs-number">0</span>:<br>                p = a+b<br>                q = n//p<br>                <span class="hljs-keyword">return</span> p,q<br><br><br>n1 = <span class="hljs-number">83876349443792695800858107026041183982320923732817788196403038436907852045968678032744364820591254653790102051548732974272946672219653204468640915315703578520430635535892870037920414827506578157530920987388471203455357776260856432484054297100045972527097719870947170053306375598308878558204734888246779716599</span><br>x1 = <span class="hljs-number">4700741767515367755988979759237706359789790281090690245800324350837677624645184526110027943983952690246679445279368999008839183406301475579349891952257846</span><br>n2 = <span class="hljs-number">65288148454377101841888871848806704694477906587010755286451216632701868457722848139696036928561888850717442616782583309975714172626476485483361217174514747468099567870640277441004322344671717444306055398513733053054597586090074921540794347615153542286893272415931709396262118416062887003290070001173035587341</span><br>x2 = <span class="hljs-number">3604386688612320874143532262988384562213659798578583210892143261576908281112223356678900083870327527242238237513170367660043954376063004167228550592110478</span><br><br>a = get_ab(n1,x1)[<span class="hljs-number">0</span>]<br>b = get_ab(n1,x1)[<span class="hljs-number">1</span>]<br>c = get_cd(n2,x2)[<span class="hljs-number">0</span>]<br>d = get_cd(n2,x2)[<span class="hljs-number">1</span>]<br>flag = md5(<span class="hljs-built_in">str</span>(a+b+c+d).encode()).hexdigest()<br><span class="hljs-built_in">print</span>(flag)<br><br></code></pre></td></tr></table></figure>
+
+<p>运行得到：f28ed218415356b4336e2f778f2981bb<br>GKCTF{f28ed218415356b4336e2f778f2981bb}</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GKCTF 2021 XOR</div>
+      <div>https://stefansky07.github.io/2025/06/17/ctf_publish_ready/01-刷题笔记/日常题单/Crypto/GKCTF 2021 XOR/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/19/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/LitCTF%202023%E4%BD%A0%E6%98%AF%E6%88%91%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D(Keyworld)/" title="LitCTF 2023你是我的关键词(Keyworld)">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LitCTF 2023你是我的关键词(Keyworld)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/06/16/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/g4%E7%9A%84%E5%AF%86%E7%A0%81%E5%B0%8F%E8%AF%BE%E5%A0%82/" title="g4的密码小课堂">
+                        <span class="hidden-mobile">g4的密码小课堂</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

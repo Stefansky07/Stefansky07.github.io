@@ -1,0 +1,711 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="校内培训：misc入门 「如果一道题不适合放在其它的方向，那么 misc 永远能收留它。」 —— yixinBC 「每一个 misc 手都是一个隐藏的全栈✌。」 —— w3nx1z1  安全领域不止 Web、逆向等方向，Misc 涵盖了剩下的一些部分，同时也对一些强分类方向的细枝末节进行考查，像是对安全领域的碎片进行整理，因此称为「杂项（Miscellaneous）」。常见的 Misc 题型包括：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="校内培训：misc入门">
+<meta property="og:url" content="https://stefansky07.github.io/2025/12/29/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/%E6%A0%A1%E5%86%85%E5%9F%B9%E8%AE%AD%EF%BC%9Amisc%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="校内培训：misc入门 「如果一道题不适合放在其它的方向，那么 misc 永远能收留它。」 —— yixinBC 「每一个 misc 手都是一个隐藏的全栈✌。」 —— w3nx1z1  安全领域不止 Web、逆向等方向，Misc 涵盖了剩下的一些部分，同时也对一些强分类方向的细枝末节进行考查，像是对安全领域的碎片进行整理，因此称为「杂项（Miscellaneous）」。常见的 Misc 题型包括：">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-29T05:12:00.000Z">
+<meta property="article:modified_time" content="2026-04-15T03:13:19.669Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>校内培训：misc入门 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">校内培训：misc入门</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-29 13:12" pubdate>
+          2025年12月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">校内培训：misc入门</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="校内培训：misc入门"><a href="#校内培训：misc入门" class="headerlink" title="校内培训：misc入门"></a>校内培训：misc入门</h1><blockquote>
+<p>「如果一道题不适合放在其它的方向，那么 misc 永远能收留它。」 —— yixinBC</p>
+<p>「每一个 misc 手都是一个隐藏的全栈✌。」 —— w3nx1z1</p>
+</blockquote>
+<p>安全领域不止 Web、逆向等方向，Misc 涵盖了剩下的一些部分，同时也对一些强分类方向的细枝末节进行考查，像是对安全领域的碎片进行整理，因此称为「杂项（Miscellaneous）」。常见的 Misc 题型包括：编码、隐写、流量分析、压缩包分析、AI、取证、社会工程学、区块链、沙箱逃逸等等。</p>
+<h2 id="学习-Misc-的第一步"><a href="#学习-Misc-的第一步" class="headerlink" title="学习 Misc 的第一步"></a>学习 Misc 的第一步</h2><p>Misc 突出的就是庞杂，涉猎内容十分广泛。但也正因如此，一些知识点往往并不是很高深（至少入门是如此），请放心地搜索并学习它。</p>
+<p>在 Misc 的道路上走得远些对其它方向是有些帮助的，你可能会享受那种使用奇技淫巧解决问题的快感，当然，更多的时间则是在与出题人对脑洞。</p>
+<p>下面是一些你需要具备的基础能力：✌</p>
+<ul>
+<li>极强的信息搜集能力，包括但不限于互联网搜索、文件信息收集、社会工程学等</li>
+<li>对至少一门编程语言（最好是 Python）的掌握</li>
+</ul>
+<h2 id="常见题型及工具"><a href="#常见题型及工具" class="headerlink" title="常见题型及工具"></a>常见题型及工具</h2><h3 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h3><p>编码指的是将一个字符串通过某种法则变化为另一个字符串。常见的编码例如：</p>
+<ul>
+<li>ASCII 码</li>
+<li>Base 家族</li>
+<li>古典密码</li>
+<li>摩斯电码</li>
+<li>URL 编码</li>
+<li>MD5 加密</li>
+<li>特殊编码：新旧佛曰、尊嘟假嘟、社会主义核心价值观编码等）</li>
+</ul>
+<p>编码不止以上这些，甚至会包括一些游戏或动漫作品中的编码（如提瓦特文字、魔女之旅文字等），需要通过刷题等途径自行积累。</p>
+<h3 id="隐写"><a href="#隐写" class="headerlink" title="隐写"></a>隐写</h3><p>隐写术是一种将秘密信息隐藏在普通数据中的技术。在 CTF 竞赛中，Misc 类别通常涉及到各种隐写技巧，包括但不限于文本、图像和音频隐写。 隐写的种类有很多种，细化的方式也多种多样，例如：</p>
+<ul>
+<li><p>图片隐写（<a target="_blank" rel="noopener" href="https://github.com/ImageMagick/ImageMagick">ImageMagick</a>）</p>
+<ul>
+<li>宽高隐写</li>
+<li>EXIF 隐写（<a target="_blank" rel="noopener" href="https://www.magicexif.com/">MagicEXIF</a>、<a target="_blank" rel="noopener" href="https://github.com/exiftool/exiftool">ExifTool</a>）</li>
+<li>LSB 图片隐写（<a target="_blank" rel="noopener" href="https://github.com/zed-0xff/zsteg">zsteg</a>、<a target="_blank" rel="noopener" href="https://github.com/Giotino/stegsolve">StegSolve</a>）</li>
+<li>盲水印（<a target="_blank" rel="noopener" href="https://github.com/fire-keeper/BlindWatermark">BlindWaterMark</a>、<a target="_blank" rel="noopener" href="https://cdn.openicu.net/utils/WaterMark.exe">WaterMark</a>）</li>
+<li>GIF 帧隐写（GIF 帧提取网站、<a target="_blank" rel="noopener" href="https://ffmpeg.org/">ffmpeg</a> 等）</li>
+<li>Montage+gaps拼图（<a target="_blank" rel="noopener" href="https://github.com/nemanja-m/gaps">gaps</a>、<a target="_blank" rel="noopener" href="https://imagemagick.org/script/montage.php">montage</a>）</li>
+<li>F5 隐写（<a target="_blank" rel="noopener" href="https://github.com/matthewgao/F5-steganography">F5 Steganography</a>）</li>
+</ul>
+</li>
+<li><p>音频隐写</p>
+<ul>
+<li>频谱图隐写（<a target="_blank" rel="noopener" href="https://www.audacityteam.org/">Audacity</a>、Adobe Audition 等音频软件）</li>
+<li>波形隐写（<a target="_blank" rel="noopener" href="https://www.audacityteam.org/">Audacity</a>、Adobe Audition 等音频软件）</li>
+<li>LSB 音频隐写（<a target="_blank" rel="noopener" href="https://achorein.github.io/silenteye/">SilentEye</a>）</li>
+<li>慢扫描电视（<a target="_blank" rel="noopener" href="https://hamsoft.ca/pages/mmsstv.php">MMSSTV</a>、<a target="_blank" rel="noopener" href="https://github.com/dnet/pySSTV">PySSTV</a>、<a target="_blank" rel="noopener" href="https://github.com/colaclanth/sstv">SSTV Decoder</a>）</li>
+<li>MP3 隐写（<a target="_blank" rel="noopener" href="https://www.petitcolas.net/steganography/mp3stego/">MP3stego</a>）</li>
+<li>Deepsound 隐写（<a target="_blank" rel="noopener" href="https://github.com/oneplus-x/DeepSound-2.0">DeepSound-2.0</a>）</li>
+</ul>
+</li>
+<li><p>文本隐写</p>
+<ul>
+<li>零宽隐写（<a target="_blank" rel="noopener" href="https://330k.github.io/misc_tools/unicode_steganography.html">Unicode Steganography</a>、<a target="_blank" rel="noopener" href="https://offdev.net/demos/zwsp-steg-js">Zero-Width space steganography</a>）</li>
+<li>Snow 隐写（<a target="_blank" rel="noopener" href="https://darkside.com.au/snow/">SNOW</a>）</li>
+<li>空白格隐写（<a target="_blank" rel="noopener" href="https://vii5ard.github.io/whitespace/">Whitelips IDE</a>）</li>
+<li>宏病毒（<a target="_blank" rel="noopener" href="https://github.com/decalage2/oletools">oletools</a>）</li>
+</ul>
+</li>
+</ul>
+<p>隐写的方式往往不止于此，因为你所添加的数据（噪声）的分布函数可以是任意的。</p>
+<h3 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h3><p>有时你会得到一个损坏或加密的压缩包，你需要获取压缩包中的内容。这就需要多种修复、攻击等技巧。</p>
+<p>常见的压缩包考点有：</p>
+<ul>
+<li>伪加密（使用 <a target="_blank" rel="noopener" href="https://www.sweetscape.com/010editor/">010Editor</a> 手动修改）</li>
+<li>CRC 爆破（<a target="_blank" rel="noopener" href="https://github.com/Dr34nn/CRC_Cracker">CRC_Cracker</a>）</li>
+<li>明文攻击（<a target="_blank" rel="noopener" href="https://github.com/kimci86/bkcrack">bkcrack</a>）</li>
+<li>暴力破解密码（<a target="_blank" rel="noopener" href="https://www.passware.com/">Passware Kit</a>、<a target="_blank" rel="noopener" href="https://ziperello.apponic.com/">Ziperello</a>、<a target="_blank" rel="noopener" href="https://cn.elcomsoft.com/archpr.html">APCHPR</a>）</li>
+<li>嵌套压缩包</li>
+<li>压缩包炸弹</li>
+<li>分卷压缩包合并解压</li>
+<li>掩码爆破</li>
+</ul>
+<h3 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h3><p>流量分析是Ｍisc 中重要的考点，也是 Web 安全分析、工业互联网安全中技能的重要组成部分。当黑客攻入你的计算机并被你发现后，你可能能够通过网络设备等留下的日志，查看过去发生的网络流量等情况，从而分析出黑客的行为。 <a target="_blank" rel="noopener" href="https://www.wireshark.org/">Wireshark</a> 是流量分析中最重要的软件之一，你需要熟练地掌握它的使用。</p>
+<p>在 Misc 中，你可能会遇到下面这些流量分析的类别：</p>
+<ul>
+<li>USB 流量分析：键盘流量、鼠标流量等</li>
+<li>WebShell 流量分析</li>
+<li>SQL 注入流量分析</li>
+<li>邮件流量分析</li>
+<li>蓝牙流量分析</li>
+<li>TLS 加密流量分析</li>
+<li>工控流量分析</li>
+</ul>
+<h3 id="取证"><a href="#取证" class="headerlink" title="取证"></a>取证</h3><p>通俗地讲，取证要求你化身电子侦探，找到隐藏在数字存储介质里的犯罪者活动记录，或恢复使用者的使用轨迹，比如解密聊天记录、恢复被加密的文件等等。正如其名，这项技术往往用于查找罪行相关物证或间接物证。</p>
+<p>Misc 中的取证往往有以下常见的考点：</p>
+<ul>
+<li>内存取证（Volatility、AXIOM、R-studio）</li>
+<li>日志分析</li>
+<li>注册表分析（WRR、RegRipper）</li>
+<li>磁盘分析（FTK-Imager）</li>
+<li>数据库取证（Sqlcipher、PslistEditor）</li>
+<li>配置文件分析（XShell、MobaXterm 等）</li>
+</ul>
+<blockquote>
+<p>TIP</p>
+<p>上面所提到的工具并不一定需要全部备齐，它们往往有很多替代品，你也可能会在做题中逐渐遇到它们。有时也需要你自己写 Python 等脚本代码，并不是所有工具都能满足的需求。</p>
+<p>你也并不一定要立即掌握每个工具的使用，但当你接触过一次后，你应当铭记。</p>
+</blockquote>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>Misc 主要考查非常广泛的知识面以及对一些知识点的深入了解，入门简单，可想要真正学好也十分考验个人综合能力。希望大家对于 Misc 的学习不要只停留在工具的使用，而是真正理解其背后的原理，从工具小子到脚本小子，再慢慢成长为 Misc 大师！</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>校内培训：misc入门</div>
+      <div>https://stefansky07.github.io/2025/12/29/ctf_publish_ready/02-原理学习/专题/校内培训：misc入门/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/31/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/CTF%E5%A4%BA%E6%97%97-JAVA%E8%80%83%E7%82%B9%E5%8F%8D%E7%BC%96%E8%AF%91&amp;XXE&amp;%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="CTF夺旗-JAVA考点反编译&amp;XXE&amp;反序列化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CTF夺旗-JAVA考点反编译&amp;XXE&amp;反序列化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/27/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/%E6%A0%A1%E5%86%85%E5%9F%B9%E8%AE%AD%EF%BC%9A%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/" title="校内培训：密码学入门">
+                        <span class="hidden-mobile">校内培训：密码学入门</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
