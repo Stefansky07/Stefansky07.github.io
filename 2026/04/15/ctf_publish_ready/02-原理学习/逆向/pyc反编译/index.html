@@ -1,0 +1,686 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="pyc反编译 摘要：python 逆向的个人小总结，边打边写，遇到新题就更新更新。 本文使用的主要工具为 pycdc 。  python 逆向 也是 CTF reverse 的一个重要组成部分（废话）。题目一般会给一个 exe 文件或者 pyc 文件。 工欲善其事，必先利其器，好的工具是必不可少的。  exe 转 pyc 工具：  GitHub - WithSecureLabs&#x2F;pyth">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pyc反编译">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E9%80%86%E5%90%91/pyc%E5%8F%8D%E7%BC%96%E8%AF%91/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="pyc反编译 摘要：python 逆向的个人小总结，边打边写，遇到新题就更新更新。 本文使用的主要工具为 pycdc 。  python 逆向 也是 CTF reverse 的一个重要组成部分（废话）。题目一般会给一个 exe 文件或者 pyc 文件。 工欲善其事，必先利其器，好的工具是必不可少的。  exe 转 pyc 工具：  GitHub - WithSecureLabs&#x2F;pyth">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img2024.cnblogs.com/blog/3439823/202405/3439823-20240516221805306-1191458099.jpg">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:41.642Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://img2024.cnblogs.com/blog/3439823/202405/3439823-20240516221805306-1191458099.jpg">
+  
+  
+  
+  <title>pyc反编译 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">pyc反编译</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">pyc反编译</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="pyc反编译"><a href="#pyc反编译" class="headerlink" title="pyc反编译"></a>pyc反编译</h1><blockquote>
+<p>摘要：python 逆向的个人小总结，边打边写，遇到新题就更新更新。 本文使用的主要工具为 pycdc 。</p>
+</blockquote>
+<p>python 逆向 也是 CTF reverse 的一个重要组成部分（<sub>废话</sub>）。<br>题目一般会给一个 exe 文件或者 pyc 文件。</p>
+<p>工欲善其事，必先利其器，好的工具是必不可少的。</p>
+<ol>
+<li>exe 转 pyc 工具：</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/WithSecureLabs/python-exe-unpacker">GitHub - WithSecureLabs&#x2F;python-exe-unpacker: A helper script for unpacking and decompiling EXEs compiled from python code.</a><br><a target="_blank" rel="noopener" href="https://github.com/pyinstxtractor/pyinstxtractor-ng">GitHub - pyinstxtractor&#x2F;pyinstxtractor-ng: PyInstaller Extractor Next Generation</a></p>
+<ol start="2">
+<li>在线网站 (<code>exe-&gt;pyc</code>​)：<a target="_blank" rel="noopener" href="https://pyinstxtractor-web.netlify.app/">PyInstaller Extractor WEB</a></li>
+<li>在线网站 (<code>pyc-&gt;python</code>​)：<a target="_blank" rel="noopener" href="https://www.lddgo.net/string/pyc-compile-decompile">在线 Python pyc 文件编译与反编译</a> 或 <a target="_blank" rel="noopener" href="https://tool.lu/pyc/">python 反编译</a></li>
+<li>有的时候，在线工具不好用，可以用 pycdc（强推），下载后记得 <code>cmake</code>​ 构建。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs git">git clone https://github.com/zrax/pycdc.git<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>如果为如果你明确是一个 python 得到的 exe 文件，用上面的网址，将其转为 .pyc 文件。</li>
+<li>对于. pyc 我个人喜欢有用 <code>pycdc</code>​ 。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">pycdas.exe xxxx.pyc  	#转字节码<br>pycdc.exe xxxx.pyc		#转python代码<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>如果可以得到完整的 python 代码，那么就简单了，pycdc 转换失败，那么就只好用 pycdas 配合可能解出的代码（可能没有），分析获取源码。</li>
+<li>注意：有的时候要对 <code>Magic Number</code>​ 进行操作，等我有遇到再补充。</li>
+</ol>
+<p>多说无益，上题！</p>
+<p>我的 pycadc 初体验</p>
+<hr>
+<p>如题目，这个题目是我曾经的 python 逆向入门题。</p>
+<blockquote>
+<p>题目：<a target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/5377">[NSSRound#22 Basic]ezcrypt</a></p>
+</blockquote>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-keyword">import</span> crypto<br>from Crypto.<span class="hljs-property">Cipher</span> <span class="hljs-keyword">import</span> Blowfish<br><br>def <span class="hljs-title function_">encrypt_file</span>(input_path, output_path, <span class="hljs-built_in">key</span>):<br>Unsupported opcode: BEFORE_WITH<br>    cipher = Blowfish.<span class="hljs-property">new</span>(<span class="hljs-built_in">key</span>, Blowfish.<span class="hljs-property">MODE_CBC</span>)<br>    bs = Blowfish.<span class="hljs-property">block_size</span><br><br><br><br><span class="hljs-built_in">key</span> = b<span class="hljs-string">&#x27;crypto.SomeEncode&#x27;</span><br>input_path = <span class="hljs-string">&#x27;.\\input&#x27;</span><br>output_path = <span class="hljs-string">&#x27;.\\output&#x27;</span><br><span class="hljs-title function_">encrypt_file</span>(input_path, output_path, <span class="hljs-built_in">key</span>)<br><br><br></code></pre></td></tr></table></figure>
+
+<p>​<code>pycdc</code>​ 得到的结果是有问题的，上 <code>pycdas</code>​ ！</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br></pre></td><td class="code"><pre><code class="hljs tap">NSSCTF.pyc (Python 3.12)<br>[Code]<br>    File Name: NSSCTF.py<br>    Object Name: &lt;module&gt;<br>    Qualified Name: &lt;module&gt;<br>    Arg Count: 0<br>    Pos Only Arg Count: 0<br>    KW Only Arg Count: 0<br>    Stack Size: 5<br>    Flags: 0x00000000<br>    [Names]<br>        &#x27;crypto&#x27;<br>        &#x27;Crypto.Cipher&#x27;<br>        &#x27;Blowfish&#x27;<br>        &#x27;encrypt_file&#x27;<br>        &#x27;key&#x27;<br>        &#x27;input_path&#x27;<br>        &#x27;output_path&#x27;<br>    [Locals+Names]<br>    [Constants]<br>        0<br>        None<br>        (<br>            &#x27;Blowfish&#x27;<br>        )<br>        [Code]<br>            File Name: NSSCTF.py<br>            Object Name: encrypt_file<br>            Qualified Name: encrypt_file<br>            Arg Count: 3<br>            Pos Only Arg Count: 0<br>            KW Only Arg Count: 0<br>            Stack Size: 6<br>            Flags: 0x00000003 (CO_OPTIMIZED | CO_NEWLOCALS)<br>            [Names]<br>                &#x27;Blowfish&#x27;<br>                &#x27;new&#x27;<br>                &#x27;MODE_CBC&#x27;<br>                &#x27;block_size&#x27;<br>                &#x27;open&#x27;<br>                &#x27;read&#x27;<br>                &#x27;len&#x27;<br>                &#x27;iv&#x27;<br>                &#x27;encrypt&#x27;<br>                &#x27;write&#x27;<br>            [Locals+Names]<br>                &#x27;input_path&#x27;<br>                &#x27;output_path&#x27;<br>                &#x27;key&#x27;<br>                &#x27;cipher&#x27;<br>                &#x27;bs&#x27;<br>                &#x27;file&#x27;<br>                &#x27;plaintext&#x27;<br>                &#x27;padding_length&#x27;<br>                &#x27;encrypted_data&#x27;<br>            [Constants]<br>                None<br>                &#x27;input&#x27;<br>                &#x27;rb&#x27;<br>                b&#x27;\x00&#x27;<br>                &#x27;wb&#x27;<br>            [Disassembly]<br>               <span class="hljs-number"> 0 </span>      RESUME                          0<br>               <span class="hljs-number"> 2 </span>      LOAD_GLOBAL                     1: NULL + Blowfish<br>               <span class="hljs-number"> 12 </span>     LOAD_ATTR                       2: new<br>               <span class="hljs-number"> 32 </span>     LOAD_FAST                       2: key<br>               <span class="hljs-number"> 34 </span>     LOAD_GLOBAL                     0: Blowfish<br>               <span class="hljs-number"> 44 </span>     LOAD_ATTR                       4: MODE_CBC<br>               <span class="hljs-number"> 64 </span>     CALL                            2<br>               <span class="hljs-number"> 72 </span>     STORE_FAST                      3: cipher<br>               <span class="hljs-number"> 74 </span>     LOAD_GLOBAL                     0: Blowfish<br>               <span class="hljs-number"> 84 </span>     LOAD_ATTR                       6: block_size<br>               <span class="hljs-number"> 104 </span>    STORE_FAST                      4: bs<br>               <span class="hljs-number"> 106 </span>    LOAD_GLOBAL                     9: NULL + open<br>               <span class="hljs-number"> 116 </span>    LOAD_CONST                      1: &#x27;input&#x27;<br>               <span class="hljs-number"> 118 </span>    LOAD_CONST                      2: &#x27;rb&#x27;<br>               <span class="hljs-number"> 120 </span>    CALL                            2<br>               <span class="hljs-number"> 128 </span>    BEFORE_WITH<br>               <span class="hljs-number"> 130 </span>    STORE_FAST                      5: file<br>               <span class="hljs-number"> 132 </span>    LOAD_FAST                       5: file<br>               <span class="hljs-number"> 134 </span>    LOAD_ATTR                       11: read<br>               <span class="hljs-number"> 154 </span>    CALL                            0<br>               <span class="hljs-number"> 162 </span>    STORE_FAST                      6: plaintext<br>               <span class="hljs-number"> 164 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 166 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 168 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 170 </span>    CALL                            2<br>               <span class="hljs-number"> 178 </span>    POP_TOP<br>               <span class="hljs-number"> 180 </span>    LOAD_FAST                       4: bs<br>               <span class="hljs-number"> 182 </span>    LOAD_GLOBAL                     13: NULL + len<br>               <span class="hljs-number"> 192 </span>    LOAD_FAST_CHECK                 6: plaintext<br>               <span class="hljs-number"> 194 </span>    CALL                            1<br>               <span class="hljs-number"> 202 </span>    LOAD_FAST                       4: bs<br>               <span class="hljs-number"> 204 </span>    BINARY_OP                      <span class="hljs-number"> 6 </span>(%)<br>               <span class="hljs-number"> 208 </span>    BINARY_OP                      <span class="hljs-number"> 10 </span>(-)<br>               <span class="hljs-number"> 212 </span>    STORE_FAST                      7: padding_length<br>               <span class="hljs-number"> 214 </span>    LOAD_FAST                       6: plaintext<br>               <span class="hljs-number"> 216 </span>    LOAD_CONST                      3: b&#x27;\x00&#x27;<br>               <span class="hljs-number"> 218 </span>    LOAD_FAST                       7: padding_length<br>               <span class="hljs-number"> 220 </span>    BINARY_OP                      <span class="hljs-number"> 5 </span>(*)<br>               <span class="hljs-number"> 224 </span>    BINARY_OP                      <span class="hljs-number"> 13 </span>(+=)<br>               <span class="hljs-number"> 228 </span>    STORE_FAST                      6: plaintext<br>               <span class="hljs-number"> 230 </span>    LOAD_FAST                       3: cipher<br>               <span class="hljs-number"> 232 </span>    LOAD_ATTR                       14: iv<br>               <span class="hljs-number"> 252 </span>    LOAD_FAST                       3: cipher<br>               <span class="hljs-number"> 254 </span>    LOAD_ATTR                       17: encrypt<br>               <span class="hljs-number"> 274 </span>    LOAD_FAST                       6: plaintext<br>               <span class="hljs-number"> 276 </span>    CALL                            1<br>               <span class="hljs-number"> 284 </span>    BINARY_OP                      <span class="hljs-number"> 0 </span>(+)<br>               <span class="hljs-number"> 288 </span>    STORE_FAST                      8: encrypted_data<br>               <span class="hljs-number"> 290 </span>    LOAD_GLOBAL                     9: NULL + open<br>               <span class="hljs-number"> 300 </span>    LOAD_FAST                       1: output_path<br>               <span class="hljs-number"> 302 </span>    LOAD_CONST                      4: &#x27;wb&#x27;<br>               <span class="hljs-number"> 304 </span>    CALL                            2<br>               <span class="hljs-number"> 312 </span>    BEFORE_WITH<br>               <span class="hljs-number"> 314 </span>    STORE_FAST                      5: file<br>               <span class="hljs-number"> 316 </span>    LOAD_FAST                       5: file<br>               <span class="hljs-number"> 318 </span>    LOAD_ATTR                       19: write<br>               <span class="hljs-number"> 338 </span>    LOAD_FAST                       8: encrypted_data<br>               <span class="hljs-number"> 340 </span>    CALL                            1<br>               <span class="hljs-number"> 348 </span>    POP_TOP<br>               <span class="hljs-number"> 350 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 352 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 354 </span>    LOAD_CONST                      0: None<br>               <span class="hljs-number"> 356 </span>    CALL                            2<br>               <span class="hljs-number"> 364 </span>    POP_TOP<br>               <span class="hljs-number"> 366 </span>    RETURN_CONST                    0: None<br>               <span class="hljs-number"> 368 </span>    PUSH_EXC_INFO<br>               <span class="hljs-number"> 370 </span>    WITH_EXCEPT_START<br>               <span class="hljs-number"> 372 </span>    POP_JUMP_IF_TRUE               <span class="hljs-number"> 1 </span>(to 376)<br>               <span class="hljs-number"> 374 </span>    RERAISE                         2<br>               <span class="hljs-number"> 376 </span>    POP_TOP<br>               <span class="hljs-number"> 378 </span>    POP_EXCEPT<br>               <span class="hljs-number"> 380 </span>    POP_TOP<br>               <span class="hljs-number"> 382 </span>    POP_TOP<br>               <span class="hljs-number"> 384 </span>    JUMP_BACKWARD                  <span class="hljs-number"> 103 </span>(to 180)<br>               <span class="hljs-number"> 386 </span>    COPY                            3<br>               <span class="hljs-number"> 388 </span>    POP_EXCEPT<br>               <span class="hljs-number"> 390 </span>    RERAISE                         1<br>               <span class="hljs-number"> 392 </span>    PUSH_EXC_INFO<br>               <span class="hljs-number"> 394 </span>    WITH_EXCEPT_START<br>               <span class="hljs-number"> 396 </span>    POP_JUMP_IF_TRUE               <span class="hljs-number"> 1 </span>(to 400)<br>               <span class="hljs-number"> 398 </span>    RERAISE                         2<br>               <span class="hljs-number"> 400 </span>    POP_TOP<br>               <span class="hljs-number"> 402 </span>    POP_EXCEPT<br>               <span class="hljs-number"> 404 </span>    POP_TOP<br>               <span class="hljs-number"> 406 </span>    POP_TOP<br>               <span class="hljs-number"> 408 </span>    RETURN_CONST                    0: None<br>               <span class="hljs-number"> 410 </span>    COPY                            3<br>               <span class="hljs-number"> 412 </span>    POP_EXCEPT<br>               <span class="hljs-number"> 414 </span>    RERAISE                         1<br>        b&#x27;crypto.SomeEncode&#x27;<br>        &#x27;.\\input&#x27;<br>        &#x27;.\\output&#x27;<br>    [Disassembly]<br>       <span class="hljs-number"> 0 </span>      RESUME                          0<br>       <span class="hljs-number"> 2 </span>      LOAD_CONST                      0: 0<br>       <span class="hljs-number"> 4 </span>      LOAD_CONST                      1: None<br>       <span class="hljs-number"> 6 </span>      IMPORT_NAME                     0: crypto<br>       <span class="hljs-number"> 8 </span>      STORE_NAME                      0: crypto<br>       <span class="hljs-number"> 10 </span>     LOAD_CONST                      0: 0<br>       <span class="hljs-number"> 12 </span>     LOAD_CONST                      2: (&#x27;Blowfish&#x27;,)<br>       <span class="hljs-number"> 14 </span>     IMPORT_NAME                     1: Crypto.Cipher<br>       <span class="hljs-number"> 16 </span>     IMPORT_FROM                     2: Blowfish<br>       <span class="hljs-number"> 18 </span>     STORE_NAME                      2: Blowfish<br>       <span class="hljs-number"> 20 </span>     POP_TOP<br>       <span class="hljs-number"> 22 </span>     LOAD_CONST                      3: &lt;CODE&gt; encrypt_file<br>       <span class="hljs-number"> 24 </span>     MAKE_FUNCTION                   0<br>       <span class="hljs-number"> 26 </span>     STORE_NAME                      3: encrypt_file<br>       <span class="hljs-number"> 28 </span>     LOAD_CONST                      4: b&#x27;crypto.SomeEncode&#x27;<br>       <span class="hljs-number"> 30 </span>     STORE_NAME                      4: key<br>       <span class="hljs-number"> 32 </span>     LOAD_CONST                      5: &#x27;.\\input&#x27;<br>       <span class="hljs-number"> 34 </span>     STORE_NAME                      5: input_path<br>       <span class="hljs-number"> 36 </span>     LOAD_CONST                      6: &#x27;.\\output&#x27;<br>       <span class="hljs-number"> 38 </span>     STORE_NAME                      6: output_path<br>       <span class="hljs-number"> 40 </span>     PUSH_NULL<br>       <span class="hljs-number"> 42 </span>     LOAD_NAME                       3: encrypt_file<br>       <span class="hljs-number"> 44 </span>     LOAD_NAME                       5: input_path<br>       <span class="hljs-number"> 46 </span>     LOAD_NAME                       6: output_path<br>       <span class="hljs-number"> 48 </span>     LOAD_NAME                       4: key<br>       <span class="hljs-number"> 50 </span>     CALL                            3<br>       <span class="hljs-number"> 58 </span>     POP_TOP<br>       <span class="hljs-number"> 60 </span>     RETURN_CONST                    1: None<br><br><br></code></pre></td></tr></table></figure>
+
+<p>根据上面的逻辑可以复原函数【<strong>注意：此代码段中存在一些反汇编特有的标记（如</strong> <strong>​<code>NULL +</code>​</strong> ​ <strong>），在实际代码中并不存在】</strong> ：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">def encrypt_file(input_path, output_path, key):<br>    <br>    cipher = Blowfish.<span class="hljs-built_in">new</span>(key, Blowfish.MODE_CBC)<br>    bs = Blowfish.block_size <br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(input_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">file</span>:<br>        plaintext = <span class="hljs-built_in">file</span>.<span class="hljs-built_in">read</span>()<br><br>    <br>    padding_length = bs - <span class="hljs-built_in">len</span>(plaintext) % bs <br>    <br>    plaintext += b<span class="hljs-string">&#x27;\x00&#x27;</span> * padding_length<br><br>    <br>    iv = cipher.iv<br>    <br>    encrypted_data = iv + cipher.<span class="hljs-built_in">encrypt</span>(plaintext)<br>    <br>    <br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(output_path, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">file</span>:<br>        <span class="hljs-built_in">file</span>.<span class="hljs-built_in">write</span>(encrypted_data)<br><br><br></code></pre></td></tr></table></figure>
+
+<p>注意 key 的获取，不是简单的 <code>b&#39;crypto.SomeEncode&#39;</code>​ 这个应该是出题人给的提示，打开刚刚得到的反编译的文件夹，发现有一个神奇的加密文件 <code>pycdc.exe crypto.cpython.pyc</code>​</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">def encrypt(v, k):<br>    v0 = v[<span class="hljs-number">0</span>]<br>    v1 = v[<span class="hljs-number">1</span>]<br>    (key0, key1, key2, key3) = (k[<span class="hljs-number">0</span>], k[<span class="hljs-number">1</span>], k[<span class="hljs-number">2</span>], k[<span class="hljs-number">3</span>])<br>    sum = <span class="hljs-number">0</span><br>    delta = <span class="hljs-number">0x9E3779B9</span>L<br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(<span class="hljs-number">32</span>):<br>        sum = sum + delta &amp; <span class="hljs-number">0xFFFFFFFF</span>L<br>        v0 = v0 + ((v1 &lt;&lt; <span class="hljs-number">3</span>) + key0 ^ v1 + sum ^ (v1 &gt;&gt; <span class="hljs-number">4</span>) + key1 ^ <span class="hljs-number">596</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span>L<br>        v1 = v1 + ((v0 &lt;&lt; <span class="hljs-number">3</span>) + key2 ^ v0 + sum ^ (v0 &gt;&gt; <span class="hljs-number">4</span>) + key3 ^ <span class="hljs-number">2310</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span>L<br>    <span class="hljs-keyword">return</span> (v0, v1)<br><br><br>def encrypt_all(v, k):<br>    <span class="hljs-keyword">encrypted</span> = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(v), <span class="hljs-number">2</span>):<br>        <span class="hljs-keyword">encrypted</span>.extend(encrypt(v[i:i + <span class="hljs-number">2</span>], k))<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">encrypted</span><br><br>v = [<br>    <span class="hljs-number">1396533857</span>,<br>    <span class="hljs-number">0xCC8AE275</span>L,<br>    <span class="hljs-number">0x89FB8A63</span>L,<br>    <span class="hljs-number">940694833</span>]<br>k = [<br>    <span class="hljs-number">17</span>,<br>    <span class="hljs-number">34</span>,<br>    <span class="hljs-number">51</span>,<br>    <span class="hljs-number">68</span>]<br><span class="hljs-keyword">encrypted</span> = encrypt_all(v, k)<br>SomeEncode = <span class="hljs-string">&#x27;&#x27;</span>.<span class="hljs-keyword">join</span>((lambda <span class="hljs-number">.0</span>: <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> <span class="hljs-number">.0</span>:<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>)[::<span class="hljs-number">-1</span>]:<br>chr(num &gt;&gt; <span class="hljs-number">8</span> * i &amp; <span class="hljs-number">255</span>))(<span class="hljs-keyword">encrypted</span>))<br><br><br></code></pre></td></tr></table></figure>
+
+<p>是一个就是简单的魔改 tea，解密【具体逆向常用的 <code>TEA XTEA XXTEA RC4</code>​ 等先挖一个坑】：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">def encrypt(v, k):<br>    v0 = v[<span class="hljs-number">0</span>]<br>    v1 = v[<span class="hljs-number">1</span>]<br>    (key0, key1, key2, key3) = (k[<span class="hljs-number">0</span>], k[<span class="hljs-number">1</span>], k[<span class="hljs-number">2</span>], k[<span class="hljs-number">3</span>])<br>    sum = <span class="hljs-number">0</span><br>    delta = <span class="hljs-number">0x9E3779B9</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(<span class="hljs-number">32</span>):<br>        sum = sum + delta &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        v0 = v0 + ((v1 &lt;&lt; <span class="hljs-number">3</span>) + key0 ^ v1 + sum ^ (v1 &gt;&gt; <span class="hljs-number">4</span>) + key1 ^ <span class="hljs-number">596</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        v1 = v1 + ((v0 &lt;&lt; <span class="hljs-number">3</span>) + key2 ^ v0 + sum ^ (v0 &gt;&gt; <span class="hljs-number">4</span>) + key3 ^ <span class="hljs-number">2310</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>    <span class="hljs-keyword">return</span> (v0, v1)<br><br>def decrypt(v, k):<br>    v0 = v[<span class="hljs-number">0</span>]<br>    v1 = v[<span class="hljs-number">1</span>]<br>    (key0, key1, key2, key3) = (k[<span class="hljs-number">0</span>], k[<span class="hljs-number">1</span>], k[<span class="hljs-number">2</span>], k[<span class="hljs-number">3</span>])<br>    sum = <span class="hljs-number">0xC6EF3720</span><br>    delta = <span class="hljs-number">0x9E3779B9</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(<span class="hljs-number">32</span>):<br>        v1 =v1 - ((v0 &lt;&lt; <span class="hljs-number">3</span>) + key2 ^ v0 + sum ^ (v0 &gt;&gt; <span class="hljs-number">4</span>) + key3 ^ <span class="hljs-number">2310</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        v0 = v0 - ((v1 &lt;&lt; <span class="hljs-number">3</span>) + key0 ^ v1 + sum ^ (v1 &gt;&gt; <span class="hljs-number">4</span>) + key1 ^ <span class="hljs-number">596</span>) &amp; <span class="hljs-number">0xFFFFFFFF</span><br>        sum = sum - delta &amp; <span class="hljs-number">0xFFFFFFFF</span><br>    <span class="hljs-keyword">return</span> (v0, v1)<br>    <br>def encrypt_all(v, k):<br>    <span class="hljs-keyword">encrypted</span> = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(v), <span class="hljs-number">2</span>):<br>        <span class="hljs-keyword">encrypted</span>.extend(encrypt(v[i:i + <span class="hljs-number">2</span>], k))<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">encrypted</span><br><br>def decrypt_all(v, k):<br>    decrypted = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">0</span>, len(v), <span class="hljs-number">2</span>):<br>        decrypted.extend(decrypt(v[i:i + <span class="hljs-number">2</span>], k))<br>    <span class="hljs-keyword">return</span> decrypted<br><br>v = [<span class="hljs-number">1396533857</span>,<br>    <span class="hljs-number">0xCC8AE275</span>,<br>    <span class="hljs-number">0x89FB8A63</span>,<br>    <span class="hljs-number">940694833</span>]<br>k = [<br>    <span class="hljs-number">17</span>,<br>    <span class="hljs-number">34</span>,<br>    <span class="hljs-number">51</span>,<br>    <span class="hljs-number">68</span>]<br><span class="hljs-keyword">encrypted</span> = decrypt_all(v, k)<br>SomeEncode = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">4</span>):<br>        SomeEncode += chr(<span class="hljs-keyword">encrypted</span>[i] &gt;&gt; (<span class="hljs-number">8</span> * (<span class="hljs-number">3</span> - j)) &amp; <span class="hljs-number">0xFF</span>)<br>print(SomeEncode) <br><br><br></code></pre></td></tr></table></figure>
+
+<p>ok，获得 key ，用 key 解密：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver"><span class="hljs-built_in">from</span> Crypto.Cipher import Blowfish<br><br>def decrypt_file(input_path, output_path, key):<br>    cipher = Blowfish.<span class="hljs-built_in">new</span>(key, Blowfish.MODE_CBC)<br>    bs = Blowfish.block_size<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(input_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">file</span>:<br>        encrypted_data = <span class="hljs-built_in">file</span>.<span class="hljs-built_in">read</span>()<br><br>    <br>    iv = encrypted_data[:bs]<br>    <br>    cipher = Blowfish.<span class="hljs-built_in">new</span>(key, Blowfish.MODE_CBC, iv)<br>    <br>    decrypted_data = cipher.<span class="hljs-built_in">decrypt</span>(encrypted_data[bs:])<br>    <br>    <br>    decrypted_data = decrypted_data.rstrip(b<span class="hljs-string">&#x27;\x00&#x27;</span>)<br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(output_path, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> <span class="hljs-built_in">file</span>:<br>        <span class="hljs-built_in">file</span>.<span class="hljs-built_in">write</span>(decrypted_data)<br><br>key = b<span class="hljs-string">&#x27;EzNssRevProjects&#x27;</span> <br>input_path = <span class="hljs-string">&#x27;.\\output&#x27;</span><br>output_path = <span class="hljs-string">&#x27;.\\decrypted_output&#x27;</span><br>decrypt_file(input_path, output_path, key)<br><br><br></code></pre></td></tr></table></figure>
+
+<p>到这里关于 <code>python</code>​ 就差不多了，剩下的 <code>IDA</code>​ 打开，就是简单的分析，解密流程：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">de</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* a1, <span class="hljs-type">int</span>* a2, <span class="hljs-type">int</span> a3)</span> </span>&#123;<br>    <span class="hljs-type">int</span> v5; <span class="hljs-comment">// [rsp+20h] [rbp-4h]</span><br><br>    <span class="hljs-keyword">for</span> ( <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; a3; ++i) &#123;<br>        v5 = i % <span class="hljs-number">4</span>;<br>        <span class="hljs-comment">// 整理一下</span><br>        <span class="hljs-keyword">switch</span> (v5) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: a1[i] ^= a2[<span class="hljs-number">4</span>] + a2[<span class="hljs-number">1</span>]; <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: a1[i] ^= a2[<span class="hljs-number">0</span>] - a2[<span class="hljs-number">2</span>]; <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: a1[i] += a2[<span class="hljs-number">1</span>] ^ a2[<span class="hljs-number">3</span>]; <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: a1[i] -= a2[<span class="hljs-number">2</span>] + a2[<span class="hljs-number">0</span>]; <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> v4[<span class="hljs-number">8</span>]; <span class="hljs-comment">// [rsp+10h] [rbp-50h] BYREF</span><br><br>	v4[<span class="hljs-number">0</span>] = <span class="hljs-number">35</span>;<br>	v4[<span class="hljs-number">1</span>] = <span class="hljs-number">18</span>;<br>	v4[<span class="hljs-number">2</span>] = <span class="hljs-number">69</span>;<br>	v4[<span class="hljs-number">3</span>] = <span class="hljs-number">86</span>;<br>	v4[<span class="hljs-number">4</span>] = <span class="hljs-number">103</span>;<br>    <span class="hljs-comment">// 大小端的问题，整体顺序是从前往后看，每一部分的数据是从（后往前看）</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> flag[] = &#123; <span class="hljs-number">0x37</span>,<span class="hljs-number">0x8d</span>,<span class="hljs-number">0xf</span>,<span class="hljs-number">0xab</span>,<span class="hljs-number">0x2d</span>,<span class="hljs-number">0x98</span>,<span class="hljs-number">0x37</span>,<span class="hljs-number">0xb5</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xa6</span>,<span class="hljs-number">0x30</span>,<span class="hljs-number">0xda</span>,<span class="hljs-number">0xc</span>,<span class="hljs-number">0xed</span>,<span class="hljs-number">0x1b</span>,<span class="hljs-number">0xb8</span>,<span class="hljs-number">0x0</span>,<span class="hljs-number">0xe9</span>,<span class="hljs-number">0x24</span>,<span class="hljs-number">0x98</span>,<span class="hljs-number">0x17</span>,<span class="hljs-number">0x81</span>,<span class="hljs-number">0xed</span>,<span class="hljs-number">0xb6</span>,<span class="hljs-number">0x26</span>,<span class="hljs-number">0x8c</span>,<span class="hljs-number">0x21</span>,<span class="hljs-number">0xde</span>,<span class="hljs-number">0x4</span>,<span class="hljs-number">0xde</span>&#125;;<br>    <span class="hljs-type">int</span> flag_len = <span class="hljs-built_in">sizeof</span>(flag) / <span class="hljs-built_in">sizeof</span>(flag[<span class="hljs-number">0</span>]);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, flag_len); <span class="hljs-comment">//30</span><br>	<span class="hljs-built_in">de</span>(flag, v4, flag_len);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; flag_len; i++) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, flag[i]);<br>    &#125; <br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0LL</span>;<br>&#125; <br><br><br></code></pre></td></tr></table></figure>
+
+<p>我的 pycadc 破碎了</p>
+<hr>
+<blockquote>
+<p><strong>题目：第二届黄河流域网络安全技能挑战赛 ezpyc</strong></p>
+</blockquote>
+<p>下载的文件这里找不到了，可以看看网络上有没有。<br>直接解析是有问题的， 其他方法以后在探索吧。<br>这里硬读 python 字节码：<br><img src="https://img2024.cnblogs.com/blog/3439823/202405/3439823-20240516221805306-1191458099.jpg" srcset="/img/loading.gif" lazyload></p>
+<p>逻辑不难，可以分析得到：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs scss">import base64<br>import sys<br><br>def <span class="hljs-built_in">check</span>(ininput):<br>    str1 = <span class="hljs-string">&#x27;RitdR+kuGPFoYpX4NVP&#123;PVOx[VSzXhLnO&#123;L2Xkj3[l[8]&#x27;</span><br>    str2 = <span class="hljs-built_in">list</span>(str1)<br>    list1 = <span class="hljs-built_in">list</span>(ininput)<br>    for q in <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str2)):<br>        if list1[q] != str2[q]:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Wrong!!!&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;All input is correct!&#x27;</span>)<br>def <span class="hljs-built_in">encode</span>(eenv):<br>    <br>    env = base64.<span class="hljs-built_in">b64encode</span>(eenv.<span class="hljs-built_in">encode</span>(<span class="hljs-string">&#x27;utf-8&#x27;</span>)).<span class="hljs-built_in">decode</span>(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    <br>    str2 = <span class="hljs-built_in">list</span>(env)<br>    for i in <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str2)):<br>        str2[i] = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2[i]) ^ <span class="hljs-number">2</span>)<br>    for j in <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>):<br>        str2[j] = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2[j]) - <span class="hljs-number">6</span>)<br>    for k in <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>, <span class="hljs-number">22</span>):<br>        str2[k] = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2[k]) + <span class="hljs-number">1</span>)<br>    for h in <span class="hljs-built_in">range</span>(<span class="hljs-number">22</span>, <span class="hljs-number">33</span>):<br>        str2[h] = str2[h] <br>    for l in <span class="hljs-built_in">range</span>(<span class="hljs-number">33</span>, <span class="hljs-number">44</span>):<br>        str2[l] = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2[l]) ^ <span class="hljs-number">3</span>)<br>    <br>    str3 = <span class="hljs-string">&#x27;&#x27;</span><br>    for w in <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str2)):<br>        str3 += str2[w]<br>    return str3<br>enc = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;Please input your flag:&#x27;</span>)<br>ininput = <span class="hljs-built_in">list</span>(enc)<br>if <span class="hljs-built_in">len</span>(ininput) != <span class="hljs-number">33</span>:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Wrong length!&#x27;</span>)<br>    sys.<span class="hljs-built_in">exit</span>()<br>env = <span class="hljs-built_in">encode</span>(enc)<br><span class="hljs-built_in">check</span>(env)<br><br><br></code></pre></td></tr></table></figure>
+
+<p>题解：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs stylus">import base64<br>str1 = <span class="hljs-string">&#x27;RitdR+kuGPFoYpX4NVP&#123;PVOx[VSzXhLnO&#123;L2Xkj3[l[8]&#x27;</span><br>str2 = <span class="hljs-built_in">list</span>(str1)<br><br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(str2)</span></span><br><span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">33</span>, <span class="hljs-number">44</span>):<br>    str2<span class="hljs-selector-attr">[l]</span> = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2<span class="hljs-selector-attr">[l]</span>) ^ <span class="hljs-number">3</span>)<br><span class="hljs-keyword">for</span> h <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">22</span>, <span class="hljs-number">33</span>):<br>    str2<span class="hljs-selector-attr">[h]</span> = str2<span class="hljs-selector-attr">[h]</span><br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>, <span class="hljs-number">22</span>):<br>    str2<span class="hljs-selector-attr">[k]</span> = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2<span class="hljs-selector-attr">[k]</span>) - <span class="hljs-number">1</span>)<br><span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">11</span>):<br>    str2<span class="hljs-selector-attr">[j]</span> = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2<span class="hljs-selector-attr">[j]</span>) + <span class="hljs-number">6</span>)<br><span class="hljs-keyword">for</span> <span class="hljs-selector-tag">i</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(str2)):<br>    str2<span class="hljs-selector-attr">[i]</span> = <span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(str2<span class="hljs-selector-attr">[i]</span>) ^ <span class="hljs-number">2</span>)<br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(str2)</span></span><br>flag = <span class="hljs-string">&#x27;&#x27;</span><span class="hljs-selector-class">.join</span>(str2)<br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(len(flag)</span></span>)<br><span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(base64.b64decode(flag)</span></span>)<br><br><br><br></code></pre></td></tr></table></figure>
+
+<p>神奇的数字</p>
+<hr>
+<p>这里的本意是要写 <code>Magic Number</code>​，但是本菜鸡还没有遇到，遇到了再补充（<sub>大概吧</sub>）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>pyc反编译</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-原理学习/逆向/pyc反编译/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/CTF%E4%B8%AD%E5%B8%B8%E8%A7%81Web%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2%E6%80%BB%E7%BB%93/" title="CTF中常见Web源码泄露总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CTF中常见Web源码泄露总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/CTF%20Crypto%20%E4%B8%AD%E6%B6%89%E5%8F%8A%E7%9A%84%20AES%20%E9%A2%98%E7%9B%AE/" title="CTF Crypto 中涉及的 AES 题目">
+                        <span class="hidden-mobile">CTF Crypto 中涉及的 AES 题目</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

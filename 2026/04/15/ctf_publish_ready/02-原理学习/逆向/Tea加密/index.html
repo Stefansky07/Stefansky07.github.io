@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="Tea加密算法详解​TEA​在加密的过程中要加密的明文使用2个32位无符号整数（2×4字节），秘钥为4个32位无符号整数（4×4字节），更长的明文可通过分为多个4字节为单位的小组分别进行加密（循环） 加密流程示意图：  实战识别在逆向分析实战中判断TEA​算法的可从其3行核心加密中出现的右移4左移5，两行各有3个小括号互相异或的加密流程和单次加密循环32次以及运算中出现的​​sum​​和​​del">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tea加密">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E9%80%86%E5%90%91/Tea%E5%8A%A0%E5%AF%86/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="Tea加密算法详解​TEA​在加密的过程中要加密的明文使用2个32位无符号整数（2×4字节），秘钥为4个32位无符号整数（4×4字节），更长的明文可通过分为多个4字节为单位的小组分别进行加密（循环） 加密流程示意图：  实战识别在逆向分析实战中判断TEA​算法的可从其3行核心加密中出现的右移4左移5，两行各有3个小括号互相异或的加密流程和单次加密循环32次以及运算中出现的​​sum​​和​​del">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101004-eyla6h3.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101124-yvxwsd9.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101253-50tqcly.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101304-e9zmfvk.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101312-kwl5shb.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101338-t5g157o.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101347-xqcahdu.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101354-rx7dmdo.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101405-coe2zr1.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250926101418-bd08cll.png">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:41.673Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stefansky07.github.io/assets/image-20250926101004-eyla6h3.png">
+  
+  
+  
+  <title>Tea加密 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Tea加密</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Tea加密</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Tea加密"><a href="#Tea加密" class="headerlink" title="Tea加密"></a>Tea加密</h1><h2 id="算法详解"><a href="#算法详解" class="headerlink" title="算法详解"></a>算法详解</h2><p>​<code>TEA</code>​在加密的过程中要加密的<strong>明文</strong>使用2个32位无符号整数（2×4字节），<strong>秘钥</strong>为4个32位无符号整数（4×4字节），更长的明文可通过分为多个4字节为单位的小组分别进行加密（循环）</p>
+<p>加密流程示意图：</p>
+<p><img src="/assets/image-20250926101004-eyla6h3.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="实战识别"><a href="#实战识别" class="headerlink" title="实战识别"></a>实战识别</h2><p>在逆向分析实战中判断<code>TEA</code>​算法的可从其<strong>3行核心加密中出现的右移4左移5，两行各有3个小括号互相异或的加密流程</strong>和<strong>单次加密循环32次</strong>以及<strong>运算中出现的</strong>​<strong>​<code>sum</code>​</strong>​<strong>和</strong>​<strong>​<code>delta</code>​</strong>​<strong>变量</strong>看出</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>下面是<code>TEA</code>​算法<strong>加密</strong>过程的C语言函数实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">encrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span>* temp, <span class="hljs-type">uint32_t</span>* key)</span> <span class="hljs-comment">// 解密函数</span><br>&#123;  <br>    <span class="hljs-type">uint32_t</span> v0 = temp[<span class="hljs-number">0</span>], v1 = temp[<span class="hljs-number">1</span>];<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0</span>;    <span class="hljs-comment">// 初始sum值，注意此处要修改为delta的32倍</span><br>    <span class="hljs-type">uint32_t</span> delta = <span class="hljs-number">0x9e3779b9</span>;  <span class="hljs-comment">// 和加密函数一致的delta常量</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;<br>        sum += delta;<br>        v0 += ((v1 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">0</span>]) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">1</span>]);<br>        v1 += ((v0 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">2</span>]) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">3</span>]);<span class="hljs-comment">// 不要修改算式！</span><br>    &#125;<br>    temp[<span class="hljs-number">0</span>] = v0;<br>    temp[<span class="hljs-number">1</span>] = v1;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面是TEA算法解密过程的C语言代码实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">decrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span>* temp, <span class="hljs-type">uint32_t</span>* key)</span> <span class="hljs-comment">// 解密函数</span><br>&#123;  <br>    <span class="hljs-type">uint32_t</span> v0 = temp[<span class="hljs-number">0</span>], v1 = temp[<span class="hljs-number">1</span>];<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0x9e3779b9</span> * <span class="hljs-number">32</span>;    <span class="hljs-comment">// 初始sum值，注意此处要修改为delta的32倍</span><br>    <span class="hljs-type">uint32_t</span> delta = <span class="hljs-number">0x9e3779b9</span>;  <span class="hljs-comment">// 和加密函数一致的delta常量</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;<br>        v1 -= ((v0 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">2</span>]) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">3</span>]);<span class="hljs-comment">// 不要修改算式！</span><br>        v0 -= ((v1 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">0</span>]) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">1</span>]);<br>        sum -= delta;<br>    &#125;<br>    temp[<span class="hljs-number">0</span>] = v0;<br>    temp[<span class="hljs-number">1</span>] = v1;<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">uint32_t</span> key[<span class="hljs-number">4</span>] = <br>    &#123;<br>        <span class="hljs-comment">// 此处存放密钥</span><br>    &#125;;  <br>    <span class="hljs-type">uint32_t</span> temp[<span class="hljs-number">2</span>];  <span class="hljs-comment">// 存储每组密文</span><br>    <span class="hljs-type">uint8_t</span> flag[<span class="hljs-number">32</span>] = <br>    &#123;<br>        <span class="hljs-comment">// 此处存放要解密的数据</span><br>    &#125;;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i += <span class="hljs-number">8</span>)<span class="hljs-comment">// 有多少字节的密文，就填i&lt;多少（此处为32）</span><br>    &#123;  <br>        temp[<span class="hljs-number">0</span>] = *(<span class="hljs-type">uint32_t</span>*)&amp;flag[i];<br>        temp[<span class="hljs-number">1</span>] = *(<span class="hljs-type">uint32_t</span>*)&amp;flag[i + <span class="hljs-number">4</span>];<br><br>        decrypt(temp, key);<span class="hljs-comment">// 调用解密函数</span><br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">2</span>; j++) <span class="hljs-comment">// 输出解密后的数据</span><br>        &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">0</span>; m &lt; <span class="hljs-number">4</span>; m++) <br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, temp[j] &amp; <span class="hljs-number">0xff</span>);  <span class="hljs-comment">// 按字节输出，恢复原始字符</span><br>                temp[j] &gt;&gt;= <span class="hljs-number">8</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="魔改"><a href="#魔改" class="headerlink" title="魔改"></a>魔改</h2><p>魔改TEA的一些方法：</p>
+<p><img src="/assets/image-20250926101124-yvxwsd9.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<ol start="4">
+<li>​<code>腾讯TEA</code>​<br> TEA的变种，标准TEA中使用的32轮加密，而腾讯只用了16轮。</li>
+<li>​<code>CBC模式的TEA</code>​</li>
+</ol>
+<p>将明文分组与前一个密文分组进行异或运算，然后再进行加密，对于第一组的话就设置一个初始值来和第一组明文异或。</p>
+<p>每一轮是取v0和v1，data1, data2和v0，v1异或，异或之后的data1和data2传入指针进行tea加密，之后再将加密之后的赋值回的v0和v1。</p>
+<p>逆向方法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">encrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span>* v, <span class="hljs-type">uint32_t</span>* k)</span> &#123;<br>    <span class="hljs-type">uint32_t</span> v0 = v[<span class="hljs-number">0</span>], v1 = v[<span class="hljs-number">1</span>], sum = <span class="hljs-number">0</span>, i;<br><br>    data1 ^= v0;<br>    data2 ^= v1;<br>    v0 = data1;<br>    v1 = data2;        <br><br>    <span class="hljs-type">uint32_t</span> delta = <span class="hljs-number">0x6e75316c</span>;<br>    <span class="hljs-type">uint32_t</span> k0 = k[<span class="hljs-number">0</span>], k1 = k[<span class="hljs-number">1</span>], k2 = k[<span class="hljs-number">2</span>], k3 = k[<span class="hljs-number">3</span>];<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++)<br>    &#123;<br>        sum += delta;<br>        v0 += ((v1 &lt;&lt; <span class="hljs-number">4</span>) + k0) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="hljs-number">5</span>) + k1) ^ (sum + i);<br>        v1 += ((v0 &lt;&lt; <span class="hljs-number">4</span>) + k2) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="hljs-number">5</span>) + k3) ^ (sum + i);<br>    &#125;<br>    data1 = v0;<br>    data2 = v1;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="HGAME-2023-week1-a-cup-of-tea"><a href="#HGAME-2023-week1-a-cup-of-tea" class="headerlink" title="[HGAME 2023 week1]a_cup_of_tea"></a>[HGAME 2023 week1]a_cup_of_tea</h3><p>阅读反汇编代码，恢复部分函数名和符号如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> __fastcall <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **argv, <span class="hljs-type">const</span> <span class="hljs-type">char</span> **envp)</span><br>&#123;<br>  <span class="hljs-type">int</span> v3; <span class="hljs-comment">// eax</span><br>  <span class="hljs-type">char</span> *v4; <span class="hljs-comment">// rcx</span><br>  __m128i si128; <span class="hljs-comment">// [rsp+20h] [rbp-19h] BYREF</span><br>  <span class="hljs-type">int</span> Buf2[<span class="hljs-number">8</span>]; <span class="hljs-comment">// [rsp+30h] [rbp-9h] BYREF</span><br>  __int16 v8; <span class="hljs-comment">// [rsp+50h] [rbp+17h]</span><br>  __int128 Buf1; <span class="hljs-comment">// [rsp+58h] [rbp+1Fh] BYREF</span><br>  __int128 v10[<span class="hljs-number">2</span>]; <span class="hljs-comment">// [rsp+68h] [rbp+2Fh] BYREF</span><br>  __int16 v11; <span class="hljs-comment">// [rsp+88h] [rbp+4Fh]</span><br><br>  Buf2[<span class="hljs-number">0</span>] = <span class="hljs-number">0x2E63829D</span>;<br>  Buf1 = <span class="hljs-number">0</span>i64;<br>  <span class="hljs-built_in">memset</span>(v10, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(v10));<br>  v11 = <span class="hljs-number">0</span>;<br>  Buf2[<span class="hljs-number">1</span>] = <span class="hljs-number">0xC14E400F</span>;<br>  si128 = _mm_load_si128((<span class="hljs-type">const</span> __m128i *)&amp;xmmword_1400022B0);<br>  Buf2[<span class="hljs-number">2</span>] = <span class="hljs-number">0x9B39BFB9</span>;<br>  Buf2[<span class="hljs-number">3</span>] = <span class="hljs-number">0x5A1F8B14</span>;<br>  Buf2[<span class="hljs-number">4</span>] = <span class="hljs-number">0x61886DDE</span>;<br>  Buf2[<span class="hljs-number">5</span>] = <span class="hljs-number">0x6565C6CF</span>;<br>  Buf2[<span class="hljs-number">6</span>] = <span class="hljs-number">0x9F064F64</span>;<br>  Buf2[<span class="hljs-number">7</span>] = <span class="hljs-number">0x236A43F6</span>;<br>  v8 = <span class="hljs-string">&#x27;&#125;k&#x27;</span>;<span class="hljs-comment">// 按R变字符串</span><br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;nice tea!\n&gt; &quot;</span>);<br>  <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%50s&quot;</span>);<br>  sub_1400010B4((<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *)&amp;Buf1, si128.m128i_i32);<br>  sub_1400010B4((<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *)&amp;Buf1 + <span class="hljs-number">2</span>, si128.m128i_i32);<br>  sub_1400010B4((<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *)v10, si128.m128i_i32);<br>  sub_1400010B4((<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *)v10 + <span class="hljs-number">2</span>, si128.m128i_i32);<br>  v3 = <span class="hljs-built_in">memcmp</span>(&amp;Buf1, Buf2, <span class="hljs-number">0x22</span>ui64);<br>  v4 = <span class="hljs-string">&quot;wrong...&quot;</span>;<br>  <span class="hljs-keyword">if</span> ( !v3 )<br>    v4 = <span class="hljs-string">&quot;Congratulations!&quot;</span>;<br>  <span class="hljs-built_in">printf</span>(v4);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>可知Buf2为密文，si128是密文，核心加密算法在sub_1400010B4，其分组进行了四次</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c">__int64 __fastcall <span class="hljs-title function_">sub_1400010B4</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *a1, <span class="hljs-type">int</span> *a2)</span><br>&#123;<br>  <span class="hljs-type">int</span> v2; <span class="hljs-comment">// ebx</span><br>  <span class="hljs-type">int</span> v3; <span class="hljs-comment">// r11d</span><br>  <span class="hljs-type">int</span> v4; <span class="hljs-comment">// edi</span><br>  <span class="hljs-type">int</span> v5; <span class="hljs-comment">// esi</span><br>  <span class="hljs-type">int</span> v6; <span class="hljs-comment">// ebp</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v7; <span class="hljs-comment">// r9d</span><br>  __int64 v8; <span class="hljs-comment">// rdx</span><br>  <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> v9; <span class="hljs-comment">// r10d</span><br>  __int64 result; <span class="hljs-comment">// rax</span><br><br>  v2 = *a2;<br>  v3 = <span class="hljs-number">0</span>;<br>  v4 = a2[<span class="hljs-number">1</span>];<br>  v5 = a2[<span class="hljs-number">2</span>];<br>  v6 = a2[<span class="hljs-number">3</span>];<br>  v7 = *a1;<br>  v8 = <span class="hljs-number">32</span>i64;<br>  v9 = a1[<span class="hljs-number">1</span>];<br>  <span class="hljs-keyword">do</span><br>  &#123;<br>    v3 -= <span class="hljs-number">1412567261</span>;<br>    v7 += (v3 + v9) ^ (v2 + <span class="hljs-number">16</span> * v9) ^ (v4 + (v9 &gt;&gt; <span class="hljs-number">5</span>));<br>    result = v3 + v7;<br>    v9 += result ^ (v5 + <span class="hljs-number">16</span> * v7) ^ (v6 + (v7 &gt;&gt; <span class="hljs-number">5</span>));<br>    --v8;<br>  &#125;<br>  <span class="hljs-keyword">while</span> ( v8 );<br>  *a1 = v7;<br>  a1[<span class="hljs-number">1</span>] = v9;<br>  <span class="hljs-keyword">return</span> result;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>由&gt;&gt;5和*16（即&lt;&lt;4）易知其为TEA加密算法，由此即可写出解密代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> key1 = <span class="hljs-number">0x12345678</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> key2 = <span class="hljs-number">0x23456789</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> key3 = <span class="hljs-number">0x34567890</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> key4 = <span class="hljs-number">0x45678901</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> sum = <span class="hljs-number">0x79bde460</span>;<br>    <span class="hljs-type">int</span> i = <span class="hljs-number">32</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> enc1 = <span class="hljs-number">0x9F064F64</span>;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> enc2 = <span class="hljs-number">0x236A43F6</span>;<span class="hljs-comment">//一定要注意把数据设置为无符号类型！！！</span><br>    <span class="hljs-type">int</span> enc[<span class="hljs-number">2</span>] = &#123; <span class="hljs-number">0</span> &#125;;<br>    <span class="hljs-keyword">do</span><br>    &#123;<br>        enc2 -= (sum + enc1) ^ (key3 + <span class="hljs-number">16</span> * enc1) ^ (key4 + (enc1 &gt;&gt; <span class="hljs-number">5</span>));<br>        enc1 -= (sum + enc2) ^ (key1 + <span class="hljs-number">16</span> * enc2) ^ (key2 + (enc2 &gt;&gt; <span class="hljs-number">5</span>));<br>        sum -= <span class="hljs-number">-1412567261</span>;<br>        --i;<br>    &#125; <span class="hljs-keyword">while</span> (i);<br>    *enc = enc1;<br>    enc[<span class="hljs-number">1</span>] = enc2;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">2</span>; j++) <span class="hljs-comment">// 输出解密后的数据</span><br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">0</span>; m &lt; <span class="hljs-number">4</span>; m++)<br>        &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, enc[j] );  <span class="hljs-comment">// 按字节输出，恢复原始字符</span><br>            enc[j] &gt;&gt;= <span class="hljs-number">8</span>;<br>        &#125;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c%c&quot;</span>, <span class="hljs-number">0x6b</span>, <span class="hljs-number">0x7d</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br><br><br>    <span class="hljs-comment">//第一轮：hgame&#123;Te</span><br>    <span class="hljs-comment">//第二轮：a_15_4_v</span><br>    <span class="hljs-comment">//第三轮：3ry_h3a1</span><br>    <span class="hljs-comment">//第四轮：thy_drln</span><br>    <span class="hljs-comment">//补充后缀：k&#125;</span><br>    <span class="hljs-comment">//hgame&#123;Tea_15_4_v3ry_h3a1thy_drlnk&#125;</span><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>注意在原程序的密文定义中v8紧跟在enc数组的栈内地址后面，其没有进行tea加密，而是以明文形式存储着密文的最后两位内容</p>
+<h3 id="HDCTF-2023-enc"><a href="#HDCTF-2023-enc" class="headerlink" title="[HDCTF 2023]enc"></a>[HDCTF 2023]enc</h3><p><img src="/assets/image-20250926101253-50tqcly.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>进入main_0函数，经分析可知”input key”阶段进行的是TEA加密，并给出了key秘钥的内容(此处笔误写成了RC4)</p>
+<p><img src="/assets/image-20250926101304-e9zmfvk.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>查看栈段的调用发现v7和v8是连着的</p>
+<p><img src="/assets/image-20250926101312-kwl5shb.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>传入RC4加密函数是v7的地址，根据后面if中的条件中对v7和v8的判断得出密文，可用TEA解密代码得出</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">decrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span>* temp, <span class="hljs-type">uint32_t</span>* key)</span> <span class="hljs-comment">// 解密函数</span><br>&#123;  <br>    <span class="hljs-type">uint32_t</span> v0 = temp[<span class="hljs-number">0</span>], v1 = temp[<span class="hljs-number">1</span>];<br>    <span class="hljs-type">int</span> sum = <span class="hljs-number">0xC6EF3720</span>;    <span class="hljs-comment">// 初始sum值，注意此处要修改为delta的32倍</span><br>    <span class="hljs-type">uint32_t</span> delta = <span class="hljs-number">0x9e3779b9</span>;  <span class="hljs-comment">// 和加密函数一致的delta常量</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;<br>        v1 -= ((v0 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">2</span>]) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">3</span>]);<span class="hljs-comment">// 不要修改算式！</span><br>        v0 -= ((v1 &lt;&lt; <span class="hljs-number">4</span>) + key[<span class="hljs-number">0</span>]) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="hljs-number">5</span>) + key[<span class="hljs-number">1</span>]);<br>        sum -= delta;<br>    &#125;<br>    temp[<span class="hljs-number">0</span>] = v0;<br>    temp[<span class="hljs-number">1</span>] = v1;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">uint32_t</span> key[<span class="hljs-number">4</span>] = <br>    &#123;<br>        <span class="hljs-number">0x12</span>,<span class="hljs-number">0x34</span>,<span class="hljs-number">0x56</span>,<span class="hljs-number">0x78</span><br>    &#125;;  <br>    <span class="hljs-type">uint32_t</span> temp[<span class="hljs-number">2</span>];  <span class="hljs-comment">// 存储每组密文</span><br>        temp[<span class="hljs-number">0</span>] = <span class="hljs-number">0x60FCDEF7</span>;<br>        temp[<span class="hljs-number">1</span>] = <span class="hljs-number">0x236DBEC</span>;<br>        decrypt(temp, key);<span class="hljs-comment">// 调用解密函数</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">2</span>; j++) <span class="hljs-comment">// 输出解密后的数据</span><br>        &#123;<br>            <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">0</span>; m &lt; <span class="hljs-number">4</span>; m++) <br>            &#123;<br>                <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d&quot;</span>, temp[j] &amp; <span class="hljs-number">0xff</span>);  <span class="hljs-comment">// 按字节输出，恢复原始字符</span><br>                temp[j] &gt;&gt;= <span class="hljs-number">8</span>;<br>            &#125;<br>        &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>得出解密结果为00030004（要以整数输出），即key为3</p>
+<p>点开最后处理v6的sub_411302函数</p>
+<p><img src="/assets/image-20250926101338-t5g157o.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>发现是一堆未识别出的数据</p>
+<p><img src="/assets/image-20250926101347-xqcahdu.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>打断点进入调试模式</p>
+<p><img src="/assets/image-20250926101354-rx7dmdo.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>步进运行程序将loc_0041D000地址的数据分析为指令，再在loc_0041D000处按P将其分析为函数，分析伪代码可知该函数为RC4加密</p>
+<p><img src="/assets/image-20250926101405-coe2zr1.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* a, <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* b)</span> &#123;<br>    <span class="hljs-comment">// 交换两个字节</span><br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> temp = *a;<br>    *a = *b;<br>    *b = temp;<br>&#125;<br><span class="hljs-type">void</span> <span class="hljs-title function_">RC4_dec</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* ciphertext, <span class="hljs-type">int</span> length, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* key)</span> &#123;<br>    <span class="hljs-comment">// RC4解密函数</span><br>    <span class="hljs-type">int</span> i, j;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>* S;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> k[<span class="hljs-number">256</span>];<br>    <span class="hljs-type">int</span> keylen = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">while</span> (key[keylen] != <span class="hljs-string">&#x27;\0&#x27;</span>) &#123;<br>        keylen++;<br>    &#125;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) &#123;    <span class="hljs-comment">// 初始化密钥数组k</span><br>        k[i] = key[i % keylen];<br>    &#125;<br>    S = (<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>*)<span class="hljs-built_in">malloc</span>(<span class="hljs-number">256</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-type">unsigned</span> <span class="hljs-type">char</span>));    <span class="hljs-comment">// 初始化S盒</span><br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) &#123;<br>        S[i] = i;<br>    &#125;<br>    j = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">256</span>; i++) &#123;<br>        j = (j + S[i] + k[i]) % <span class="hljs-number">256</span>;<br>        swap(&amp;S[i], &amp;S[j]);<br>    &#125;<br>    i = <span class="hljs-number">0</span>;<br>    j = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> n = <span class="hljs-number">0</span>; n &lt; length; n++) &#123;<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span>;<br>        j = (j + S[i]) % <span class="hljs-number">256</span>;<br>        swap(&amp;S[i], &amp;S[j]);<br>        <span class="hljs-type">int</span> t = (S[i] + S[j]) % <span class="hljs-number">256</span>;<br>        ciphertext[n] ^= S[t];<br>    &#125;<br>    <span class="hljs-built_in">free</span>(S);<br>&#125;<br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">char</span> res[] = &#123;<br>    <span class="hljs-number">0x0F</span>, <span class="hljs-number">0x94</span>, <span class="hljs-number">0xAE</span>, <span class="hljs-number">0xF2</span>, <span class="hljs-number">0xC0</span>, <span class="hljs-number">0x57</span>, <span class="hljs-number">0xC2</span>, <span class="hljs-number">0xE0</span>,<br>    <span class="hljs-number">0x9A</span>, <span class="hljs-number">0x45</span>, <span class="hljs-number">0x37</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0xF5</span>, <span class="hljs-number">0xA0</span>, <span class="hljs-number">0x5E</span>, <span class="hljs-number">0xCB</span>,<br>    <span class="hljs-number">0x2C</span>, <span class="hljs-number">0x16</span>, <span class="hljs-number">0x28</span>, <span class="hljs-number">0x29</span>, <span class="hljs-number">0xFE</span>, <span class="hljs-number">0xFF</span>, <span class="hljs-number">0x33</span>, <span class="hljs-number">0x46</span>,<br>    <span class="hljs-number">0x0E</span>, <span class="hljs-number">0x57</span>, <span class="hljs-number">0x82</span>, <span class="hljs-number">0x22</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x26</span>, <span class="hljs-number">0x2B</span>, <span class="hljs-number">0x6E</span>,<br>    <span class="hljs-number">0xE4</span>, <span class="hljs-number">0x82</span>, <span class="hljs-number">0x24</span><br>    &#125;;<span class="hljs-comment">//此处为密文</span><br>    <span class="hljs-type">const</span> <span class="hljs-type">char</span> key[] = <span class="hljs-string">&quot;you_are_master&quot;</span>;<span class="hljs-comment">//此处为秘钥</span><br>    RC4_dec(res, <span class="hljs-keyword">sizeof</span>(res), key);<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">sizeof</span>(res); i++)<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, res[i]);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>用RC4代码解密即可</p>
+<p><img src="/assets/image-20250926101418-bd08cll.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Tea加密</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-原理学习/逆向/Tea加密/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/%E6%A0%A1%E5%86%85%E5%9F%B9%E8%AE%AD%EF%BC%9A%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/" title="校内培训：密码学入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">校内培训：密码学入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/" title="RSA加密算法">
+                        <span class="hidden-mobile">RSA加密算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

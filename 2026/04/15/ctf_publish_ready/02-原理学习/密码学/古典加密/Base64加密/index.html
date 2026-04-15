@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="Base64加密Base64是什么？Base64是一种二进制到文本的编码方式。如果要更具体一点的话，可以认为它是一种将 byte数组编码为字符串的方法，而且编码出的字符串只包含ASCII基础字符。 例如字符串&#x3D;&#x3D;ShuSheng007&#x3D;&#x3D;对应的Base64为&#x3D;&#x3D;U2h1U2hlbmcwMDc&#x3D;&#x3D;&#x3D;。其中那个&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Base64加密">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%8F%A4%E5%85%B8%E5%8A%A0%E5%AF%86/Base64%E5%8A%A0%E5%AF%86/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="Base64加密Base64是什么？Base64是一种二进制到文本的编码方式。如果要更具体一点的话，可以认为它是一种将 byte数组编码为字符串的方法，而且编码出的字符串只包含ASCII基础字符。 例如字符串&#x3D;&#x3D;ShuSheng007&#x3D;&#x3D;对应的Base64为&#x3D;&#x3D;U2h1U2hlbmcwMDc&#x3D;&#x3D;&#x3D;。其中那个&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:41.635Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Base64加密 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">Base64加密</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Base64加密</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Base64加密"><a href="#Base64加密" class="headerlink" title="Base64加密"></a>Base64加密</h1><h4 id="Base64是什么？"><a href="#Base64是什么？" class="headerlink" title="Base64是什么？"></a>Base64是什么？</h4><p>Base64是一种二进制到文本的编码方式。如果要更具体一点的话，可以认为它是一种将 byte数组编码为字符串的方法，而且编码出的字符串只包含ASCII基础字符。</p>
+<p>例如字符串&#x3D;&#x3D;<em>ShuSheng007</em>&#x3D;&#x3D;对应的Base64为&#x3D;&#x3D;U2h1U2hlbmcwMDc&#x3D;&#x3D;&#x3D;。其中那个&#x3D;比较特殊，是填充符，一会再说。</p>
+<p>值得注意的是Base64不是加密算法，其仅仅是一种编码方式，算法也是公开的，所以不能依赖它进行加密。</p>
+<h4 id="为什么叫Base64？"><a href="#为什么叫Base64？" class="headerlink" title="为什么叫Base64？"></a>为什么叫Base64？</h4><p>因为它是基于(Base)64个字符的一种编码方式。使用其编码后的文本只包含64个ASCII码字符（偶尔加一个填充字符”&#x3D;”**），如下所示：</p>
+<p>Base64使用到的64个字符：</p>
+<ul>
+<li>&#x3D;&#x3D;A-Z&#x3D;&#x3D;  26个</li>
+<li>&#x3D;&#x3D;a-z&#x3D;&#x3D;   26个</li>
+<li>&#x3D;&#x3D;0-9&#x3D;&#x3D; 10个</li>
+<li>&#x3D;&#x3D;+&#x3D;&#x3D;     1个</li>
+<li>&#x3D;&#x3D;&#x2F;&#x3D;&#x3D;       1个</li>
+</ul>
+<p>下图是Base64码表，可以看到从0到63的每个数字都对应一个上面的一个字符。<br>![[9768811820f78fcdd5b92b7d36bfb340.jpg]]</p>
+<h4 id="Base64解决什么问题？"><a href="#Base64解决什么问题？" class="headerlink" title="Base64解决什么问题？"></a>Base64解决什么问题？</h4><p>Base64编码是从二进制值到某些特定字符的编码，这些特定字符一共64个，所以称作Base64。</p>
+<p>为什么不直接传输二进制呢？比如图片，或者字符，既然实际传输时它们都是二进制字节流。而且即使Base64编码过的字符串最终也是二进制（通常是UTF-8编码，兼容ASCII编码）在网络上传输的，那么用4&#x2F;3倍带宽传输数据的Base64究竟有什么意义？</p>
+<p>真正的原因是二进制不兼容。某些二进制值，在一些硬件上，比如在不同的路由器，老电脑上，表示的意义不一样，做的处理也不一样。同样，一些老的软件，网络协议也有类似的问题。</p>
+<p>在项目中，对报文进行压缩、加密后，最后一步一般是 base64 编码。因为 base64 编码的字符串更适合不同平台，不同语言的传输。</p>
+<p><strong>base64 编码的优点：</strong></p>
+<ul>
+<li>算法是编码，不是压缩，编码后只会增加字节数（一般是比之前的多1&#x2F;3，比如之前是3， 编码后是4）</li>
+<li>算法简单，基本不影响效率</li>
+<li>算法可逆，解码很方便，不用于私密传输。</li>
+<li>毕竟编码了，肉眼不能直接读出原始内容。</li>
+<li>加密后的字符串只有【0-9a-zA-Z+&#x2F;&#x3D;】 不可打印字符（转译字符）也可以传输</li>
+</ul>
+<p><strong>Base64就是为了解决各系统以及传输协议中二进制不兼容的问题而生的</strong></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">//二进制数据传输过程中,不可见字符或者无法由UTF-8解码的二进制数据(一个字符对应一个二进制编码,但是一个二进制不一定能对应上一个字符),数据可能丢失 </span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">String[] args</span>)</span> &#123;<br>        <span class="hljs-comment">//字节数组,经常用来表示二进制数据</span><br>        <span class="hljs-built_in">byte</span>[] bytes1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">byte</span>[]&#123;<span class="hljs-number">31</span>, <span class="hljs-number">-117</span>, <span class="hljs-number">8</span>&#125;;<br>        <span class="hljs-comment">//直接用字符串来转换字节数组(默认UTF-8编码)</span><br>        String str = <span class="hljs-keyword">new</span> String(bytes1);<br>        System.<span class="hljs-keyword">out</span>.println(str);<span class="hljs-comment">//</span><br>        <span class="hljs-built_in">byte</span>[] bytes2 = str.getBytes();<br>        System.<span class="hljs-keyword">out</span>.println(Arrays.toString(bytes2)); <span class="hljs-comment">//结果[31, -17, -65, -67, 8] 和原来的bytes1:[31,-117,8]并不相同</span><br>        <span class="hljs-comment">//这是为什么呢?</span><br>        <span class="hljs-comment">//UTF-8编码是一种变长编码,一个字符对应一个二进制编码,但是一个二进制不一定能对应上一个字符</span><br>        <span class="hljs-comment">//如果采用 Ascii码(UTF-8兼容)中的数据,就可以完成映射,并且不丢失数据</span><br>        <span class="hljs-built_in">byte</span>[] bytes3 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">byte</span>[]&#123;<span class="hljs-number">49</span>, <span class="hljs-number">50</span>, <span class="hljs-number">51</span>&#125;;<br>        String str2 = <span class="hljs-keyword">new</span> String(bytes3);<br>        System.<span class="hljs-keyword">out</span>.println(str2);<br>        <span class="hljs-built_in">byte</span>[] bytes4 = str2.getBytes();<br>        System.<span class="hljs-keyword">out</span>.println(Arrays.toString(bytes4));<span class="hljs-comment">//结果:[49, 50, 51] 和 bytes3[49,50,51]就相同了</span><br>        <span class="hljs-comment">//其它的大多数编码方法,都是一个字符对应一个二进制编码,但是一个二进制编码不一定呢个对应上一个字符</span><br>        <span class="hljs-comment">//但是Base64可以,是如何解决的呢?</span><br>        <span class="hljs-comment">//Base64,采用6位一个单元,去Ascii中取出了64个可见字符来做映射(A-Z a-z 0-9 + /),</span><br>        <span class="hljs-comment">// 这样所有的二进制都能根据长度分割为每6位对应一个字符,不够6的倍数会用 0补全, 如果6位都是0,则映射为 = 号</span><br>        <span class="hljs-comment">//通过Base64编码后</span><br>        String encode = Base64.encode(bytes1);<br>        System.<span class="hljs-keyword">out</span>.println(encode);<span class="hljs-comment">//H4sI</span><br>        <span class="hljs-built_in">byte</span>[] decode = Base64.decode(encode);<br>        System.<span class="hljs-keyword">out</span>.println(Arrays.toString(decode));<span class="hljs-comment">//结果:[31, -117, 8] 和原来的bytes1:[31,-117,8]相同了</span><br>    &#125;<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>编码Man</strong><br>![[a278bc0b3a8d13e104e4273f61bce104.png]]<br><strong>三个字符Man编码后为四个字符TWFu</strong><br>由此看出原数据一个字节需要8位,base64编码需要6位,所以原数据字节数必须是8与6的公约数,也就是3的倍数</p>
+<p>当然如果要需要编码的字节数不是3的倍数,就需要多出1或2个字节,那么可以使用下面的方法进行处理：先使用0字节值在末尾补足，使其能够被3整除，然后再进行Base64的编码。在编码后的Base64文本后加上一个或两个 &#x3D; 号，代表补足的字节数。也就是说，当最后剩余两个八位(待补足)字节（2个byte）时，最后一个6位的Base64字节块有四位(2<em>6-8&#x3D;4)是0值，最后附加上两个等号；如果最后剩余一个八位(待补足)字节（1个byte）时，最后一个6位的base字节块有两位(3</em>6-2*8&#x3D;2)是0值，最后附加一个等号。 参考下表：<br>![[d071a7d5308ca0f66f5fe8dc5dc06b7b.png]]<br>所以Base64编码后的数据比原数据略长,为原来的4&#x2F;3.</p>
+<h4 id="Base64-DataURI格式"><a href="#Base64-DataURI格式" class="headerlink" title="Base64 DataURI格式"></a>Base64 DataURI格式</h4><p>有时你会发现web页面传给你的base64字符串前面有类似下面的东东。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">data</span>:image/jpeg;base64,    /<span class="hljs-number">9</span>j/<span class="hljs-number">4</span>AA...<br></code></pre></td></tr></table></figure>
+
+<p>这是DataURI，大部分浏览器支持直接打开这类二进制数据，但是我们要格外注意，如果你只是想要真实的Base64内容就需要取<code>,</code>后边的内容</p>
+<h4 id="Base64变种"><a href="#Base64变种" class="headerlink" title="Base64变种"></a>Base64变种</h4><p>Base64编码可用于在HTTP环境下传递较长的标识信息。例如，在Java持久化系统Hibernate中，就采用了Base64来将一个较长的唯一标识符（一般为128-bit的UUID）编码为一个字符串，用作HTTP表单和HTTP GET URL中的参数。在其他应用程序中，也常常需要把二进制数据编码为适合放在URL（包括隐藏表单域）中的形式。此时，采用Base64编码不仅比较简短，同时也具有不可读性，即所编码的数据不会被人用肉眼所直接看到。</p>
+<p>然而，标准的Base64并不适合直接放在URL里传输，因为URL编码器会把标准Base64中的&#x2F;和+字符变为形如%XX的形式，而这些%号在存入数据库时还需要再进行转换，因为ANSI SQL中已将%号用作通配符。</p>
+<p>为解决此问题，可采用一种用于URL的改进Base64编码，它不在末尾填充&#x3D;号，并将标准Base64中的+和&#x2F;分别改成了-和_，这样就免去了在URL编解码和数据库存储时所要做的转换，避免了编码信息长度在此过程中的增加，并统一了数据库、表单等处对象标识符的格式。</p>
+<p>另有一种用于正则表达式的改进Base64变种，它将+和&#x2F;改成了!和-，因为+，*以及前面在IRCu中用到的[和]在正则表达式中都可能具有特殊含义。</p>
+<p>此外还有一些变种，它们将+&#x2F;改为_-或. <em>（用作编程语言中的标识符名称）或.-（用于XML中的Nmtoken）甚至</em>:（用于XML中的Name）。</p>
+<h4 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h4><ul>
+<li>对于证书来说，尤其是根证书，一般是 base64 编码的，在网上被很多人下载</li>
+<li>电子邮件的附件一般是 base64 编码，因为附件往往有不可见字符</li>
+<li>xml 中如果像嵌入另外一个 xml 文件，直接嵌入，往往 xml 标签就乱套了， 不容易解析，因此，需要把 xml 编译成字节数组的字符串，编译成可见字符。</li>
+<li>网页中的一些小图片，可以直接以 base64 编码的方式嵌入，不用再链接请求消耗网络资源。</li>
+<li>外一个 xml 文件，直接嵌入，往往 xml 标签就乱套了， 不容易解析，因此，需要把 xml 编译成字节数组的字符串，编译成可见字符。</li>
+<li>网页中的一些小图片，可以直接以 base64 编码的方式嵌入，不用再链接请求消耗网络资源。</li>
+<li>较老的纯文本协议 SMTP ，这些文本偶尔传输一个文件时，需要用 base64</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Base64加密</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-原理学习/密码学/古典加密/Base64加密/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7/%E5%AE%89%E8%A3%85ciphey%E7%9A%84%E4%B8%80%E4%BA%9B%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="安装ciphey的一些碎碎念">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">安装ciphey的一些碎碎念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/%E4%B8%80%E4%BA%9B%E5%B7%A5%E5%85%B7/yafu%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" title="yafu使用笔记">
+                        <span class="hidden-mobile">yafu使用笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

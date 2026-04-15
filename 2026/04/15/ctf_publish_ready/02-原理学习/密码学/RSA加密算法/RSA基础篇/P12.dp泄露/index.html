@@ -1,0 +1,640 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="P12.dp泄露P12.dp泄露出题脚本1234567891011121314151617181920212223242526272829303132333435#coding:utf-8import randomimport base64import hashlibimport stringimport libnumdef put_flag():    # 字符串列表    a &#x3D; string">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P12.dp泄露">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P12.dp%E6%B3%84%E9%9C%B2/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="P12.dp泄露P12.dp泄露出题脚本1234567891011121314151617181920212223242526272829303132333435#coding:utf-8import randomimport base64import hashlibimport stringimport libnumdef put_flag():    # 字符串列表    a &#x3D; string">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:41.166Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>P12.dp泄露 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">P12.dp泄露</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          371 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">P12.dp泄露</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="P12-dp泄露"><a href="#P12-dp泄露" class="headerlink" title="P12.dp泄露"></a>P12.dp泄露</h1><h2 id="P12-dp泄露-1"><a href="#P12-dp泄露-1" class="headerlink" title="P12.dp泄露"></a>P12.dp泄露</h2><h3 id="出题脚本"><a href="#出题脚本" class="headerlink" title="出题脚本"></a>出题脚本</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#coding:utf-8</span><br>import random<br>import base64<br>import hashlib<br>import string<br>import libnum<br><br>def put_flag():<br>    # 字符串列表<br>    a = string.printable<br>    flag = <span class="hljs-string">&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(10):<br>        flag += a[random.randint(0, 99)]<br>    flag = r<span class="hljs-string">&quot;flag&#123;%s&#125;&quot;</span>%(hashlib.md5(flag.encode()).hexdigest())<br>    <span class="hljs-built_in">print</span>(flag)<br>    return flag<br><br><span class="hljs-comment">#生成素数</span><br><span class="hljs-attribute">p</span>=libnum.generate_prime(1024)<br><span class="hljs-attribute">q</span>=libnum.generate_prime(1024)<br><span class="hljs-attribute">e</span>=65537<br><span class="hljs-attribute">n</span>=p*q<br>phi_n=(p-1)*(q-1)<br><span class="hljs-attribute">d</span>=libnum.invmod(e,phi_n)<br><span class="hljs-attribute">dp</span>=d%(p-1)<br><span class="hljs-attribute">m</span>=put_flag()<br><span class="hljs-attribute">m</span>=libnum.s2n(m)<br><span class="hljs-attribute">n</span>=p*q<br><span class="hljs-attribute">c</span>=pow(m,e,n)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n=&quot;</span>,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;e=&quot;</span>,e)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;dp=&quot;</span>,dp)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;c=&quot;</span>,c)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="解密脚本"><a href="#解密脚本" class="headerlink" title="解密脚本"></a>解密脚本</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment">#coding:utf-8</span><br><span class="hljs-attribute">import</span> libnum<br><span class="hljs-attribute">import</span> gmpy2<br><br><span class="hljs-attribute">n</span>= <span class="hljs-number">20591086052762884774007642208627186047740785982069905465339106113815517926005138245376424039890471346116595814990565096469487055161205492208983070664066759158320021466738870626889248859926445073065690645149662384802893003569214932187478720052507261122240086903309849212209649669687231860209185304367043990868365998317112708060029389114801978983457120555456044119368210749131216212628106714166030746209367457730301494656881326171842507368964603885018433049753989158109159264897704177466521001420986879635961230539498749382319333460275823384358292388617142535346744858436238862753394517975326105321275152062417195136487</span><br><span class="hljs-attribute">e</span>= <span class="hljs-number">65537</span><br><span class="hljs-attribute">dp</span>= <span class="hljs-number">117650567231513516304011449747630188369389787217757178598401487861414722594762697578263686709962979384903219013406107957537598898044022905612629709116256327804419610618227360381750844695360296505774931533979275522382118810562627585509057288685774693859111511668637640128536485929734825688725882979874153712289</span><br><span class="hljs-attribute">c</span>= <span class="hljs-number">11882214238703654387165659956294046561271974803426268099981312451686746219445527904685768634078193803230258145834800940089716687361084767393552437220859938746433048199198403178660887457673639116251966379227242789841204694915397745327702138343494160974011134668539019661693330405169786812935866677630175241506856985283075068700171501509407518847350856175791919328062950403163853767193784729690208750698852790441958574336390898190131490970318926320913093369651228634714453458106787439297347445279781184630937957106170862280836800221040231888465070504491616197979521787557062164298550636929825159364431658963099844517487</span><br><br><span class="hljs-attribute">for</span> i in range(<span class="hljs-number">1</span>,<span class="hljs-number">65535</span>):<br>    <span class="hljs-attribute">p</span>=(dp*e-<span class="hljs-number">1</span>)//i+<span class="hljs-number">1</span><br>    <span class="hljs-attribute">if</span> n%p==<span class="hljs-number">0</span>:<br>        <span class="hljs-attribute">q</span>=n//p<br>        <span class="hljs-attribute">break</span><br><span class="hljs-attribute">print</span>(p)<br><span class="hljs-attribute">print</span>(q)<br><span class="hljs-attribute">phi_n</span>= (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br><span class="hljs-attribute">d</span>=gmpy2.invert(e,phi_n)<br><span class="hljs-attribute">m</span>=pow(c,d,n)<br><span class="hljs-attribute">print</span>(m)<br><span class="hljs-attribute">flag</span>=libnum.n2s(int(m)).decode()<br><span class="hljs-attribute">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
+<h3 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h3><p>已知公钥n,e以及dp</p>
+<p>其中,dp &#x3D; d mod (p-1)</p>
+<p>已知：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs excel">c = m^e <span class="hljs-built_in">mod</span> <span class="hljs-built_in">n</span><br>m = c^d <span class="hljs-built_in">mod</span> <span class="hljs-built_in">n</span><br>ϕ(<span class="hljs-built_in">n</span>)=(p−<span class="hljs-number">1</span>)*(q−<span class="hljs-number">1</span>)<br>d∗e ≡ <span class="hljs-number">1</span> <span class="hljs-built_in">mod</span> ϕ(<span class="hljs-built_in">n</span>)<br>dp = d <span class="hljs-built_in">mod</span> (p−<span class="hljs-number">1</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>由上式可以得到</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">dp<span class="hljs-number">*e</span>≡d<span class="hljs-number">*e</span> mod (p−1)<br></code></pre></td></tr></table></figure>
+
+<p>因此可以得到</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs excel">式<span class="hljs-number">1</span>：d∗e=k∗(p−<span class="hljs-number">1</span>)+dp∗e<br>式<span class="hljs-number">2</span>：d∗e≡<span class="hljs-number">1</span> <span class="hljs-built_in">mod</span> ϕ(<span class="hljs-built_in">n</span>)<br></code></pre></td></tr></table></figure>
+
+<p>式1带入式2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">=&gt; k∗(p−<span class="hljs-number">1</span>)+dp∗e ≡<span class="hljs-number">1</span> mod ϕ(n)<br><br>=&gt; k∗(p−<span class="hljs-number">1</span>)+dp∗e ≡<span class="hljs-number">1</span> mod (p−<span class="hljs-number">1</span>)∗(q−<span class="hljs-number">1</span>)<br><br>=&gt; k1∗(p−<span class="hljs-number">1</span>)+dp∗e = k2*(p−<span class="hljs-number">1</span>)∗(q−<span class="hljs-number">1</span>)+<span class="hljs-number">1</span><br><br>=&gt; dp*e =  k2*(p−<span class="hljs-number">1</span>)∗(q−<span class="hljs-number">1</span>)+<span class="hljs-number">1</span>-k1∗(p−<span class="hljs-number">1</span>)+dp∗e<br><br>=&gt; dp*e = (p-<span class="hljs-number">1</span>)*[k2*(p-<span class="hljs-number">1</span>)-k1]+<span class="hljs-number">1</span><br><br></code></pre></td></tr></table></figure>
+
+<p>因dp&lt;p−1（dp是d&#x2F;&#x2F;（p-1）的余数，dp&lt;p−1）</p>
+<p>所以e &gt; k2∗(q−1)−k1</p>
+<p>假设 x&#x3D;k2∗(q−1)−k1</p>
+<p>x的范围为 (0,e)</p>
+<p>x∗(p−1)+1&#x3D;dp∗e</p>
+<p>求出p-1方法，遍历(0,e)的范围，其中肯定有一个p可以被n整除，那么求出p和q</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>P12.dp泄露</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/02-原理学习/密码学/RSA加密算法/RSA基础篇/P12.dp泄露/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P13.%20dp,dq/" title="P13. dp,dq">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">P13. dp,dq</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P15.%E5%85%B1%E6%A8%A1%E6%94%BB%E5%87%BB/" title="P15.共模攻击">
+                        <span class="hidden-mobile">P15.共模攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

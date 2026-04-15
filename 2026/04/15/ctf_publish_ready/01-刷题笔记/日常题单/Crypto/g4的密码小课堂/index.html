@@ -1,0 +1,638 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="g4的密码小课堂题目 分析​根据内容可以判断为 RSA 算法。需要得出两对​$p$和$q$后算出$\varphi(n)$，结合$e$得到$d$，由$c^d\equiv m \mod n$计算出m，将m转换为bytes类型即可得到flag。 12345678910111213141516171819202122232425262728293031# -*- coding: utf-8 -*-# @A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="g4的密码小课堂">
+<meta property="og:url" content="https://stefansky07.github.io/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/g4%E7%9A%84%E5%AF%86%E7%A0%81%E5%B0%8F%E8%AF%BE%E5%A0%82/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="g4的密码小课堂题目 分析​根据内容可以判断为 RSA 算法。需要得出两对​$p$和$q$后算出$\varphi(n)$，结合$e$得到$d$，由$c^d\equiv m \mod n$计算出m，将m转换为bytes类型即可得到flag。 12345678910111213141516171819202122232425262728293031# -*- coding: utf-8 -*-# @A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250414211121-4pb3ba7.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250414212635-nljk674.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250414212649-j7xpv6h.png">
+<meta property="article:published_time" content="2026-04-14T18:33:22.000Z">
+<meta property="article:modified_time" content="2026-04-15T02:56:36.260Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stefansky07.github.io/assets/image-20250414211121-4pb3ba7.png">
+  
+  
+  
+  <title>g4的密码小课堂 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">g4的密码小课堂</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-15 02:33" pubdate>
+          2026年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          683 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">g4的密码小课堂</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="g4的密码小课堂"><a href="#g4的密码小课堂" class="headerlink" title="g4的密码小课堂"></a>g4的密码小课堂</h1><h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p><img src="/assets/image-20250414211121-4pb3ba7.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>​<code>根据内容可以判断为 RSA 算法。需要得出两对</code>​$p$和$q$后算出$\varphi(n)$，结合$e$得到$d$，由$c^d\equiv m \mod n$计算出m，将m转换为bytes类型即可得到flag。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment"># @Author: h1xa</span><br><span class="hljs-comment"># @Date:   2022-11-11 13:46:24</span><br><span class="hljs-comment"># @Last Modified by:   h1xa</span><br><span class="hljs-comment"># @Last Modified time: 2022-11-11 13:46:32</span><br><span class="hljs-comment"># @email: h1xa@ctfer.com</span><br><span class="hljs-comment"># @link: https://ctfer.com</span><br> <br> <br><span class="hljs-comment"># D0_U_kn0w_wh4t_1s_double_p_q?</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag<br> <br>m = bytes_to_long(flag)  <span class="hljs-comment"># 根据函数名判断是个bytes类型转long的函数</span><br>p1 = getPrime(<span class="hljs-number">256</span>)  <span class="hljs-comment"># 获取长度为256bits的素数p1</span><br>p2 = gmpy2.next_prime(p1)  <span class="hljs-comment"># 获取p1后的下一个素数p2</span><br>q1 = getPrime(<span class="hljs-number">256</span>)  <span class="hljs-comment"># 获取长度为256bits的素数q1</span><br>q2 = gmpy2.next_prime(q1)  <span class="hljs-comment"># 获取q1后的下一个素数q2</span><br>n = p1*p2*q1*q2  <span class="hljs-comment"># 连乘四个素数得到n</span><br>e = <span class="hljs-number">65537</span><br>c = <span class="hljs-built_in">pow</span>(m, e, n)  <span class="hljs-comment"># 计算m的e次方模n得到c</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;n = <span class="hljs-subst">&#123;n&#125;</span>&#x27;</span>)  <span class="hljs-comment"># 输出“n=”+n的值</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;e = <span class="hljs-subst">&#123;e&#125;</span>&#x27;</span>)  <span class="hljs-comment"># 输出“e=”+e的值</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;c = <span class="hljs-subst">&#123;c&#125;</span>&#x27;</span>)  <span class="hljs-comment"># 输出“c=”+c的值</span><br> <br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">n = 32481415283829255738340971974996440308678927230347135108620374939715138530763511922162670183907243606574444169915409791604348383760619870966025875897723568019791384873824917630615306169399783499416450554084947937964622799112489092007113967359069561646966430880857626323529067736582503070705981530002918845439</span><br><span class="hljs-string">e = 65537</span><br><span class="hljs-string">c = 13000287388412632836037240605681731720629565122285665653580432791960428695510699983959843546876647788034949392762752577597448919397451077080119543495058705350347758604475392673242110787093172219487592930482799866421316089027633497253411081184454114601840835490688775466505809830410778091437211186254631834255</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>根据代码可以判断，n由两个p及两个q相乘得到，而p2，q2均取p1，q1的后一个素数，因此对n开根号得到数的范围在（p1q1,p2q2)与（p1q2,p2q1)之间。</p>
+<p><img src="/assets/image-20250414212635-nljk674.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p><img src="/assets/image-20250414212649-j7xpv6h.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br> <br>pq = []  <span class="hljs-comment"># 存放分解结果</span><br>a = gmpy2.iroot(num, <span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># n开根号，返回整数部分</span><br><span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>    B_2 = <span class="hljs-built_in">pow</span>(a, <span class="hljs-number">2</span>) - n  <span class="hljs-comment"># 根号n整数部分的平方 - n</span><br>    <span class="hljs-keyword">if</span> gmpy2.is_square(B_2):  <span class="hljs-comment"># 判断B_2是否为完全平方数</span><br>        b = gmpy2.iroot(B_2, <span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># B_2开根号，返回整数部分</span><br>        pq_1 = a - b<br>        pq_2 = a + b<br>        pq.append([pq_1, pq_2])  <span class="hljs-comment"># 存入p1q1,p2q2和p1q2,p2q1</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(pq) == <span class="hljs-number">2</span>:  <span class="hljs-comment"># 如果存入两组数据</span><br>            <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 退出循环</span><br>    a += <span class="hljs-number">1</span>  <span class="hljs-comment"># 如果B_2不是完全平方数，a加1后重新循环</span><br> <br></code></pre></td></tr></table></figure>
+
+<p>最后通过p1，q1，p2，q2计算$\varphi(n)$,d,m,最终得到flag。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br> <br>varphi_n = (p1-<span class="hljs-number">1</span>)*(q1-<span class="hljs-number">1</span>)*(p2-<span class="hljs-number">1</span>)*(q2-<span class="hljs-number">1</span>)  <span class="hljs-comment"># 求varphi_n</span><br>d = gmpy2.invert(e, varphi_n)  <span class="hljs-comment"># 求e模varphi_n的逆元d</span><br>m = <span class="hljs-built_in">pow</span>(c, d, n)  <span class="hljs-comment"># 求m</span><br><span class="hljs-keyword">return</span> long_to_bytes(m)<br> <br></code></pre></td></tr></table></figure>
+
+<p>完整代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br> <br>n = <span class="hljs-number">32481415283829255738340971974996440308678927230347135108620374939715138530763511922162670183907243606574444169915409791604348383760619870966025875897723568019791384873824917630615306169399783499416450554084947937964622799112489092007113967359069561646966430880857626323529067736582503070705981530002918845439</span><br>e = <span class="hljs-number">65537</span><br>c = <span class="hljs-number">13000287388412632836037240605681731720629565122285665653580432791960428695510699983959843546876647788034949392762752577597448919397451077080119543495058705350347758604475392673242110787093172219487592930482799866421316089027633497253411081184454114601840835490688775466505809830410778091437211186254631834255</span><br> <br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">factor</span>(<span class="hljs-params">num</span>):<br>    pq = []  <span class="hljs-comment"># 存放分解结果</span><br>    a = gmpy2.iroot(num, <span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># n开根号，返回整数部分</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        B_2 = <span class="hljs-built_in">pow</span>(a, <span class="hljs-number">2</span>) - n  <span class="hljs-comment"># 根号n整数部分的平方 - n</span><br>        <span class="hljs-keyword">if</span> gmpy2.is_square(B_2):  <span class="hljs-comment"># 判断B_2是否为完全平方数</span><br>            b = gmpy2.iroot(B_2, <span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]  <span class="hljs-comment"># B_2开根号，返回整数部分</span><br>            pq_1 = a - b<br>            pq_2 = a + b<br>            pq.append([pq_1, pq_2])  <span class="hljs-comment"># 存入p1q1,p2q2和p1q2,p2q1</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(pq) == <span class="hljs-number">2</span>:  <span class="hljs-comment"># 如果存入两组数据</span><br>                <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 退出循环</span><br>        a += <span class="hljs-number">1</span>  <span class="hljs-comment"># 如果B_2不是完全平方数，a加1后重新循环</span><br> <br>    p1q1, p2q2 = pq[<span class="hljs-number">0</span>]<br>    p1q2, p2q1 = pq[<span class="hljs-number">1</span>]<br>    p1 = gmpy2.gcd(p1q1, p1q2)<br>    p2 = gmpy2.gcd(p2q1, p2q2)<br>    q1 = p1q1 // p1  <span class="hljs-comment"># 需要整除，直接除生成的q1为mpfr类型</span><br>    q2 = p2q2 // p2<br> <br>    varphi_n = (p1-<span class="hljs-number">1</span>)*(q1-<span class="hljs-number">1</span>)*(p2-<span class="hljs-number">1</span>)*(q2-<span class="hljs-number">1</span>)  <span class="hljs-comment"># 求varphi_n</span><br>    d = gmpy2.invert(e, varphi_n)  <span class="hljs-comment"># 求e模varphi_n的逆元d</span><br>    m = <span class="hljs-built_in">pow</span>(c, d, n)  <span class="hljs-comment"># 求m</span><br>    <span class="hljs-keyword">return</span> long_to_bytes(m)<br> <br> <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span>(factor(n))<br> <br></code></pre></td></tr></table></figure>
+
+<h1 id="Flag"><a href="#Flag" class="headerlink" title="Flag"></a>Flag</h1><p>​<code>ctfshow{you_Know__doub1e_g2_1s_g4_s1m0n}</code>​</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Guanz/p/17909958.html#%E9%A2%98%E7%9B%AE-4">【Loading 8&#x2F;9】Crypto_ctfshow_WriteUp | _新手必刷_菜狗杯 - Guanz - 博客园</a></p>
+<p><a href="%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P24.%E5%B9%B3%E6%96%B9%E5%B7%AE%E9%81%8D%E5%8E%86%E6%B3%95.md">P24.平方差遍历法</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>g4的密码小课堂</div>
+      <div>https://stefansky07.github.io/2026/04/15/ctf_publish_ready/01-刷题笔记/日常题单/Crypto/g4的密码小课堂/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E4%B8%80%E6%AE%B5base64%EF%BC%88%E5%A4%9A%E5%B1%82%E5%A5%97%E5%A8%83%EF%BC%89/" title="一段base64（多层套娃）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">一段base64（多层套娃）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/math_rsa/" title="math_rsa">
+                        <span class="hidden-mobile">math_rsa</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
