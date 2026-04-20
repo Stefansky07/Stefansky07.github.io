@@ -1,0 +1,40 @@
+# Theme overrides live in the site content tree so the blog can be tracked
+# without editing the Fluid theme repository itself.
+
+navbar:
+  blog_title: "Stefansky"
+  menu:
+    - { key: "home", link: "/", icon: "iconfont icon-home-fill" }
+    - { key: "archive", link: "/archives/", icon: "iconfont icon-archive-fill" }
+    - { key: "category", link: "/categories/", icon: "iconfont icon-category-fill" }
+    - { key: "tag", link: "/tags/", icon: "iconfont icon-tags-fill" }
+    - { key: "links", link: "/links/", icon: "iconfont icon-link-fill" }
+    - { key: "about", link: "/about/", icon: "iconfont icon-user-fill" }
+
+fun_features:
+  typing:
+    enable: false
+
+index:
+  slogan:
+    enable: false
+
+links:
+  title: "友链"
+  subtitle: "友链"
+  items: []
+  onerror_avatar: /img/avatar.png
+  custom:
+    enable: false
+
+static_prefix:
+  bootstrap: //lib.baomitu.com/twitter-bootstrap/4.6.1/
+  github_markdown: //lib.baomitu.com/github-markdown-css/4.0.0/
+  jquery: //lib.baomitu.com/jquery/3.6.4/
+  fancybox: //lib.baomitu.com/fancybox/3.5.7/
+  nprogress: //lib.baomitu.com/nprogress/0.2.0/
+  hint: //lib.baomitu.com/hint.css/2.7.0/
+  typed: //lib.baomitu.com/typed.js/2.0.12/
+  anchor: //lib.baomitu.com/anchor-js/5.0.0/
+  tocbot: //lib.baomitu.com/tocbot/4.20.1/
+  clipboard: //lib.baomitu.com/clipboard.js/2.0.11/
