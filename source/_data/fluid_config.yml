@@ -16,8 +16,22 @@ fun_features:
     enable: false
 
 index:
+  banner_img: /img/default.png
+  banner_img_height: 100
+  banner_mask_alpha: 0.3
   slogan:
     enable: false
+
+about:
+  banner_img: /img/default.png
+  banner_img_height: 60
+  banner_mask_alpha: 0.3
+  avatar: /img/avatar.png
+  name: "Stefansky"
+  intro: "在读大学生 CTF密码手"
+  icons:
+    - { class: "iconfont icon-github-fill", link: "https://github.com/Stefansky07", tip: "GitHub" }
+    - { class: "iconfont icon-zhihu-fill", link: "https://www.zhihu.com/people/yu-yuan-chang-meng", tip: "知乎" }
 
 links:
   title: "友链"
