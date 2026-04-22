@@ -1,6 +1,14 @@
 ---
 title: "RSA综合脚本利用"
 date: 2025-11-17 21:47:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 目录索引
 disableNunjucks: true
 ---
 # RSA综合脚本利用

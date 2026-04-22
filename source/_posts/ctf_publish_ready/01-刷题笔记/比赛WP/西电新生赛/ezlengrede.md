@@ -1,6 +1,15 @@
 ---
 title: "ezlengrede"
 date: 2025-04-08 11:46:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - 勒让德符号
+  - 二次剩余
 disableNunjucks: true
 ---
 # ezlengrede

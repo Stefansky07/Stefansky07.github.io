@@ -1,6 +1,15 @@
 ---
 title: "rsa_revenge"
 date: 2025-04-11 13:00:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - RSA
+  - 反素数
 disableNunjucks: true
 ---
 # rsa_revenge

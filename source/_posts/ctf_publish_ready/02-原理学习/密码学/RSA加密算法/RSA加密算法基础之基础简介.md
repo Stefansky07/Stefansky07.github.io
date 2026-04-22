@@ -1,6 +1,13 @@
 ---
 title: "RSA加密算法基础之基础简介"
 date: 2025-11-14 20:33:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - RSA
+  - 密码学基础
+  - 非对称加密
 disableNunjucks: true
 ---
 # RSA加密算法基础之基础简介

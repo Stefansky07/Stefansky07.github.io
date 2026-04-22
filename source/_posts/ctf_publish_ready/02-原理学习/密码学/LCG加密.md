@@ -1,6 +1,13 @@
 ---
 title: "LCG加密"
 date: 2025-09-14 22:21:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - LCG
+  - 伪随机数
+  - 数论
 disableNunjucks: true
 ---
 # LCG加密

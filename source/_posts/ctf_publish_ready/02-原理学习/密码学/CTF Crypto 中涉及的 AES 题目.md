@@ -1,6 +1,13 @@
 ---
 title: "CTF Crypto 中涉及的 AES 题目"
 date: 2025-09-11 21:07:00
+categories:
+  - 密码学笔记
+  - 密码学应用
+tags:
+  - AES
+  - Crypto
+  - 分组模式
 disableNunjucks: true
 ---
 # CTF Crypto 中涉及的 AES 题目

@@ -1,6 +1,15 @@
 ---
 title: "factordb (中级)"
 date: 2025-02-08 14:11:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - RSA
+  - Crypto
+  - factordb
+  - 因数分解
 disableNunjucks: true
 ---
 # factordb (中级)

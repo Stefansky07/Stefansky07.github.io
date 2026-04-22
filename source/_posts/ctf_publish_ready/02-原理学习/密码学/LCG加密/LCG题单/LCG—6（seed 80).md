@@ -1,14 +1,14 @@
 ---
 title: "LCG—6（seed 80)"
 date: 2025-09-24 02:03:00
-disableNunjucks: true
-tags:
-  - CTF
-  - Crypto
 categories:
   - CTF学习笔记
-  - LCG题单
-source_note: "D:/1400note/1410CS学习笔记/CTF学习笔记.md/原理学习笔记/密码学/LCG加密/LCG题单/LCG—6（seed 80).md"
+  - 刷题记录
+tags:
+  - 题单
+  - LCG
+  - Crypto
+disableNunjucks: true
 ---
 # LCG—6（seed 80)
 
@@ -109,6 +109,7 @@ def small_roots(f, bounds, m=1, d=None):
 
 这是一个格密码，有点过于复杂了目前对我来说，先挖个坑在这里。
 [[浅尝 Lattice 之 HNP-安全客 - 安全资讯平台 (anquanke.com)](https://www.anquanke.com/post/id/204846#h2-0)]()
+
 
 
 

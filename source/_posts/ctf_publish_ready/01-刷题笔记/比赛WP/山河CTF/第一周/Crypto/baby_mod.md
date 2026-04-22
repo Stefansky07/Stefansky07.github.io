@@ -1,6 +1,15 @@
 ---
 title: "baby_mod"
 date: 2025-03-25 06:50:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山河CTF
+  - 第一周
+  - Crypto
+  - RSA
 disableNunjucks: true
 ---
 # baby_mod

@@ -1,6 +1,14 @@
 ---
 title: "安装ciphey的一些碎碎念"
 date: 2025-08-30 16:48:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - Crypto
+  - ciphey
+  - 工具安装
 disableNunjucks: true
 ---
 # 安装ciphey的一些碎碎念

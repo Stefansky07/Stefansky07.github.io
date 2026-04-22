@@ -1,6 +1,14 @@
 ---
 title: "已知 n、e、c、p、q 批量求 m (n 分解) (Roll 按行加密)"
 date: 2025-12-07 05:11:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 批量解密
 disableNunjucks: true
 ---
 # 已知 n、e、c、p、q 批量求 m (n 分解) (Roll 按行加密)
@@ -75,5 +83,6 @@ c=704796792
 ```python
 
 ```
+
 
 

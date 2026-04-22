@@ -1,6 +1,15 @@
 ---
 title: "e咋这么大"
 date: 2025-01-04 01:14:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 2024技能兴鲁
+  - Crypto
+  - RSA
+  - 维纳攻击
 disableNunjucks: true
 ---
 # e咋这么大

@@ -1,6 +1,14 @@
 ---
 title: "ezhash"
 date: 2025-04-06 11:09:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - SHA256
 disableNunjucks: true
 ---
 # ezhash

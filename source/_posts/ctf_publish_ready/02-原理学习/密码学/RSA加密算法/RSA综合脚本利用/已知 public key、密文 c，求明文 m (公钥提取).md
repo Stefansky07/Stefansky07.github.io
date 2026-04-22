@@ -1,6 +1,14 @@
 ---
 title: "已知 public key、密文 c，求明文 m (公钥提取)"
 date: 2025-12-14 07:39:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 公钥提取
 disableNunjucks: true
 ---
 # 已知 public key、密文 c，求明文 m (公钥提取)
@@ -57,5 +65,6 @@ with open('flag.enc','rb') as f:
     flag = cipher.decrypt(c)
     print(flag)
 ```
+
 
 

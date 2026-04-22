@@ -1,6 +1,15 @@
 ---
 title: "已知 p、q、dp、dq、c 求明文 m (dp、dq 泄露)"
 date: 2025-12-12 07:02:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - dp泄露
+  - dq泄露
 disableNunjucks: true
 ---
 # 已知 p、q、dp、dq、c 求明文 m (dp、dq 泄露)
@@ -38,5 +47,6 @@ print(hex(m))                  #转为十六进制
 ```python
 
 ```
+
 
 

@@ -1,6 +1,14 @@
 ---
 title: "已知 e、m1、m2、n、pq 接近 ,求原 m"
 date: 2025-11-29 02:06:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 费马分解
 disableNunjucks: true
 ---
 # 已知 e、m1、m2、n、pq 接近 ,求原 m
@@ -42,5 +50,6 @@ print(cun.long_to_bytes(F1))
 print(cun.long_to_bytes(F2))
 print(cun.long_to_bytes(F2)+cun.long_to_bytes(F1))
 ```
+
 
 

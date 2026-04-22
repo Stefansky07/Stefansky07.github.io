@@ -1,6 +1,14 @@
 ---
 title: "baby_eqution"
 date: 2025-04-03 09:55:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - 代数求解
 disableNunjucks: true
 ---
 # baby_eqution

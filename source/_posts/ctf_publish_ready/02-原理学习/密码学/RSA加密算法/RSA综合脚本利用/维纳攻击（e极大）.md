@@ -1,7 +1,14 @@
 ---
 title: "维纳攻击（e极大）"
 date: 2025-11-22 23:38:00
-disableNunjucks: true
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 维纳攻击
 ---
 # 维纳攻击（e极大）
 
@@ -22,5 +29,6 @@ print(d)
 
 # print(flag)
 ```
+
 
 

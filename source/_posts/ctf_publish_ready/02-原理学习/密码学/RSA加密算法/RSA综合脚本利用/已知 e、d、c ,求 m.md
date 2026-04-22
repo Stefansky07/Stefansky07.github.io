@@ -1,6 +1,14 @@
 ---
 title: "已知 e、d、c ,求 m"
 date: 2025-11-25 00:52:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 私钥恢复
 disableNunjucks: true
 ---
 # 已知 e、d、c ,求 m
@@ -43,5 +51,6 @@ m = pow(c,d,n)
 
 print(n2s(m))
 ```
+
 
 

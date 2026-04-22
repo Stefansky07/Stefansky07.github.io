@@ -1,6 +1,14 @@
 ---
 title: "已知 e、p、q，求 d"
 date: 2025-12-05 04:34:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 私钥恢复
 disableNunjucks: true
 ---
 # 已知 e、p、q，求 d
@@ -94,5 +102,6 @@ def main():
 if __name__ == '__main__':
   main()
 ```
+
 
 

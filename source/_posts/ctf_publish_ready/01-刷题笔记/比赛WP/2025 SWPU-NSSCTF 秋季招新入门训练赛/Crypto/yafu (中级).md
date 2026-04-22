@@ -1,6 +1,15 @@
 ---
 title: "yafu (中级)"
 date: 2025-02-16 17:16:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - RSA
+  - Crypto
+  - yafu
+  - 因数分解
 disableNunjucks: true
 ---
 # yafu (中级)

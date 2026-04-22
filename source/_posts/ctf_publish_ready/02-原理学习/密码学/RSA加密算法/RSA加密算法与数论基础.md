@@ -1,6 +1,12 @@
 ---
 title: "RSA加密算法与数论基础"
 date: 2025-11-15 21:10:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - RSA
+  - 数论
 disableNunjucks: true
 ---
 # RSA加密算法与数论基础

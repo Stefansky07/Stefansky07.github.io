@@ -1,14 +1,14 @@
 ---
 title: "LCG—7（二元LCG）"
 date: 2025-09-26 02:40:00
-disableNunjucks: true
-tags:
-  - CTF
-  - Crypto
 categories:
   - CTF学习笔记
-  - LCG题单
-source_note: "D:/1400note/1410CS学习笔记/CTF学习笔记.md/原理学习笔记/密码学/LCG加密/LCG题单/LCG—7（二元LCG）.md"
+  - 刷题记录
+tags:
+  - 题单
+  - LCG
+  - Crypto
+disableNunjucks: true
 ---
 # LCG—7（二元LCG）
 
@@ -76,6 +76,7 @@ c = (data[4] - a * data[3] - b * data[2]) % n
 ```
 
 # 五：感悟
+
 
 
 

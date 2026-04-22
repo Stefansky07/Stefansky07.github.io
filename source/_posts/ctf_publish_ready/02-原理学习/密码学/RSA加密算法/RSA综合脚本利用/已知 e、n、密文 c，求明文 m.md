@@ -1,6 +1,14 @@
 ---
 title: "已知 e、n、密文 c，求明文 m"
 date: 2025-11-30 02:43:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 因数分解
 disableNunjucks: true
 ---
 # 已知 e、n、密文 c，求明文 m
@@ -33,5 +41,6 @@ m = gmpy2.powmod(c,d,n)
 print(binascii.unhexlify(hex(m)[2:]))
 #binascii.unhexlify(hexstr):从十六进制字符串hexstr返回二进制数据
 ```
+
 
 

@@ -1,6 +1,14 @@
 ---
 title: "已知e、p、q、密文c，求明文m"
 date: 2025-12-17 08:53:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 私钥恢复
 disableNunjucks: true
 ---
 # 已知e、p、q、密文c，求明文m
@@ -37,5 +45,6 @@ print(m)
 ```python
 
 ```
+
 
 

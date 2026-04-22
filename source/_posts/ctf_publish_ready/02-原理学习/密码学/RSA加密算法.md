@@ -1,6 +1,13 @@
 ---
 title: "RSA加密算法"
 date: 2025-09-29 03:54:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - RSA
+  - 非对称加密
+  - 数论
 disableNunjucks: true
 ---
 # RSA加密算法

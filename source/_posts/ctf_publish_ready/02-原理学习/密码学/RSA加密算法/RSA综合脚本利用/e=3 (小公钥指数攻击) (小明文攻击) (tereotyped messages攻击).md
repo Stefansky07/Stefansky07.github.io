@@ -1,7 +1,15 @@
 ---
 title: "e=3 (小公钥指数攻击) (小明文攻击) (tereotyped messages攻击)"
 date: 2025-12-19 09:30:00
-disableNunjucks: true
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 低指数攻击
+  - 小明文攻击
 ---
 # e=3 (小公钥指数攻击) (小明文攻击) (tereotyped messages攻击)
 
@@ -43,5 +51,6 @@ while 1:
 ```python
 
 ```
+
 
 

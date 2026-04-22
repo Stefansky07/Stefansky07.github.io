@@ -1,6 +1,15 @@
 ---
 title: "这个n是什么"
 date: 2025-01-01 00:00:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 2024技能兴鲁
+  - Crypto
+  - RSA
+  - 单素数RSA
 disableNunjucks: true
 ---
 # 这个n是什么

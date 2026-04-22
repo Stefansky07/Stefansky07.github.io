@@ -1,6 +1,14 @@
 ---
 title: "Crypto_in_CTFRu_Men_Zhi_Bei_"
 date: 2025-04-04 10:32:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - RSA
 disableNunjucks: true
 ---
 # Crypto_in_CTFRu_Men_Zhi_Bei_

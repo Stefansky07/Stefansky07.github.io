@@ -1,6 +1,14 @@
 ---
 title: "SM"
 date: 2025-03-14 02:31:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山东信院CTF
+  - Crypto
+  - SM4
 disableNunjucks: true
 ---
 # SM

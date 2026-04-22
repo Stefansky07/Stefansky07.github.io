@@ -1,6 +1,15 @@
 ---
 title: "RSA"
 date: 2025-03-12 01:54:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山东信院CTF
+  - Crypto
+  - RSA
+  - 签到题
 disableNunjucks: true
 ---
 # RSA

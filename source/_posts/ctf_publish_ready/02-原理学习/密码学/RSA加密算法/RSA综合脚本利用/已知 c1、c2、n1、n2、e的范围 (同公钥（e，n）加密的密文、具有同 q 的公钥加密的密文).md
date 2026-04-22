@@ -1,6 +1,15 @@
 ---
 title: "已知 c1、c2、n1、n2、e的范围 (同公钥（e，n）加密的密文、具有同 q 的公钥加密的密文)"
 date: 2025-11-24 00:15:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 共模攻击
+  - 同q攻击
 disableNunjucks: true
 ---
 # 已知 c1、c2、n1、n2、e的范围 (同公钥（e，n）加密的密文、具有同 q 的公钥加密的密文)
@@ -83,5 +92,6 @@ m = pow(c, gmpy2.invert(e, (q-1) * (p-1)), n)
 print(long_to_bytes(m))
 #b'BJD{p_is_common_divisor}'
 ```
+
 
 

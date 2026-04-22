@@ -1,14 +1,14 @@
 ---
 title: "LCG—2(求初始seed）"
 date: 2025-09-18 23:35:00
-disableNunjucks: true
-tags:
-  - CTF
-  - Crypto
 categories:
   - CTF学习笔记
-  - LCG题单
-source_note: "D:/1400note/1410CS学习笔记/CTF学习笔记.md/原理学习笔记/密码学/LCG加密/LCG题单/LCG—2(求初始seed）.md"
+  - 刷题记录
+tags:
+  - 题单
+  - LCG
+  - Crypto
+disableNunjucks: true
 ---
 # LCG—2(求初始seed）
 
@@ -76,6 +76,7 @@ print(long_to_bytes(seed)
 ```
 
 # 五：感悟
+
 
 
 

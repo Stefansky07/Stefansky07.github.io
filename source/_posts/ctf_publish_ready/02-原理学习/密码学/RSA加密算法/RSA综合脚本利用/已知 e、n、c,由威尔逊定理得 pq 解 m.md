@@ -1,6 +1,14 @@
 ---
 title: "已知 e、n、c,由威尔逊定理得 pq 解 m"
 date: 2025-12-04 03:57:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 威尔逊定理
 disableNunjucks: true
 ---
 # 已知 e、n、c,由威尔逊定理得 pq 解 m
@@ -44,5 +52,6 @@ d= invert(e,phi)
 m= pow(c,int(d),n)
 print(n2s(m))
 ```
+
 
 

@@ -1,6 +1,13 @@
 ---
 title: "new_system"
 date: 2025-04-09 12:23:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
 disableNunjucks: true
 ---
 # new_system

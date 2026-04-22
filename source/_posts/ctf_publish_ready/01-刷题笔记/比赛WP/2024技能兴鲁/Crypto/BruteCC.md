@@ -1,6 +1,15 @@
 ---
 title: "BruteCC"
 date: 2025-01-02 00:37:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 2024技能兴鲁
+  - Crypto
+  - 对称加密
+  - 爆破
 disableNunjucks: true
 ---
 # BruteCC

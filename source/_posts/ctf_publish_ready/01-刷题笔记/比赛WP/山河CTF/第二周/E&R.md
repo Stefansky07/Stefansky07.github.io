@@ -1,6 +1,16 @@
 ---
 title: "E&R"
 date: 2025-03-19 04:22:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山河CTF
+  - 第二周
+  - Crypto
+  - RSA
+  - ECC
 disableNunjucks: true
 ---
 # E&R

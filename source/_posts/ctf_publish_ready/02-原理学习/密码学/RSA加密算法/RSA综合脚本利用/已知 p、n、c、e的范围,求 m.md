@@ -1,6 +1,14 @@
 ---
 title: "已知 p、n、c、e的范围,求 m"
 date: 2025-12-10 06:25:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - e爆破
 disableNunjucks: true
 ---
 # 已知 p、n、c、e的范围,求 m
@@ -48,5 +56,6 @@ for e in range ( 50000, 70000 ):
 ```python
 
 ```
+
 
 

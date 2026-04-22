@@ -1,6 +1,15 @@
 ---
 title: "ez_rsa"
 date: 2025-01-06 01:51:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 2024技能兴鲁
+  - Crypto
+  - RSA
+  - 已知pq
 disableNunjucks: true
 ---
 # ez_rsa

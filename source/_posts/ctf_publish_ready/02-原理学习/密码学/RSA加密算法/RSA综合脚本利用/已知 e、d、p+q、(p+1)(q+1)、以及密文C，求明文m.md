@@ -1,6 +1,14 @@
 ---
 title: "已知 e、d、p+q、(p+1)(q+1)、以及密文C，求明文m"
 date: 2025-11-27 01:29:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 参数泄露
 disableNunjucks: true
 ---
 # 已知 e、d、p+q、(p+1)(q+1)、以及密文C，求明文m
@@ -23,5 +31,6 @@ n = b-a-1
 m = pow(c,d,n)
 print(libnum.n2s(m))  #（n2s将数值转化为字符串）
 ```
+
 
 

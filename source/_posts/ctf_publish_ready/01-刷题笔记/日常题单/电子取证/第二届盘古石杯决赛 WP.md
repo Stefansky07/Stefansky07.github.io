@@ -325,7 +325,7 @@ IPA 太难了，已经累了，求教。
 
 ![](https://i-blog.csdnimg.cn/blog_migrate/b6f4597c7218adfa6ecad4a9bfd82cb9.png)
 
-##### 4、分析计算机检材，计算机的 TOR 浏览器记录第一个有 cookie 的暗网地址是：[答案格式: http://sjiajjaksd.onion][★★☆☆☆]
+##### 4、分析计算机检材，计算机的 TOR 浏览器记录第一个有 cookie 的暗网地址是：[答案格式: `http://sjiajjaksd.onion`][★★☆☆☆]
 
 ![](https://i-blog.csdnimg.cn/blog_migrate/9847ee54545b743b4019acdb399c491b.png)
 
@@ -467,7 +467,7 @@ IPA 太难了，已经累了，求教。
 
 这不就找到了吗
 
-##### 4、分析 V 服务器，正在使用的 XSS 平台中接受到哪个网站的管理员的 cookie：[答案格式：http://www.baidu.com][★★★☆☆]
+##### 4、分析 V 服务器，正在使用的 XSS 平台中接受到哪个网站的管理员的 cookie：[答案格式：`http://www.baidu.com`][★★★☆☆]
 
 XSS 平台，其实刚才网站都搭好，进去都找了半天了。这个网站好搭得一批，除了需要修改一下 IP。因为网站限制 IP 为 192.168.11.188，其实也就是工作 IP 为这个，需要修改虚拟机 IP 段，或者修改网站 config.conf 文件。
 
@@ -648,7 +648,7 @@ kali，手机，但是不是 nethunter，那应该是 termux 里面的，去 dat
 
 ![](https://i-blog.csdnimg.cn/blog_migrate/64b8dc26a62ba65cc0140e45002e441c.png)
 
-##### 25、分析安卓手机检材，存在 sql 注入漏洞的网站网址是：[答案格式: http://23.22.41.19:8888][★★☆☆☆]
+##### 25、分析安卓手机检材，存在 sql 注入漏洞的网站网址是：[答案格式: `http://23.22.41.19:8888`][★★☆☆☆]
 
 /home 目录下有个 sqlmap 目标文件，大概率是这个
 

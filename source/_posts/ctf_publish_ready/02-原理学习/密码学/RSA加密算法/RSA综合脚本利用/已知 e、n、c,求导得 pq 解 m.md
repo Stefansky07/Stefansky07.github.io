@@ -1,6 +1,14 @@
 ---
 title: "已知 e、n、c,求导得 pq 解 m"
 date: 2025-12-02 03:20:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 参数求解
 disableNunjucks: true
 ---
 # 已知 e、n、c,求导得 pq 解 m
@@ -27,5 +35,6 @@ m=gmpy2.powmod(c,d,n)
 import binascii
 print(binascii.unhexlify(hex(m)[2:]))
 ```
+
 
 

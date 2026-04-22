@@ -1,6 +1,15 @@
 ---
 title: "Winner"
 date: 2025-03-15 03:08:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山东信院CTF
+  - Crypto
+  - RSA
+  - 维纳攻击
 disableNunjucks: true
 ---
 # Winner

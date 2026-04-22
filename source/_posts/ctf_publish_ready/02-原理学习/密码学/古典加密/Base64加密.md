@@ -1,6 +1,13 @@
 ---
 title: "Base64加密"
 date: 2025-08-28 16:11:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - Base64
+  - 编码
+  - 基础知识
 disableNunjucks: true
 ---
 # Base64加密

@@ -1,14 +1,14 @@
 ---
 title: "LCG—3(求b）"
 date: 2025-09-19 00:12:00
-disableNunjucks: true
-tags:
-  - CTF
-  - Crypto
 categories:
   - CTF学习笔记
-  - LCG题单
-source_note: "D:/1400note/1410CS学习笔记/CTF学习笔记.md/原理学习笔记/密码学/LCG加密/LCG题单/LCG—3(求b）.md"
+  - 刷题记录
+tags:
+  - 题单
+  - LCG
+  - Crypto
+disableNunjucks: true
 ---
 # LCG—3(求b）
 
@@ -75,6 +75,7 @@ print(long_to_bytes(plaintext))
 ```
 
 # 五：感悟
+
 
 
 

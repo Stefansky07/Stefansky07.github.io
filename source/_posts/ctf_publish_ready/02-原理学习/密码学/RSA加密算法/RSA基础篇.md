@@ -1,6 +1,13 @@
 ---
 title: "RSA基础篇"
 date: 2025-10-01 04:31:00
+categories:
+  - 密码学笔记
+  - 理论研究
+tags:
+  - RSA
+  - 数论基础
+  - 模运算
 disableNunjucks: true
 ---
 # RSA基础篇

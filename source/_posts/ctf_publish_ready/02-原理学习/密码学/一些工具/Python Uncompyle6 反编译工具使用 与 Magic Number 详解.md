@@ -1,6 +1,14 @@
 ---
 title: "Python Uncompyle6 反编译工具使用 与 Magic Number 详解"
 date: 2025-09-04 18:39:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - Uncompyle6
+  - 反编译
+  - 工具
 disableNunjucks: true
 ---
 # Python Uncompyle6 反编译工具使用 与 Magic Number 详解

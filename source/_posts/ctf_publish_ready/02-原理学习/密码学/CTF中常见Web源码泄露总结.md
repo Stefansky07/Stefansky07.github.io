@@ -1,6 +1,14 @@
 ---
 title: "CTF中常见Web源码泄露总结"
 date: 2025-09-12 21:44:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - Web
+  - 源码泄露
+  - 工具实操
 disableNunjucks: true
 ---
 # CTF中常见Web源码泄露总结 

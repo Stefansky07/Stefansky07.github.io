@@ -1,6 +1,14 @@
 ---
 title: "P22单素数rsa"
 date: 2025-11-07 18:05:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 单素数RSA
 disableNunjucks: true
 ---
 # P22单素数rsa
@@ -47,5 +55,6 @@ d=inverse(e,phi)
 m=pow(c,d,n)
 print(libnum.n2s(m).decode())
 ```
+
 
 

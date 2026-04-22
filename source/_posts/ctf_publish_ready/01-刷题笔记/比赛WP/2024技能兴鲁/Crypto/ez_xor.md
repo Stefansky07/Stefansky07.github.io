@@ -1,6 +1,15 @@
 ---
 title: "ez_xor"
 date: 2025-01-09 03:05:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 2024技能兴鲁
+  - Crypto
+  - RSA
+  - XOR
 disableNunjucks: true
 ---
 # ez_xor

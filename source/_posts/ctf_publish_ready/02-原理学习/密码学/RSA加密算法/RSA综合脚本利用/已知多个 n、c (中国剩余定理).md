@@ -1,7 +1,14 @@
 ---
 title: "已知多个 n、c (中国剩余定理)"
 date: 2025-12-15 08:16:00
-disableNunjucks: true
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - CRT
 ---
 # 已知多个 n、c (中国剩余定理)
 
@@ -53,5 +60,6 @@ print(long_to_bytes(m))
 ```python
 
 ```
+
 
 

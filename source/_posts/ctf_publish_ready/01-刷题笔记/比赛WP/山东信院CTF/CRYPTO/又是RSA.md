@@ -1,6 +1,15 @@
 ---
 title: "又是RSA"
 date: 2025-03-10 01:17:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山东信院CTF
+  - Crypto
+  - RSA
+  - p+q泄露
 disableNunjucks: true
 ---
 # 又是RSA

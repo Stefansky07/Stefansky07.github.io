@@ -1,6 +1,15 @@
 ---
 title: "small and big"
 date: 2025-04-15 14:14:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 西电新生赛
+  - Crypto
+  - RSA
+  - 低指数攻击
 disableNunjucks: true
 ---
 # small and big

@@ -1,6 +1,14 @@
 ---
 title: "yafu使用笔记"
 date: 2025-09-06 19:16:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - RSA
+  - yafu
+  - 因数分解
 disableNunjucks: true
 ---
 # yafu使用笔记

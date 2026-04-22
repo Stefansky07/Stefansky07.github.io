@@ -1,6 +1,14 @@
 ---
 title: "basecrack"
 date: 2025-09-02 18:02:00
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - Script
+  - Crypto
+  - basecrack
+  - 工具
 disableNunjucks: true
 ---
 # basecrack

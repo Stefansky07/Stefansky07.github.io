@@ -1,6 +1,16 @@
 ---
 title: "d_know"
 date: 2025-03-27 07:27:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山河CTF
+  - 第一周
+  - Crypto
+  - RSA
+  - d泄露
 disableNunjucks: true
 ---
 # d_know

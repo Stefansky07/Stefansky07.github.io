@@ -1,7 +1,14 @@
 ---
 title: "已知 n、e、dp、c，求m (dp 泄露)"
 date: 2025-12-09 05:48:00
-disableNunjucks: true
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - dp泄露
 ---
 # 已知 n、e、dp、c，求m (dp 泄露)
 
@@ -47,5 +54,6 @@ for x in range(1, e):
 ```python
 
 ```
+
 
 

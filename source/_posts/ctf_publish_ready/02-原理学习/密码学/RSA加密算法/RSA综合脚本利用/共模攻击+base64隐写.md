@@ -1,7 +1,15 @@
 ---
 title: "共模攻击+base64隐写"
 date: 2025-11-20 23:01:00
-disableNunjucks: true
+categories:
+  - CTF学习笔记
+  - 脚本
+tags:
+  - RSA
+  - Script
+  - Crypto
+  - 共模攻击
+  - Base64隐写
 ---
 # 共模攻击+base64隐写
 
@@ -80,5 +88,6 @@ for i in ans:
         flag=flag
 print(bytes_to_string(flag))
 ```
+
 
 

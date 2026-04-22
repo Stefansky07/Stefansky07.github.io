@@ -1,6 +1,15 @@
 ---
 title: "Hello Crypto"
 date: 2025-04-01 09:18:00
+categories:
+  - CTF学习笔记
+  - 比赛WP
+tags:
+  - WP
+  - 山河CTF
+  - 第一周
+  - Crypto
+  - 签到题
 disableNunjucks: true
 ---
 # Hello Crypto
