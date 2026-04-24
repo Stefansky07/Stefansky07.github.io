@@ -1,0 +1,636 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="月月的爱情故事 读了题目的文字，然后被刀了……但还是要向前看，做一个坚强又勇敢的人好了碎碎念结束  一、原题原题就是一段文字，一串字符和一个 hint。 二、解题过程1.base64 解码首先看到那行字符很像 base64，那就先解码 base64 试一试嘛，放 cyberchef 里面自动就能识别为 base64 然后解出来如下结果  U2FsdGVkX1&#x2F;bVF45zytlkeEhe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="月月的爱情故事">
+<meta property="og:url" content="https://stefansky07.github.io/2025/06/04/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E6%9C%88%E6%9C%88%E7%9A%84%E7%88%B1%E6%83%85%E6%95%85%E4%BA%8B/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="月月的爱情故事 读了题目的文字，然后被刀了……但还是要向前看，做一个坚强又勇敢的人好了碎碎念结束  一、原题原题就是一段文字，一串字符和一个 hint。 二、解题过程1.base64 解码首先看到那行字符很像 base64，那就先解码 base64 试一试嘛，放 cyberchef 里面自动就能识别为 base64 然后解出来如下结果  U2FsdGVkX1&#x2F;bVF45zytlkeEhe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/ec2d317685c34ec296840adb4fce16b8.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/02a34d0dfa35f19ae02fcae6e4b70270.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/51cf21402102eddeb3b13f7ced97af50.png">
+<meta property="og:image" content="https://i-blog.csdnimg.cn/blog_migrate/a7db65a91bbe61a61ebea082c84bae11.png">
+<meta property="article:published_time" content="2025-06-04T00:44:00.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:09:46.540Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i-blog.csdnimg.cn/blog_migrate/ec2d317685c34ec296840adb4fce16b8.png">
+  
+  
+  
+  <title>月月的爱情故事 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">月月的爱情故事</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-04 08:44" pubdate>
+          2025年6月4日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">月月的爱情故事</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="月月的爱情故事"><a href="#月月的爱情故事" class="headerlink" title="月月的爱情故事"></a>月月的爱情故事</h1><blockquote>
+<p>读了题目的文字，然后被刀了……<br>但还是要向前看，做一个坚强又勇敢的人<br>好了碎碎念结束</p>
+</blockquote>
+<h3 id="一、原题"><a href="#一、原题" class="headerlink" title="一、原题"></a>一、原题</h3><p>原题就是一段文字，一串字符和一个 hint。<br><img src="https://i-blog.csdnimg.cn/blog_migrate/ec2d317685c34ec296840adb4fce16b8.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="二、解题过程"><a href="#二、解题过程" class="headerlink" title="二、解题过程"></a>二、解题过程</h3><h4 id="1-base64-解码"><a href="#1-base64-解码" class="headerlink" title="1.base64 解码"></a>1.base64 解码</h4><p>首先看到那行字符很像 base64，那就先<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%A7%A3%E7%A0%81base64&spm=1001.2101.3001.7020">解码 base64</a> 试一试嘛，放 cyberchef 里面自动就能识别为 base64 然后解出来如下结果<br><img src="https://i-blog.csdnimg.cn/blog_migrate/02a34d0dfa35f19ae02fcae6e4b70270.png" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>U2FsdGVkX1&#x2F;bVF45zytlkeEhefAqkpHQdMqtULk2OibLq79NHJMm9rP3CtkKrE41<br>CaBJmMIVcUVSb3IzpHeuWw&#x3D;&#x3D;</p>
+</blockquote>
+<p><strong>如果之前做过类似的题，就能知道这东西一看就是 Rabbit 或 AES 加密的结果</strong><br>那我先随便猜一个，会不会密钥是 2024 的 Rabbit 加密呢？然鹅并不是。<br>会不会下面一行能解出来密钥呢？然鹅也不能。<br>hint 说试试摩斯，我寻思这和摩斯有啥关系啊喂（x</p>
+<h4 id="2-解摩斯密码获得密钥"><a href="#2-解摩斯密码获得密钥" class="headerlink" title="2. 解摩斯密码获得密钥"></a>2. 解摩斯密码获得密钥</h4><p>后来看了 wp 才知道，上面那段很美好的文字里，<strong>只有三种标点符号</strong>，按出现的先后顺序排列，是中文的。，！<br>然后依次将。替换成.<br>将，替换成 -<br>将！替换成空格<br>就得到了一串摩斯密码<br>所以浅写一段 python 脚本提取出标点并替换成摩斯密码吧 <sup>_</sup></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">s=<span class="hljs-string">&#x27;你知道吗。月月今天遇到了一个让他心动的女孩，她的名字叫做小雨，太幸运了。小雨是一个活泼可爱的女孩！她的笑容如同春天里的阳光。温暖了月月的心，月月第一次见到小雨是在图书馆里！事情是这样的。当时小雨正在专心致志地看书。阳光洒在她的脸上。让她看起来如同天使一般美丽！月月被小雨的美丽和才华所吸引。开始暗暗关注她。在接下来的日子里。月月开始尝试与小雨接触！和她聊天和学习。他们有着许多共同的兴趣爱好，一起度过了许多快乐的时光，渐渐地！月月发现自己对小雨产生了特殊的感情，他开始向小雨表达自己的心意，然而，小雨并没有立即接受月月的感情！她告诉月月。她曾经受过感情的伤害，需要时间来慢慢修复自己的心灵。月月尊重小雨的决定！他开始用更多的时间和精力来陪伴小雨，帮助她走出过去的阴影。在接下来的几个月里。月月和小雨的关系逐渐升温！他们一起参加了许多校园活动。一起探索了那个城市的角角落落。渐渐地！雨也开始对月月产生了感情。她发现自己越来越依赖他。越来越喜欢他。最终！小雨和月月走到了一起，他们的爱情故事成为了校园里的佳话。让同学们都羡慕不已，他们一起度过了青春岁月，一起经历了成长和进步的喜悦与挫折！他们的感情越来越深厚。也越来越稳定。在他们的恋爱过程中，月月和小雨也学会了如何相处和包容对方！他们互相理解互相支持。一起面对生活中的挑战和困难！他们的爱情让他们变得更加坚强和勇敢，也让他们感受到了生命中最美好的东西。月月相信他们能走得更远，更相信自己不会辜负小雨，当他们遭遇挫折和失败的时候！两人永远不会被打倒。这正是他们彼此爱的力量。在他们空闲的时候，月月经常带小雨出去逛街！晚上一起看电影。有一天！月月说将来他要给小雨一场最美的婚礼，小雨十分感动也十分期盼。就这样。这份约定成为了两人前进的动力。两人共同努力最终一起考上了同一所大学的研究生。两人非常开心彼此深情地看着对方似乎有说不完的情话！研究生三年他们互相帮助一起度过了人生最有意义的大学时光，毕业后两人也很轻松找到了自己心仪的企业。月月没有忘记当初的约定。是的。他要给小雨一场最美好的婚礼。终于！这一天到来了，小雨穿上月月为她定制的婚纱。他们手牵手走向了更美好的未来。场下。所有的嘉宾都为他们鼓掌和欢呼并祝福他们的爱情能够永恒长存。&#x27;</span><br>tmp=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> s:<br>    <span class="hljs-keyword">if</span> i==<span class="hljs-string">&#x27;。&#x27;</span>:<br>        tmp+=<span class="hljs-string">&#x27;.&#x27;</span><br>    <span class="hljs-keyword">elif</span> i==<span class="hljs-string">&#x27;，&#x27;</span>:<br>        tmp+=<span class="hljs-string">&#x27;-&#x27;</span><br>    <span class="hljs-keyword">elif</span> i==<span class="hljs-string">&#x27;！&#x27;</span>:<br>        tmp+=<span class="hljs-string">&#x27; &#x27;</span><br><span class="hljs-built_in">print</span>(tmp) <span class="hljs-comment">#.--. .- ... ... .-- --- .-. -.. .. ... -.-- ..- . -.-- ..- . -.... -.... -....</span><br><br></code></pre></td></tr></table></figure>
+
+<p>将输出结果进行摩斯密码解码，得到 PASSWORDISYUEYUE666<br>其实 YUEYUE666 是 AES 密钥<br><img src="https://i-blog.csdnimg.cn/blog_migrate/51cf21402102eddeb3b13f7ced97af50.png" srcset="/img/loading.gif" lazyload></p>
+<h4 id="3-AES-解密获得-flag"><a href="#3-AES-解密获得-flag" class="headerlink" title="3.AES 解密获得 flag"></a>3.AES 解密获得 flag</h4><p>这里我是用 sojson 在线网站解密的，地址：<a target="_blank" rel="noopener" href="https://www.sojson.com/encrypt_aes.html">https://www.sojson.com/encrypt_aes.html</a><br><img src="https://i-blog.csdnimg.cn/blog_migrate/a7db65a91bbe61a61ebea082c84bae11.png" srcset="/img/loading.gif" lazyload><br>这里的 AES 不是传统的 AES（暂且这么形容吧，因为 AES 密钥长度应为 16bytes，24bytes 或 32bytes，但是这里 YUEYUE666 的长度只有 9bytes）<br>备注：<br>16 bytes &#x3D; AES-128<br>24 bytes &#x3D; AES-192<br>32 bytes &#x3D; AES-256</p>
+<p>看到群里的大佬说这种是基于 AES 的 PBE，大佬真是又温柔又强，我也很想成为这样的人。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>月月的爱情故事</div>
+      <div>https://stefansky07.github.io/2025/06/04/ctf_publish_ready/01-刷题笔记/日常题单/Crypto/月月的爱情故事/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/06/06/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/BASe64%E5%8F%98%E5%BD%A2/" title="BASe64变形">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">BASe64变形</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/06/02/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E4%B8%80%E6%AE%B5base64%EF%BC%88%E5%A4%9A%E5%B1%82%E5%A5%97%E5%A8%83%EF%BC%89/" title="一段base64（多层套娃）">
+                        <span class="hidden-mobile">一段base64（多层套娃）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

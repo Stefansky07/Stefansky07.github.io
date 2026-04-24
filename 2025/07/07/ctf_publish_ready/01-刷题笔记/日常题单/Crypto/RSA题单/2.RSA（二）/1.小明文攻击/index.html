@@ -1,0 +1,627 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="1.小明文攻击一：题目：12345678910111213141516171819202122from Crypto.Util.number import *from gmpy2 import *flag &#x3D; b&#x27;NSSCTF&#123;******&#125;&#x27;p &#x3D; getPrime(5120)q &#x3D; getPrime(5120)n &#x3D; p*qe &#x3D; 97phi &#x3D; (p-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1.小明文攻击">
+<meta property="og:url" content="https://stefansky07.github.io/2025/07/07/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/RSA%E9%A2%98%E5%8D%95/2.RSA%EF%BC%88%E4%BA%8C%EF%BC%89/1.%E5%B0%8F%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="1.小明文攻击一：题目：12345678910111213141516171819202122from Crypto.Util.number import *from gmpy2 import *flag &#x3D; b&#x27;NSSCTF&#123;******&#125;&#x27;p &#x3D; getPrime(5120)q &#x3D; getPrime(5120)n &#x3D; p*qe &#x3D; 97phi &#x3D; (p-">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-07-07T13:04:00.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:09:46.533Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>1.小明文攻击 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">1.小明文攻击</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-07-07 21:04" pubdate>
+          2025年7月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          382 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">1.小明文攻击</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-小明文攻击"><a href="#1-小明文攻击" class="headerlink" title="1.小明文攻击"></a>1.小明文攻击</h1><h1 id="一：题目："><a href="#一：题目：" class="headerlink" title="一：题目："></a>一：题目：</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> *<br><br>flag = <span class="hljs-string">b&#x27;NSSCTF&#123;******&#125;&#x27;</span><br><br>p = getPrime(<span class="hljs-number">5120</span>)<br>q = getPrime(<span class="hljs-number">5120</span>)<br><br>n = p*q<br>e = <span class="hljs-number">97</span><br>phi = (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>m = bytes_to_long(flag)<br>c = powmod(m, e, n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;n = <span class="hljs-subst">&#123;n&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;e = <span class="hljs-subst">&#123;e&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;c = <span class="hljs-subst">&#123;c&#125;</span>&#x27;</span>)<br>  <br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">n = 1392208858696945158251408085300402884210409327605255122395601049457847957306648819174395014931778575812308192875319127224095733396726388842605854427013313599830150182564652493067830031524869535522568868597852507293377043240832819715539722122306829543983051745406887140154364256267942350230636870212935356815475345989038318923389132101208917912083817520799490534351545373438629367819085151041702754019127891155542476560972125790519584018715794669416759039955180436830478697704458250990786586357019211642837879273967620287257818400267757312623543898635740200839249361087580046496969637043238450499583879116276661827372750638403042213043389905183760455450595752578482968202040860053524276678108325784161897719093223308370971388068813420487879756084379519128232693549989942550047529174783976176943482484756074638704076740157397067892580297182979526978967352014250386678155843772313996171396582929433057131989693861316408604436872931427368192437680361830753162284661119995125858203931094922686321756465463988790748131178263745308042820480140189644732824717255521633534750635979508673908361269979175726073254050574688259969290376926807033728165164896588540691889207252105903436659968119091774687841336252628343233161941187968365128093917171537997137001140227677728923114895809278926486615010954871408034272872411042537353956193868948909981683850857262457369506288525323882308421700421661036191853577105238753230479541719001794464585534292774768292358961920606891227776349593589481547577148801600196035588544512224775960892265021565124673788852875005526313525709353599584812394138968970647681759439523307392275602626903789154682706839530654070108096741181206975334567778238856983205004289416400671597321919876279909765650782227834097342294844294386380646928266942749144240020420237153276705785759403019072953506982997681174635673907151856644499332322321579088035719680421458310273802481031746012298208449699089203065699598926690947025679591160106357130634946357609420125223580319677387654711233585375013067828291928349946599077331636017784447090096340360087970540477975170379810969501197027775838769222713506443846417124839450184827707739588007707714623211453528342755023849716924694572679150284882978804641986457119009272574734697043321033091757474387114449914271460113979531460465175717705674905568446670579332667139075523255580471183372714211547822093365025438653384719374474230360983878837077517864405475258349436531094649276628214288499716485354283135575921258757214288792410583835467572916298688718758374714560819702413058421373661892101033513816116981698045524150518509405086125781764762145577981637953775680403132163846782252745029783387112660812179706752454175492501665442704630131729362621965258498471247871904163412798544329515689112368523703890083138721480476796720323855371775568097188216621368341228806795058046403892301673157631331636430392885315997250027372621883549649614866115616619234953579196607399899485002042456482969222428121605212017146571466818179341621066715472184636758016242256725063854155219754299817717414423725704356940589670902509021070871847017199593680033</span><br><span class="hljs-string">e = 97</span><br><span class="hljs-string">c = 79418540691422578656139651796213224829563266521211325595707569487401417030874358531413674275017334363641194166574500833916574827523075402219754470871728896772312056257743844227927800121160288525434484105786180547178403828613331285574461293211150728313415280329153597549251599876668080073528625299164784405291297754331374420687599875173508778209038236713812747215157059659564867241144529476211694011692007565732793105429228730285249025627762831080251661835294067942958070742202862164086250986988784472568266652325462247009294865764533077164470382743735937483173523682749295196383707694876943634298051820105410771024861599560176707940488888601355473498847493259474613261665538825299531665650233837474894442826242097663456648233384047622152817959729025415665280499618951478005159820575701483220155180955748454167435711033379910310483689839303198822665341421591234243891877857520663120183063591818656508336831518527692847950877186870610083654117153248336928856886934232488927132245720058243202637258025864487122393335118118013444397135476780564523166548571927547341556616683070253790368891423731046742936358877118104790084195711730135202600692806999992373490439385845158780392894927697171401722699273071306493916233696254958735540772870249139252741670476667099529502282392011715616110876451102234600267482991583515122052976378641894214562203326290939184469206074418127906704847146567350085797480500249400491003993809769407575997740985283755035509654310797061339563655229926356893455738361409861102662109994984398860070584568014471082484198504331014073023689622378943694856212172718725529473812336321642429261822836311084518735006587545920946664595488768239633950124822001162595168106106356115962424210028401369438479550293237915944302351566624339603616714683958384871326105542659559877758488581425288668613061792514360263277530824203967659102107889148367539858141289229124274098921748855341045565232484417195620758495861456624842263649414501657786484816662971421962216348340311859717286253287173293151613310383128702607971580042308515018120559903265609733911340589091613087560931098833849573462572181625894166772788435459280323623477689159384354671220634694792005231505741029567734616435905915192606539962414882105254409847885996949466940350184140166614950171110955365828033747003120697209120916652982201967537088553504504252785632280900095976870510754563400828951684036526240669112248351928072177486091157562600003336544767896806392523395037345770580482363058065676920013089896399387769312374871419827762872050800055872960573607645266626972865053489632548224840580503746879607167797904430560935476705014800973841917939689270919224595772574781478285359220463175042728750523639669204218676238297875644055563803457896409252533724486937378974745777400567080239687055154021761534918106133195512030935957251049812753269173090858930245212145938555697547499155977225759702066548720079477737104010668116693232798415289735481194922014811945312893853446826780868861295203942063380964100360870361328125</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="二：已知条件："><a href="#二：已知条件：" class="headerlink" title="二：已知条件："></a>二：已知条件：</h1><p>n,e,c</p>
+<h1 id="三：解题思路："><a href="#三：解题思路：" class="headerlink" title="三：解题思路："></a>三：解题思路：</h1><p>可以发现题目中的n很大，此时我们考虑使用暴力方式分解n几乎是不可能的，但假设题目中m的如果很小的话，则有：</p>
+<p>$$<br>m^e&lt;n<br>$$</p>
+<p>那么此时有：</p>
+<p>$$<br>c&#x3D;m^e<br>$$</p>
+<p>也就是在取模的过程中没有丢失任何信息，则我们可以直接开方从而获得m。<br>我们使用gmpy2中的iroot开任意次方，用法为iroot（10.3）代表对10开3次方，返回结果为（mpz（2），False），其中第一项为返回的结果，mpz为gmpy2包中对整数的封装类，看作一个整数即可，第二项代表这个数是否为完全开放的结果，例如10的开三次方并不是一个整数，但gmpy2只会返回取整后的整数值，故我通过第二项我们能够知道是否为完全k次方数。<br>例如iroot（9，2）返回（mpz（3），True）代表9是一个完全平方数。<br>当我们发现n极大的时候可以考虑用小明文攻击<br>完整解题代码如下:</p>
+<h1 id="四：exp："><a href="#四：exp：" class="headerlink" title="四：exp："></a>四：exp：</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> *<br><br>n = <span class="hljs-number">1392208858696945158251408085300402884210409327605255122395601049457847957306648819174395014931778575812308192875319127224095733396726388842605854427013313599830150182564652493067830031524869535522568868597852507293377043240832819715539722122306829543983051745406887140154364256267942350230636870212935356815475345989038318923389132101208917912083817520799490534351545373438629367819085151041702754019127891155542476560972125790519584018715794669416759039955180436830478697704458250990786586357019211642837879273967620287257818400267757312623543898635740200839249361087580046496969637043238450499583879116276661827372750638403042213043389905183760455450595752578482968202040860053524276678108325784161897719093223308370971388068813420487879756084379519128232693549989942550047529174783976176943482484756074638704076740157397067892580297182979526978967352014250386678155843772313996171396582929433057131989693861316408604436872931427368192437680361830753162284661119995125858203931094922686321756465463988790748131178263745308042820480140189644732824717255521633534750635979508673908361269979175726073254050574688259969290376926807033728165164896588540691889207252105903436659968119091774687841336252628343233161941187968365128093917171537997137001140227677728923114895809278926486615010954871408034272872411042537353956193868948909981683850857262457369506288525323882308421700421661036191853577105238753230479541719001794464585534292774768292358961920606891227776349593589481547577148801600196035588544512224775960892265021565124673788852875005526313525709353599584812394138968970647681759439523307392275602626903789154682706839530654070108096741181206975334567778238856983205004289416400671597321919876279909765650782227834097342294844294386380646928266942749144240020420237153276705785759403019072953506982997681174635673907151856644499332322321579088035719680421458310273802481031746012298208449699089203065699598926690947025679591160106357130634946357609420125223580319677387654711233585375013067828291928349946599077331636017784447090096340360087970540477975170379810969501197027775838769222713506443846417124839450184827707739588007707714623211453528342755023849716924694572679150284882978804641986457119009272574734697043321033091757474387114449914271460113979531460465175717705674905568446670579332667139075523255580471183372714211547822093365025438653384719374474230360983878837077517864405475258349436531094649276628214288499716485354283135575921258757214288792410583835467572916298688718758374714560819702413058421373661892101033513816116981698045524150518509405086125781764762145577981637953775680403132163846782252745029783387112660812179706752454175492501665442704630131729362621965258498471247871904163412798544329515689112368523703890083138721480476796720323855371775568097188216621368341228806795058046403892301673157631331636430392885315997250027372621883549649614866115616619234953579196607399899485002042456482969222428121605212017146571466818179341621066715472184636758016242256725063854155219754299817717414423725704356940589670902509021070871847017199593680033</span><br>e = <span class="hljs-number">97</span><br>c = <span class="hljs-number">79418540691422578656139651796213224829563266521211325595707569487401417030874358531413674275017334363641194166574500833916574827523075402219754470871728896772312056257743844227927800121160288525434484105786180547178403828613331285574461293211150728313415280329153597549251599876668080073528625299164784405291297754331374420687599875173508778209038236713812747215157059659564867241144529476211694011692007565732793105429228730285249025627762831080251661835294067942958070742202862164086250986988784472568266652325462247009294865764533077164470382743735937483173523682749295196383707694876943634298051820105410771024861599560176707940488888601355473498847493259474613261665538825299531665650233837474894442826242097663456648233384047622152817959729025415665280499618951478005159820575701483220155180955748454167435711033379910310483689839303198822665341421591234243891877857520663120183063591818656508336831518527692847950877186870610083654117153248336928856886934232488927132245720058243202637258025864487122393335118118013444397135476780564523166548571927547341556616683070253790368891423731046742936358877118104790084195711730135202600692806999992373490439385845158780392894927697171401722699273071306493916233696254958735540772870249139252741670476667099529502282392011715616110876451102234600267482991583515122052976378641894214562203326290939184469206074418127906704847146567350085797480500249400491003993809769407575997740985283755035509654310797061339563655229926356893455738361409861102662109994984398860070584568014471082484198504331014073023689622378943694856212172718725529473812336321642429261822836311084518735006587545920946664595488768239633950124822001162595168106106356115962424210028401369438479550293237915944302351566624339603616714683958384871326105542659559877758488581425288668613061792514360263277530824203967659102107889148367539858141289229124274098921748855341045565232484417195620758495861456624842263649414501657786484816662971421962216348340311859717286253287173293151613310383128702607971580042308515018120559903265609733911340589091613087560931098833849573462572181625894166772788435459280323623477689159384354671220634694792005231505741029567734616435905915192606539962414882105254409847885996949466940350184140166614950171110955365828033747003120697209120916652982201967537088553504504252785632280900095976870510754563400828951684036526240669112248351928072177486091157562600003336544767896806392523395037345770580482363058065676920013089896399387769312374871419827762872050800055872960573607645266626972865053489632548224840580503746879607167797904430560935476705014800973841917939689270919224595772574781478285359220463175042728750523639669204218676238297875644055563803457896409252533724486937378974745777400567080239687055154021761534918106133195512030935957251049812753269173090858930245212145938555697547499155977225759702066548720079477737104010668116693232798415289735481194922014811945312893853446826780868861295203942063380964100360870361328125</span><br><br>m = gmpy2.iroot(c, e)<br><span class="hljs-built_in">print</span>(long_to_bytes(m[<span class="hljs-number">0</span>]))<br></code></pre></td></tr></table></figure>
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>1.小明文攻击</div>
+      <div>https://stefansky07.github.io/2025/07/07/ctf_publish_ready/01-刷题笔记/日常题单/Crypto/RSA题单/2.RSA（二）/1.小明文攻击/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年7月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/07/09/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/RSA%E9%A2%98%E5%8D%95/2.RSA%EF%BC%88%E4%BA%8C%EF%BC%89/2.%E4%BD%8E%E5%8A%A0%E5%AF%86%E6%8C%87%E6%95%B0%E6%94%BB%E5%87%BB/" title="2.低加密指数攻击">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">2.低加密指数攻击</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/07/06/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/RSA%E9%A2%98%E5%8D%95/2.RSA%EF%BC%88%E4%BA%8C%EF%BC%89/0.RSA%EF%BC%88%E4%BA%8C%EF%BC%89%E7%9B%AE%E5%BD%95/" title="0.RSA（二）目录">
+                        <span class="hidden-mobile">0.RSA（二）目录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

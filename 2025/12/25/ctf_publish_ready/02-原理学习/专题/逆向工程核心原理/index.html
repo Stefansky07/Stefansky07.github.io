@@ -1,0 +1,683 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="逆向工程核心原理第一部分：代码逆向技术基础第一章：引言第二章 逆向分析Hello World！程序2.1：HelloWorld程序源代码： 1234567#include &lt;windows.h&gt;#include &lt;tchar.h&gt; &#x2F;&#x2F; 需要包含tchar.hint _tmain(int argc, TCHAR *argv[]) &#123;    MessageBox(N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逆向工程核心原理">
+<meta property="og:url" content="https://stefansky07.github.io/2025/12/25/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="逆向工程核心原理第一部分：代码逆向技术基础第一章：引言第二章 逆向分析Hello World！程序2.1：HelloWorld程序源代码： 1234567#include &lt;windows.h&gt;#include &lt;tchar.h&gt; &#x2F;&#x2F; 需要包含tchar.hint _tmain(int argc, TCHAR *argv[]) &#123;    MessageBox(N">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20251109174230-3cixayx.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762681422948-20251109174346-jigvi1d.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762682282311-20251109175806-f16ruze.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762682315409-20251109175837-eaqtysd.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762910861037-20251112092743-11pgqkb.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762948289065-20251112195158-ikx3zj5.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762948379401-20251112195302-gbfp7qv.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1762948407672-20251112195331-zsyndz9.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20251114103300-fr1ci2j.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1763091277800-20251114113440-7kiuxgx.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/QQ_1763090081043-20251114111444-j8xsd0q.png">
+<meta property="article:published_time" content="2025-12-25T03:58:00.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:09:46.789Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stefansky07.github.io/assets/image-20251109174230-3cixayx.png">
+  
+  
+  
+  <title>逆向工程核心原理 - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">逆向工程核心原理</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-12-25 11:58" pubdate>
+          2025年12月25日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          950 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          8 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">逆向工程核心原理</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="逆向工程核心原理"><a href="#逆向工程核心原理" class="headerlink" title="逆向工程核心原理"></a>逆向工程核心原理</h1><h1 id="第一部分：代码逆向技术基础"><a href="#第一部分：代码逆向技术基础" class="headerlink" title="第一部分：代码逆向技术基础"></a>第一部分：代码逆向技术基础</h1><h2 id="第一章：引言"><a href="#第一章：引言" class="headerlink" title="第一章：引言"></a>第一章：引言</h2><h2 id="第二章-逆向分析Hello-World！程序"><a href="#第二章-逆向分析Hello-World！程序" class="headerlink" title="第二章 逆向分析Hello World！程序"></a>第二章 逆向分析Hello World！程序</h2><h3 id="2-1：HelloWorld程序"><a href="#2-1：HelloWorld程序" class="headerlink" title="2.1：HelloWorld程序"></a>2.1：HelloWorld程序</h3><p>源代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;windows.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;tchar.h&gt;</span> <span class="hljs-comment">// 需要包含tchar.h</span></span><br><br><span class="hljs-type">int</span> _tmain(<span class="hljs-type">int</span> argc, TCHAR *argv[]) &#123;<br>    <span class="hljs-built_in">MessageBox</span>(<span class="hljs-literal">NULL</span>, _T(<span class="hljs-string">&quot;Hello, World!&quot;</span>), _T(<span class="hljs-string">&quot;Hello, World!&quot;</span>), MB_OK);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>运行界面：</p>
+<p><img src="/assets/image-20251109174230-3cixayx.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h3 id="2-2调试程序"><a href="#2-2调试程序" class="headerlink" title="2.2调试程序"></a>2.2调试程序</h3><p>olldbg已经停止更新了，以后我们都用x64dbg来逆向，打开界面如下：</p>
+<p><img src="/assets/QQ_1762681422948-20251109174346-jigvi1d.png" srcset="/img/loading.gif" lazyload alt="QQ_1762681422948"></p>
+<p>在这有个小办法，如果你知道字符串内容的话，可以直接右键代码窗口，搜索该字符串</p>
+<p>如图：</p>
+<p><img src="/assets/QQ_1762682282311-20251109175806-f16ruze.png" srcset="/img/loading.gif" lazyload alt="QQ_1762682282311"></p>
+<p>单击点开就找到该地址了：</p>
+<p><img src="/assets/QQ_1762682315409-20251109175837-eaqtysd.png" srcset="/img/loading.gif" lazyload alt="QQ_1762682315409"></p>
+<p>找到0000000000404000地址，就可以看到旁边ASCII值中显示的helloworld了：</p>
+<p><img src="/assets/QQ_1762910861037-20251112092743-11pgqkb.png" srcset="/img/loading.gif" lazyload alt="QQ_1762910861037"></p>
+<p>选中你要修改的字符串，按快捷键CTRL+E：</p>
+<p><img src="/assets/QQ_1762948289065-20251112195158-ikx3zj5.png" srcset="/img/loading.gif" lazyload alt="QQ_1762948289065"></p>
+<p>修改为你想要的字符串即可。</p>
+<p>然后按CTRL+P唤出打补丁界面，也可单击状态栏上面的创可贴：</p>
+<p><img src="/assets/QQ_1762948379401-20251112195302-gbfp7qv.png" srcset="/img/loading.gif" lazyload alt="QQ_1762948379401"></p>
+<p>单击修补文件然后保存即可：</p>
+<p><img src="/assets/QQ_1762948407672-20251112195331-zsyndz9.png" srcset="/img/loading.gif" lazyload alt="QQ_1762948407672"></p>
+<p>‍</p>
+<h2 id="第三章：小端序标记法"><a href="#第三章：小端序标记法" class="headerlink" title="第三章：小端序标记法"></a>第三章：小端序标记法</h2><h3 id="3-1：字节序"><a href="#3-1：字节序" class="headerlink" title="3.1：字节序"></a>3.1：字节序</h3><p>在几乎所有的机器上，多字节对象都被存储为连续的字节序列。例如：如果C&#x2F;C++中的一个int型变量 a 的起始地址是&amp;a &#x3D; 0x100，那么 a 的四个字节将被存储在存储器的0x100, 0x101,0x102, 0x103位置。</p>
+<p>根据整数 a 在连续的 4 byte 内存中的存储顺序，字节序被分为**<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=%E5%A4%A7%E7%AB%AF%E5%BA%8F&zhida_source=entity">大端序</a>**​ <strong>（Big Endian）</strong>  与 **<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=%E5%B0%8F%E7%AB%AF%E5%BA%8F&zhida_source=entity">小端序</a>**​ <strong>（Little Endian）</strong> 两类。 然后就牵涉出两大CPU派系：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=Motorola+6800&zhida_source=entity">Motorola 6800</a>，<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=PowerPC+970&zhida_source=entity">PowerPC 970</a>，<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=SPARC&zhida_source=entity">SPARC</a>（除V9外）等处理器采用 Big Endian方式存储数据；</li>
+<li><a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=x86%E7%B3%BB%E5%88%97&zhida_source=entity">x86系列</a>，<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=VAX&zhida_source=entity">VAX</a>，<a target="_blank" rel="noopener" href="https://zhida.zhihu.com/search?content_id=237697135&content_type=Article&match_order=1&q=PDP-11&zhida_source=entity">PDP-11</a>等处理器采用Little Endian方式存储数据。</li>
+</ul>
+<p>那么，到底什么是大端，什么是小端？ 如下图</p>
+<p><img src="/assets/image-20251114103300-fr1ci2j.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>我相信上面的图已经够直观了。也就是说：</p>
+<ul>
+<li>Big Endian 是指低地址端 存放 高位字节。</li>
+<li>Little Endian 是指低地址端 存放 低位字节。</li>
+</ul>
+<p>也正如文中所言：</p>
+<blockquote>
+<p>采用大端序存储数据时，内存地址低位存储数据的高位，内存高位存储数据的低位，这是一种最直观的字节存储顺序；采用小端序存储数据时，地址高位存储数据的高位，地址低位存储数据的低位，这是一种逆序存储方式，保存的字节顺序被倒转，它是最符合人类思维的字节序。</p>
+</blockquote>
+<p><strong>各自的优势：</strong></p>
+<ol>
+<li>Big Endian：符号位的判定固定为第一个字节，容易判断正负。</li>
+<li>Little Endian：长度为1，2，4字节的数，排列方式都是一样的，数据类型转换非常方便。</li>
+</ol>
+<p><strong>而数据为单一字节时，无论大端序还是小端序，字节存储数据都一样，只有数据长度在两个字节以上时，即数据为多字节数据时，选用大端序和小端序会导致数据的存储顺序不一样。</strong></p>
+<h4 id="3-1-1：大端序与小端序"><a href="#3-1-1：大端序与小端序" class="headerlink" title="3.1.1：大端序与小端序"></a>3.1.1：大端序与小端序</h4><p>在这里引用这位先生的博客，具体区别可以从这探究。总之在本书中，默认所有数据以小端序（逆序）存放，请知悉。</p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2022/06/endianness-analysis.html">字节序探析：大端与小端的比较 - 阮一峰的网络日志</a></p>
+<h4 id="3-1-2：在x64中查看小端序"><a href="#3-1-2：在x64中查看小端序" class="headerlink" title="3.1.2：在x64中查看小端序"></a>3.1.2：在x64中查看小端序</h4><p>首先编写一个简单的测试程序：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&quot;windows.h&quot;</span></span><br><br>BYTE b = <span class="hljs-number">0x12</span>;<br>WORD w = <span class="hljs-number">0x1234</span>;<br>DWORD dw = <span class="hljs-number">0x12345678</span>;<br><span class="hljs-type">char</span> str[] = <span class="hljs-string">&quot;abcde&quot;</span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc,<span class="hljs-type">char</span>*argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>	BYTE lb = b;<br>	WORD lw = w;<br>	DWORD ldw = dw;<br>	<span class="hljs-type">char</span> *lstr = str;<br>	<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br> &#125; <br></code></pre></td></tr></table></figure>
+
+<p>编写完代码后，生成LittleEndian.exe文件，用x64dbg打开，按CTRL+G命令跳转到401000地址处，如图所示：</p>
+<p><img src="/assets/QQ_1763091277800-20251114113440-7kiuxgx.png" srcset="/img/loading.gif" lazyload alt="QQ_1763091277800"></p>
+<p>可以看到main函数地址为401000，全局变量b,w,dw,str的地址分别为404430，404440，404450，404420。点击下面的内存窗口，使用goto命令跳转到对应地址处：</p>
+<p><img src="/assets/QQ_1763090081043-20251114111444-j8xsd0q.png" srcset="/img/loading.gif" lazyload alt="QQ_1763090081043"></p>
+<p>可以看到w和dw的值采用小端序存储。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>逆向工程核心原理</div>
+      <div>https://stefansky07.github.io/2025/12/25/ctf_publish_ready/02-原理学习/专题/逆向工程核心原理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/12/27/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E4%B8%93%E9%A2%98/%E6%A0%A1%E5%86%85%E5%9F%B9%E8%AE%AD%EF%BC%9A%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/" title="校内培训：密码学入门">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">校内培训：密码学入门</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/12/24/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E9%80%86%E5%90%91/Tea%E5%8A%A0%E5%AF%86/" title="Tea加密">
+                        <span class="hidden-mobile">Tea加密</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="简单的LFSR 1234567891011121314151617181920212223242526272829303132333435from secret import secretfor b in secret: assert(b &#x3D;&#x3D; &#x27;0&#x27; or b &#x3D;&#x3D; &#x27;1&#x27;)assert(len(secret) &#x3D;&#x3D; 128)# a 01 string w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单的LFSR">
+<meta property="og:url" content="https://stefansky07.github.io/2025/05/22/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E7%AE%80%E5%8D%95%E7%9A%84LFSR/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="简单的LFSR 1234567891011121314151617181920212223242526272829303132333435from secret import secretfor b in secret: assert(b &#x3D;&#x3D; &#x27;0&#x27; or b &#x3D;&#x3D; &#x27;1&#x27;)assert(len(secret) &#x3D;&#x3D; 128)# a 01 string w">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250318190200-ybwklbr.png">
+<meta property="og:image" content="https://stefansky07.github.io/assets/image-20250318190444-qphx5m9.png">
+<meta property="article:published_time" content="2025-05-22T20:25:00.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:09:46.540Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://stefansky07.github.io/assets/image-20250318190200-ybwklbr.png">
+  
+  
+  
+  <title>简单的LFSR - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">简单的LFSR</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-23 04:25" pubdate>
+          2025年5月23日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          768 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          7 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">简单的LFSR</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="简单的LFSR"><a href="#简单的LFSR" class="headerlink" title="简单的LFSR"></a>简单的LFSR</h1><p><img src="/assets/image-20250318190200-ybwklbr.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> secret<br><span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> secret: <span class="hljs-keyword">assert</span>(b == <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">or</span> b == <span class="hljs-string">&#x27;1&#x27;</span>)<br><span class="hljs-keyword">assert</span>(<span class="hljs-built_in">len</span>(secret) == <span class="hljs-number">128</span>)<br><span class="hljs-comment"># a 01 string with length 128</span><br><span class="hljs-comment"># your flag is flag&#123;md5(secret).hexdigest()&#125;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">string2bits</span>(<span class="hljs-params">s</span>):<br>    <span class="hljs-keyword">return</span> [<span class="hljs-built_in">int</span>(b) <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> s]<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">lfsr</span>(<span class="hljs-params">state, mask</span>):<br>    <span class="hljs-keyword">assert</span>(<span class="hljs-built_in">len</span>(state) == <span class="hljs-number">128</span>)<br>    <span class="hljs-keyword">assert</span>(<span class="hljs-built_in">len</span>(mask)  == <span class="hljs-number">128</span>)<br><br>    output = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">128</span>):<br>        output = output + (state[i] * mask[i])<br><br>    <span class="hljs-keyword">return</span> output<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    initState = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]<br>    mask = string2bits(secret)<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        state = initState[i:]<br>        output = lfsr(state, mask)<br>        initState += [output]<br><br>    outputState = initState[<span class="hljs-number">128</span>:]<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;outputState =&#x27;</span>, outputState)<br>    <span class="hljs-comment">#</span><br>    <span class="hljs-comment"># outputState = [31, 66, 128, 222, 385, 664, 1143, 2000, 3458, 6003, 10379, 17942, 31047, 53687, 92924, 160797, 278304, 481638, 833479, 1442422, 2496163, 4319845, 7475835, 12937561, 22389578, 38746915, 67054735, 116043520, 200822710, 347539886, 601445745, 1040850538, 1801275628, 3117252874, 5394657302, 9335889442, 16156509611, 27960142496, 48387281659, 83738092531, 144915522009, 250787996657, 434008851435, 751087316130, 1299817167363, 2249438425629, 3892834588915, 6736864173067, 11658686709797, 20176297502410, 34916709837729, 60426182042628, 104572380769600, 180970937597032, 313184800936842, 541991553121913, 937960088661442, 1623215570164618, 2809105439634215, 4861383488449105, 8413016146818879, 14559402864389777, 25196220721365800, 43604091771673155, 75460397027739861, 130590302153314191, 225997048627046433, 391106116962451401, 676840674047358730, 1171327366605398299, 2027076463289970382, 3508019282374090135, 6070910253447116278, 10506199749411485204, 18181825882182859769, 31465115864423937634, 54452920337985370536, 94235169707018163674, 163081560265112209496, 282225790871820528073, 488414489680745790033, 845240659945376349091, 1462757121910708796880, 2531419155626961478438, 4380824981460105751921, 7581370898424646092677, 13120173698498971899800, 22705518590912550882405, 39293730885686099313323, 68000969928723717268434, 117681162033195064953557, 203656740661184789826464, 352444412513853856490154, 609933476834387348179796, 1055539066458205919344242, 1826695472762162772755920, 3161243819621244340994611, 5470787351316040252901913, 9467638673598260118507327, 16384512191330329194463349, 28354719587732695891973236, 49070128760035595469947547, 84919814815174884654495265, 146960587438213290271803310, 254327147405947343219170013, 440133637427387650641676733, 761686751771954639615932308, 1318160346062225166536927204, 2281182774793880566386854202, 3947770745464875128215489476, 6831935621711193478803584270, 11823215517979626989252654459, 20461027873324936552011726278, 35409458704049766870463574070, 61278923692217093991616774374, 106048118957748860598268928024, 183524821535095103500935105397, 317604503036094959823791626415, 549640204006492782256703506357, 951196695803666227643791343005, 1646122586216645151673646795131, 2848747878127492747395146497119, 4929987925010971381846789176787, 8531741656523753626888968333475, 14764866932914585711739993009471, 25551792860485990447357753377411, 44219438031623458174827090101591, 76525303351860239321171606062486, 132433208420836012247860425341878, 229186346534231007543300455047052, 396625454174562824696341867974807, 686392332170111774628387415187708, 1187857281228776953526538661167132, 2055682813511567389589959681437591, 3557524878237416677051445431119245, 6156583679200434562674367324375645, 10654464521349051207718915685250792, 18438410026033851006551039004948926, 31909155416202798852780253976608864, 55221366589513932226781115179478434, 95565027912492621164419094117570641, 165382987128929746587819720020389833, 286208595645816231325692474821432127, 495307054513959920117280296979778603, 857168799202977606481906830566592959, 1483399728776458203402121501599814357, 2567142851419860475561591348189292465, 4442647717774532025797522076302827645, 7688360128977964468508623330874749520, 13305327189541069887965447505836108943, 23025941637865784521234444191415083701, 39848248807227476288131461546822173104, 68960607908058729168472941626927516912, 119341892941264496254850267375680858596, 206530769418287872448439164819365157712, 357418151038572249261836365381689027787, 618540932431735991718001801386896334770, 1070434962471260463170389697079661487176, 1852474022011964581139009223827365513544, 3205855677870125101423860144920010424249, 5547991769498476629256700835469967207037, 9601247144996961660705018593534913225922, 16615732425220501988109900409620796156745, 28754864847988594478375696246052761203187, 49762612400465240380187427652132912229336, 86118213596547492163397334421181607606370, 149034513167786192667574788821667110253623, 257916243121530494722068502259305736264048, 446344856986474817826595353109273441918350, 772435768089263602359077702861161388353409, 1336762385595787378549468975393213339116484, 2313375104267880490155624917599100889633507, 4003482167596451918353914186255524345816532, 6928348730257112541629154203810355027525535, 11990066177033590775605142065871666200189459, 20749776393589512464840020374644649655647874, 35909161302935015278730531942138798319507636, 62143699335409560081369603141161471393159562, 107544682943462043814216772302622710407400704, 186114746194704481727730115452186541297539854, 322086576510057527551600558671512063007190557, 557396793585831655018738502556644467159583633, 964620099559052960425720416252526682882655111, 1669352868873354804885622348664567494237803783, 2888949755545809136243688064556192446919868175, 4999560515746991945989073252770067125902428535, 8652142635098861248148452777057412533362877977, 14973230535426489152060521332311783517581989420, 25912382876992006096351135796067625851883928825, 44843468133024591960270046213401958144446811548, 77605237763877474989955856305494246316739147127, 134302122006319171731632762048131880552676359659, 232420652202367984596938247872208285088912788686, 402222680946414142984184322215356821073359953948, 696078784456971603910909918744734815016448573082, 1204620468022900362280402553035290601874308600586, 2084692860035604927076197374205039877760447754956, 3607729103106034863624554004184342562208475089341, 6243466138784576918107250594832177417637788944304, 10804821623826866941723224844111388709787418308073, 18698615116609470739339911758664365362637188157227, 32359461308280335893458609544003265039362932173740, 56000657248244594858300036379967633467510318826268, 96913653239119041752111865895809664169241405330164, 167716892009274048794745102986623447430717183044189, 290247606246426020117292750048691625438809474898504, 502296888062545512718475829352732508523042936581530, 869265269816240261877029457458234318249621243667628, 1504333646627354107869007496936781479204707239575364, 2603370684363759081777877568090078592049534352669947, 4505342904082185194291963661562434728467247085801567, 7796859204598587173314308958000104480418858953375158, 13493093589225451977147040588861591346827624626553088, 23350886533928418622148518003626067086836308029229306, 40410592153292809121198774051487713973447271440824879, 69933788415571610361075397290260005189363125951186151, 121026060286409890014591649872661507384922097295622585, 209445356819655999941471437498154462693217873859873519, 362462079567824464738504374835340908769751488853277318, 627269857492024846036766185061792395514128412691597750, 1085541071185182881358902065797900004206275433304525877, 1878616361292087979017649753948129817575491489985996469, 3251097104102362704835900720328806405351210311448488910, 5626285705844227224482132571164442587287950705132698177, 9736741115435595736854097976874400909429981720207988487, 16850215667245180941552990697851306753178430167486844006, 29160657006948951882262364132481449161390275730087294685, 50464868454466647556267645846637274956572498586114427735, 87333524327649631040132103644841977096784627243509857937, 151137706390139040826448707126591974417399010694640174718, 261555988593488478677610370284679511774525269175612894617, 452643730033345117036459086235348615186246366652477694168, 783336475835524143955537154153262203019092265959952337070, 1355626939379487620769121922144227585175531097052439217983, 2346021735820790423533561047507688175516954900918138334291, 4059979796110323903393797058491537625611005518946149411026, 7026122432346967683382009847205881024752630926437218981740, 12159271452933065576710291263470354882115951853620136774055, 21042599768180623908382939506716338579508214228553692875423, 36415915765826987773364669427220163018133640081486671468436, 63020678797925209300085103082659626905494796721119527734083, 109062366622625198169859916735972641477602693706580750774247, 188741220186912829686057249397861922209555075583934877024777, 326631901551406455092777938653826814900794821912935940782874, 565262845103114204256414747869081614169923740442179762058936, 978232936025018959853100287323851115023773163216042197843195, 1692910980111501346802672231436092377546116455476214539222026, 2929718966760270262844895994547637314231078419236801672684198, 5070114923366815738216357619638190602226980891746062079428250, 8774242726964718704518978915749604855301897112378619823447909, 15184534590503864395968205111669668293209355696392197598100449, 26278061583779512058870924747917968681797893736357134971437061, 45476304623307832769415233578427592641287934525440233150419102, 78700412341998941621862709864667467345902574612843786168968091, 136197409928206718914848388530217366761295027423898231594892758, 235700600786468895717413188934153824796333855958950958366797470]</span><br>    <span class="hljs-comment">#</span><br><br><br></code></pre></td></tr></table></figure>
+
+<p><img src="/assets/image-20250318190444-qphx5m9.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#sage</span><br>outputState = [<span class="hljs-number">31</span>, <span class="hljs-number">66</span>, <span class="hljs-number">128</span>, <span class="hljs-number">222</span>, <span class="hljs-number">385</span>, <span class="hljs-number">664</span>, <span class="hljs-number">1143</span>, <span class="hljs-number">2000</span>, <span class="hljs-number">3458</span>, <span class="hljs-number">6003</span>, <span class="hljs-number">10379</span>, <span class="hljs-number">17942</span>, <span class="hljs-number">31047</span>, <span class="hljs-number">53687</span>, <span class="hljs-number">92924</span>, <span class="hljs-number">160797</span>, <span class="hljs-number">278304</span>, <span class="hljs-number">481638</span>, <span class="hljs-number">833479</span>, <span class="hljs-number">1442422</span>, <span class="hljs-number">2496163</span>, <span class="hljs-number">4319845</span>, <span class="hljs-number">7475835</span>, <span class="hljs-number">12937561</span>, <span class="hljs-number">22389578</span>, <span class="hljs-number">38746915</span>, <span class="hljs-number">67054735</span>, <span class="hljs-number">116043520</span>, <span class="hljs-number">200822710</span>, <span class="hljs-number">347539886</span>, <span class="hljs-number">601445745</span>, <span class="hljs-number">1040850538</span>, <span class="hljs-number">1801275628</span>, <span class="hljs-number">3117252874</span>, <span class="hljs-number">5394657302</span>, <span class="hljs-number">9335889442</span>, <span class="hljs-number">16156509611</span>, <span class="hljs-number">27960142496</span>, <span class="hljs-number">48387281659</span>, <span class="hljs-number">83738092531</span>, <span class="hljs-number">144915522009</span>, <span class="hljs-number">250787996657</span>, <span class="hljs-number">434008851435</span>, <span class="hljs-number">751087316130</span>, <span class="hljs-number">1299817167363</span>, <span class="hljs-number">2249438425629</span>, <span class="hljs-number">3892834588915</span>, <span class="hljs-number">6736864173067</span>, <span class="hljs-number">11658686709797</span>, <span class="hljs-number">20176297502410</span>, <span class="hljs-number">34916709837729</span>, <span class="hljs-number">60426182042628</span>, <span class="hljs-number">104572380769600</span>, <span class="hljs-number">180970937597032</span>, <span class="hljs-number">313184800936842</span>, <span class="hljs-number">541991553121913</span>, <span class="hljs-number">937960088661442</span>, <span class="hljs-number">1623215570164618</span>, <span class="hljs-number">2809105439634215</span>, <span class="hljs-number">4861383488449105</span>, <span class="hljs-number">8413016146818879</span>, <span class="hljs-number">14559402864389777</span>, <span class="hljs-number">25196220721365800</span>, <span class="hljs-number">43604091771673155</span>, <span class="hljs-number">75460397027739861</span>, <span class="hljs-number">130590302153314191</span>, <span class="hljs-number">225997048627046433</span>, <span class="hljs-number">391106116962451401</span>, <span class="hljs-number">676840674047358730</span>, <span class="hljs-number">1171327366605398299</span>, <span class="hljs-number">2027076463289970382</span>, <span class="hljs-number">3508019282374090135</span>, <span class="hljs-number">6070910253447116278</span>, <span class="hljs-number">10506199749411485204</span>, <span class="hljs-number">18181825882182859769</span>, <span class="hljs-number">31465115864423937634</span>, <span class="hljs-number">54452920337985370536</span>, <span class="hljs-number">94235169707018163674</span>, <span class="hljs-number">163081560265112209496</span>, <span class="hljs-number">282225790871820528073</span>, <span class="hljs-number">488414489680745790033</span>, <span class="hljs-number">845240659945376349091</span>, <span class="hljs-number">1462757121910708796880</span>, <span class="hljs-number">2531419155626961478438</span>, <span class="hljs-number">4380824981460105751921</span>, <span class="hljs-number">7581370898424646092677</span>, <span class="hljs-number">13120173698498971899800</span>, <span class="hljs-number">22705518590912550882405</span>, <span class="hljs-number">39293730885686099313323</span>, <span class="hljs-number">68000969928723717268434</span>, <span class="hljs-number">117681162033195064953557</span>, <span class="hljs-number">203656740661184789826464</span>, <span class="hljs-number">352444412513853856490154</span>, <span class="hljs-number">609933476834387348179796</span>, <span class="hljs-number">1055539066458205919344242</span>, <span class="hljs-number">1826695472762162772755920</span>, <span class="hljs-number">3161243819621244340994611</span>, <span class="hljs-number">5470787351316040252901913</span>, <span class="hljs-number">9467638673598260118507327</span>, <span class="hljs-number">16384512191330329194463349</span>, <span class="hljs-number">28354719587732695891973236</span>, <span class="hljs-number">49070128760035595469947547</span>, <span class="hljs-number">84919814815174884654495265</span>, <span class="hljs-number">146960587438213290271803310</span>, <span class="hljs-number">254327147405947343219170013</span>, <span class="hljs-number">440133637427387650641676733</span>, <span class="hljs-number">761686751771954639615932308</span>, <span class="hljs-number">1318160346062225166536927204</span>, <span class="hljs-number">2281182774793880566386854202</span>, <span class="hljs-number">3947770745464875128215489476</span>, <span class="hljs-number">6831935621711193478803584270</span>, <span class="hljs-number">11823215517979626989252654459</span>, <span class="hljs-number">20461027873324936552011726278</span>, <span class="hljs-number">35409458704049766870463574070</span>, <span class="hljs-number">61278923692217093991616774374</span>, <span class="hljs-number">106048118957748860598268928024</span>, <span class="hljs-number">183524821535095103500935105397</span>, <span class="hljs-number">317604503036094959823791626415</span>, <span class="hljs-number">549640204006492782256703506357</span>, <span class="hljs-number">951196695803666227643791343005</span>, <span class="hljs-number">1646122586216645151673646795131</span>, <span class="hljs-number">2848747878127492747395146497119</span>, <span class="hljs-number">4929987925010971381846789176787</span>, <span class="hljs-number">8531741656523753626888968333475</span>, <span class="hljs-number">14764866932914585711739993009471</span>, <span class="hljs-number">25551792860485990447357753377411</span>, <span class="hljs-number">44219438031623458174827090101591</span>, <span class="hljs-number">76525303351860239321171606062486</span>, <span class="hljs-number">132433208420836012247860425341878</span>, <span class="hljs-number">229186346534231007543300455047052</span>, <span class="hljs-number">396625454174562824696341867974807</span>, <span class="hljs-number">686392332170111774628387415187708</span>, <span class="hljs-number">1187857281228776953526538661167132</span>, <span class="hljs-number">2055682813511567389589959681437591</span>, <span class="hljs-number">3557524878237416677051445431119245</span>, <span class="hljs-number">6156583679200434562674367324375645</span>, <span class="hljs-number">10654464521349051207718915685250792</span>, <span class="hljs-number">18438410026033851006551039004948926</span>, <span class="hljs-number">31909155416202798852780253976608864</span>, <span class="hljs-number">55221366589513932226781115179478434</span>, <span class="hljs-number">95565027912492621164419094117570641</span>, <span class="hljs-number">165382987128929746587819720020389833</span>, <span class="hljs-number">286208595645816231325692474821432127</span>, <span class="hljs-number">495307054513959920117280296979778603</span>, <span class="hljs-number">857168799202977606481906830566592959</span>, <span class="hljs-number">1483399728776458203402121501599814357</span>, <span class="hljs-number">2567142851419860475561591348189292465</span>, <span class="hljs-number">4442647717774532025797522076302827645</span>, <span class="hljs-number">7688360128977964468508623330874749520</span>, <span class="hljs-number">13305327189541069887965447505836108943</span>, <span class="hljs-number">23025941637865784521234444191415083701</span>, <span class="hljs-number">39848248807227476288131461546822173104</span>, <span class="hljs-number">68960607908058729168472941626927516912</span>, <span class="hljs-number">119341892941264496254850267375680858596</span>, <span class="hljs-number">206530769418287872448439164819365157712</span>, <span class="hljs-number">357418151038572249261836365381689027787</span>, <span class="hljs-number">618540932431735991718001801386896334770</span>, <span class="hljs-number">1070434962471260463170389697079661487176</span>, <span class="hljs-number">1852474022011964581139009223827365513544</span>, <span class="hljs-number">3205855677870125101423860144920010424249</span>, <span class="hljs-number">5547991769498476629256700835469967207037</span>, <span class="hljs-number">9601247144996961660705018593534913225922</span>, <span class="hljs-number">16615732425220501988109900409620796156745</span>, <span class="hljs-number">28754864847988594478375696246052761203187</span>, <span class="hljs-number">49762612400465240380187427652132912229336</span>, <span class="hljs-number">86118213596547492163397334421181607606370</span>, <span class="hljs-number">149034513167786192667574788821667110253623</span>, <span class="hljs-number">257916243121530494722068502259305736264048</span>, <span class="hljs-number">446344856986474817826595353109273441918350</span>, <span class="hljs-number">772435768089263602359077702861161388353409</span>, <span class="hljs-number">1336762385595787378549468975393213339116484</span>, <span class="hljs-number">2313375104267880490155624917599100889633507</span>, <span class="hljs-number">4003482167596451918353914186255524345816532</span>, <span class="hljs-number">6928348730257112541629154203810355027525535</span>, <span class="hljs-number">11990066177033590775605142065871666200189459</span>, <span class="hljs-number">20749776393589512464840020374644649655647874</span>, <span class="hljs-number">35909161302935015278730531942138798319507636</span>, <span class="hljs-number">62143699335409560081369603141161471393159562</span>, <span class="hljs-number">107544682943462043814216772302622710407400704</span>, <span class="hljs-number">186114746194704481727730115452186541297539854</span>, <span class="hljs-number">322086576510057527551600558671512063007190557</span>, <span class="hljs-number">557396793585831655018738502556644467159583633</span>, <span class="hljs-number">964620099559052960425720416252526682882655111</span>, <span class="hljs-number">1669352868873354804885622348664567494237803783</span>, <span class="hljs-number">2888949755545809136243688064556192446919868175</span>, <span class="hljs-number">4999560515746991945989073252770067125902428535</span>, <span class="hljs-number">8652142635098861248148452777057412533362877977</span>, <span class="hljs-number">14973230535426489152060521332311783517581989420</span>, <span class="hljs-number">25912382876992006096351135796067625851883928825</span>, <span class="hljs-number">44843468133024591960270046213401958144446811548</span>, <span class="hljs-number">77605237763877474989955856305494246316739147127</span>, <span class="hljs-number">134302122006319171731632762048131880552676359659</span>, <span class="hljs-number">232420652202367984596938247872208285088912788686</span>, <span class="hljs-number">402222680946414142984184322215356821073359953948</span>, <span class="hljs-number">696078784456971603910909918744734815016448573082</span>, <span class="hljs-number">1204620468022900362280402553035290601874308600586</span>, <span class="hljs-number">2084692860035604927076197374205039877760447754956</span>, <span class="hljs-number">3607729103106034863624554004184342562208475089341</span>, <span class="hljs-number">6243466138784576918107250594832177417637788944304</span>, <span class="hljs-number">10804821623826866941723224844111388709787418308073</span>, <span class="hljs-number">18698615116609470739339911758664365362637188157227</span>, <span class="hljs-number">32359461308280335893458609544003265039362932173740</span>, <span class="hljs-number">56000657248244594858300036379967633467510318826268</span>, <span class="hljs-number">96913653239119041752111865895809664169241405330164</span>, <span class="hljs-number">167716892009274048794745102986623447430717183044189</span>, <span class="hljs-number">290247606246426020117292750048691625438809474898504</span>, <span class="hljs-number">502296888062545512718475829352732508523042936581530</span>, <span class="hljs-number">869265269816240261877029457458234318249621243667628</span>, <span class="hljs-number">1504333646627354107869007496936781479204707239575364</span>, <span class="hljs-number">2603370684363759081777877568090078592049534352669947</span>, <span class="hljs-number">4505342904082185194291963661562434728467247085801567</span>, <span class="hljs-number">7796859204598587173314308958000104480418858953375158</span>, <span class="hljs-number">13493093589225451977147040588861591346827624626553088</span>, <span class="hljs-number">23350886533928418622148518003626067086836308029229306</span>, <span class="hljs-number">40410592153292809121198774051487713973447271440824879</span>, <span class="hljs-number">69933788415571610361075397290260005189363125951186151</span>, <span class="hljs-number">121026060286409890014591649872661507384922097295622585</span>, <span class="hljs-number">209445356819655999941471437498154462693217873859873519</span>, <span class="hljs-number">362462079567824464738504374835340908769751488853277318</span>, <span class="hljs-number">627269857492024846036766185061792395514128412691597750</span>, <span class="hljs-number">1085541071185182881358902065797900004206275433304525877</span>, <span class="hljs-number">1878616361292087979017649753948129817575491489985996469</span>, <span class="hljs-number">3251097104102362704835900720328806405351210311448488910</span>, <span class="hljs-number">5626285705844227224482132571164442587287950705132698177</span>, <span class="hljs-number">9736741115435595736854097976874400909429981720207988487</span>, <span class="hljs-number">16850215667245180941552990697851306753178430167486844006</span>, <span class="hljs-number">29160657006948951882262364132481449161390275730087294685</span>, <span class="hljs-number">50464868454466647556267645846637274956572498586114427735</span>, <span class="hljs-number">87333524327649631040132103644841977096784627243509857937</span>, <span class="hljs-number">151137706390139040826448707126591974417399010694640174718</span>, <span class="hljs-number">261555988593488478677610370284679511774525269175612894617</span>, <span class="hljs-number">452643730033345117036459086235348615186246366652477694168</span>, <span class="hljs-number">783336475835524143955537154153262203019092265959952337070</span>, <span class="hljs-number">1355626939379487620769121922144227585175531097052439217983</span>, <span class="hljs-number">2346021735820790423533561047507688175516954900918138334291</span>, <span class="hljs-number">4059979796110323903393797058491537625611005518946149411026</span>, <span class="hljs-number">7026122432346967683382009847205881024752630926437218981740</span>, <span class="hljs-number">12159271452933065576710291263470354882115951853620136774055</span>, <span class="hljs-number">21042599768180623908382939506716338579508214228553692875423</span>, <span class="hljs-number">36415915765826987773364669427220163018133640081486671468436</span>, <span class="hljs-number">63020678797925209300085103082659626905494796721119527734083</span>, <span class="hljs-number">109062366622625198169859916735972641477602693706580750774247</span>, <span class="hljs-number">188741220186912829686057249397861922209555075583934877024777</span>, <span class="hljs-number">326631901551406455092777938653826814900794821912935940782874</span>, <span class="hljs-number">565262845103114204256414747869081614169923740442179762058936</span>, <span class="hljs-number">978232936025018959853100287323851115023773163216042197843195</span>, <span class="hljs-number">1692910980111501346802672231436092377546116455476214539222026</span>, <span class="hljs-number">2929718966760270262844895994547637314231078419236801672684198</span>, <span class="hljs-number">5070114923366815738216357619638190602226980891746062079428250</span>, <span class="hljs-number">8774242726964718704518978915749604855301897112378619823447909</span>, <span class="hljs-number">15184534590503864395968205111669668293209355696392197598100449</span>, <span class="hljs-number">26278061583779512058870924747917968681797893736357134971437061</span>, <span class="hljs-number">45476304623307832769415233578427592641287934525440233150419102</span>, <span class="hljs-number">78700412341998941621862709864667467345902574612843786168968091</span>, <span class="hljs-number">136197409928206718914848388530217366761295027423898231594892758</span>, <span class="hljs-number">235700600786468895717413188934153824796333855958950958366797470</span>]<br><br>OOi = []<br>Oi = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">128</span>):<br>    OOi += outputState[i:i+<span class="hljs-number">128</span>]<br>    Oi += [outputState[i+<span class="hljs-number">128</span>]]<br><br>OO = matrix(ZZ, <span class="hljs-number">128</span>, <span class="hljs-number">128</span>, OOi) <br>O = matrix(ZZ, <span class="hljs-number">128</span>, <span class="hljs-number">1</span>, Oi) <br><br>Mask = OO.solve_right(O)<br>M=Mask.<span class="hljs-built_in">str</span>().replace(<span class="hljs-string">&#x27;\n&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>).replace(<span class="hljs-string">&#x27;[&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>).replace(<span class="hljs-string">&#x27;]&#x27;</span>,<span class="hljs-string">&#x27;&#x27;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p>‍</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>简单的LFSR</div>
+      <div>https://stefansky07.github.io/2025/05/22/ctf_publish_ready/01-刷题笔记/日常题单/Crypto/简单的LFSR/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/24/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E7%AE%80%E5%8D%95%E5%AF%86%E7%A0%81/" title="简单密码">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">简单密码</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/20/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%97%A5%E5%B8%B8%E9%A2%98%E5%8D%95/Crypto/%E6%B7%B7%E5%90%88%E5%AF%86%E7%A0%81%E4%BD%93%E7%B3%BB/" title="混合密码体系">
+                        <span class="hidden-mobile">混合密码体系</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

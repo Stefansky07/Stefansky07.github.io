@@ -1,0 +1,763 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="Stefansky Blog">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stefansky">
+<meta property="og:url" content="https://stefansky07.github.io/page/20/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="Stefansky Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          style="margin-top: 0">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/03/02/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/%E9%87%91%E7%A0%96/" target="_self">
+          金砖
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/03/02/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/%E9%87%91%E7%A0%96/" target="_self">
+        <div>
+          金砖2.路由器身份标识 1en  输入密码 1show ip ospf   3.OSPFk开销1IP OSPF COST10  flag{a641c343cbd6f9973ae8f525b0f72233} ‍ 4.SNMP权限管理进入权限模式输入： 1show running config | include snmp   flag{c14eac023e203a47216fb2ac5e26e6d9
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-03-02 22:12" pubdate>
+              2025-03-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">CTF学习笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/" class="category-chain-item">比赛WP</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/WP/">#WP</a>
+            
+              <a href="/tags/%E6%A0%A1%E5%86%85%E9%87%91%E7%A0%96%E9%80%89%E6%8B%94%E8%B5%9B/">#校内金砖选拔赛</a>
+            
+              <a href="/tags/Misc/">#Misc</a>
+            
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">#网络安全</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/28/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/%E6%8A%80%E8%83%BD%E5%85%B4%E9%B2%81/" target="_self">
+          技能兴鲁
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/28/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/%E6%8A%80%E8%83%BD%E5%85%B4%E9%B2%81/" target="_self">
+        <div>
+          技能兴鲁CryptoEazyAES题目给出的加密流程是：先用 3 字符的 k0 对 flag 进行 AES-CBC 加密得到 c0，然后连续用同样长度的 k1 对 c0 连续加密三次得到 c3。密钥是通过 sha256​ 从 3 字符明文生成的，因此可以通过穷举实现。 解题思路如下：  爆 k1 段：  对 c3 做三次 AES-CBC 解密，并对每次解密结果进行 PKCS7 补位校验。 当三次解
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-28 21:35" pubdate>
+              2025-02-28
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/27/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Xor/" target="_self">
+          NSSCTF2025入门题目-Xor
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/27/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Xor/" target="_self">
+        <div>
+          NSSCTF2025入门题目-Xor题目 分析最常见的位运算，文本加密的基础。 我们只需要找到enc的值，然后写脚本逆向就可以的得出答案。 enc：  脚本如下： 123456789101112encrypted_data = [    0x34, 0x29, 0x29, 0x39, 0x2E, 0x3C, 0x01, 0x22, 0x15,    0x08, 0x25, 0x13, 0x09,
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-27 20:58" pubdate>
+              2025-02-27
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/25/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Unity/" target="_self">
+          NSSCTF2025入门题目-Unity
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/25/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Unity/" target="_self">
+        <div>
+          NSSCTF2025入门题目-Unity题目 分析Unity逆向，第一次接触，借鉴一下其他师傅的wp。 首先用ILSpy打开：  找到GameManager，可以看到Is函数，点开看看：  这里是判断分数到了100，就执行showanswer，点开看看：  在这里就找到了flag的前半部分，这题的坑才刚刚开始。我们知道它是用IS函数判断分数是否是100后，就可以用ce修改判断条件，直接得到flag
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-25 20:21" pubdate>
+              2025-02-25
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/23/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-pyc/" target="_self">
+          NSSCTF2025入门题目-pyc
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/23/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-pyc/" target="_self">
+        <div>
+          NSSCTF2025入门题目-pyc题目 分析题目已经明示是pyc逆向了，原理可以见：pyc反编译 由于题目给的是一个exe文件，所以我们需要用工具把它先反编译成pyc文件，这里用PyInstaller Extractor WE进行反编译：  可以看到反编译成了这么一堆，最上面的文件夹可以不用理会，它是python文件的引用库反编译出来的。 我们向下找找到main文件：  找到后用pycdc命令进
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-23 19:44" pubdate>
+              2025-02-23
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/22/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Maze/" target="_self">
+          NSSCTF2025入门题目-Maze
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/22/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Maze/" target="_self">
+        <div>
+          NSSCTF2025入门题目-Maze题目 分析一般看到走迷宫，我们就知道要用bfs算法了。在这类题中，flag一般是操作方向的md5，我们需要找到起始点与终点，然后还有地图。 用idapro打开：  没什么有用的，点开move_player看看：  这是一个控制玩家移动的算法，在这里我们知道Flag is NSSCTF{md5(your input!)}，点开check_move：  这里maz
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-22 19:07" pubdate>
+              2025-02-22
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/20/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Debug/" target="_self">
+          NSSCTF2025入门题目-Debug
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/20/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Debug/" target="_self">
+        <div>
+          NSSCTF2025入门题目-Debug题目  分析按他说的用x64dbg在那打断点就能得出答案了。  FlagNSSCTF{you_know_debug!} 参考
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-20 18:30" pubdate>
+              2025-02-20
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/18/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Base64/" target="_self">
+          NSSCTF2025入门题目-Base64
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/18/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/RE/NSSCTF2025%E5%85%A5%E9%97%A8%E9%A2%98%E7%9B%AE-Base64/" target="_self">
+        <div>
+          NSSCTF2025入门题目-Base64题目  分析说实话跟逆向关系不大，只要看到base64就知道是换表了，找到自定义编码表和密文就能解出答案。   FlagNSSCTF{Kind_of_different_Base64} 参考
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-18 17:53" pubdate>
+              2025-02-18
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/16/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/Crypto/yafu%20(%E4%B8%AD%E7%BA%A7)/" target="_self">
+          yafu (中级)
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/16/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/Crypto/yafu%20(%E4%B8%AD%E7%BA%A7)/" target="_self">
+        <div>
+          yafu (中级)题目123456789101112131415from Crypto.Util.number import *from secret import flagm = bytes_to_long(flag)n  = 1for i in range(15):    n *=getPrime(32)e = 65537c = pow(m,e,n)print(f&#x27;n = &#123
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-16 17:16" pubdate>
+              2025-02-16
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">CTF学习笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E8%84%9A%E6%9C%AC/" class="category-chain-item">脚本</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Crypto/">#Crypto</a>
+            
+              <a href="/tags/Script/">#Script</a>
+            
+              <a href="/tags/RSA/">#RSA</a>
+            
+              <a href="/tags/yafu/">#yafu</a>
+            
+              <a href="/tags/%E5%9B%A0%E6%95%B0%E5%88%86%E8%A7%A3/">#因数分解</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/02/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/Crypto/Vigen%C3%A8re/" target="_self">
+          Vigenère
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2025/02/15/ctf_publish_ready/01-%E5%88%B7%E9%A2%98%E7%AC%94%E8%AE%B0/%E6%AF%94%E8%B5%9BWP/2025%20SWPU-NSSCTF%20%E7%A7%8B%E5%AD%A3%E6%8B%9B%E6%96%B0%E5%85%A5%E9%97%A8%E8%AE%AD%E7%BB%83%E8%B5%9B/Crypto/Vigen%C3%A8re/" target="_self">
+        <div>
+          Vigenère题目1234567891011121314151617181920212223242526#include &lt;stdio.h&gt;#include &lt;string.h&gt;#include &lt;stdlib.h&gt;int main()&#123;	freopen(&quot;flag.txt&quot;,&quot;r&quot;,stdin);	freop
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-02-15 16:39" pubdate>
+              2025-02-15
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/19/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/#board">18</a><a class="page-number" href="/page/19/#board">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/#board">21</a><a class="page-number" href="/page/22/#board">22</a><a class="page-number" href="/page/23/#board">23</a><a class="extend next" rel="next" href="/page/21/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

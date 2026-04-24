@@ -1,0 +1,657 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="从零开始的联邦学习（从FedAvg说起）引入时间过到2026年，联邦学习的概念已经不新鲜了。但是在大模型快速发展的今天，联邦学习并没有过时，反而因为数据隐私、数据合规和多方协作训练等问题重新受到关注。因此，作为安全行业人员，了解联邦学习的相关概念也是必须的。今天就来简单介绍一下联邦学习，也为后面我们的学习做一个开始。 从数据说起联邦学习解决的是模型训练中一个非常重要的问题：数据的来源问题。现代模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始的联邦学习（从FedAvg说起）">
+<meta property="og:url" content="https://stefansky07.github.io/post/federated-learning-from-scratch-starting-with-fedavg-z1krtcs.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="从零开始的联邦学习（从FedAvg说起）引入时间过到2026年，联邦学习的概念已经不新鲜了。但是在大模型快速发展的今天，联邦学习并没有过时，反而因为数据隐私、数据合规和多方协作训练等问题重新受到关注。因此，作为安全行业人员，了解联邦学习的相关概念也是必须的。今天就来简单介绍一下联邦学习，也为后面我们的学习做一个开始。 从数据说起联邦学习解决的是模型训练中一个非常重要的问题：数据的来源问题。现代模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-04-24T07:44:03.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:06:48.000Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Stefansky">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>从零开始的联邦学习（从FedAvg说起） - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">从零开始的联邦学习（从FedAvg说起）</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-04-24 15:44" pubdate>
+          2026年4月24日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从零开始的联邦学习（从FedAvg说起）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="从零开始的联邦学习（从FedAvg说起）"><a href="#从零开始的联邦学习（从FedAvg说起）" class="headerlink" title="从零开始的联邦学习（从FedAvg说起）"></a>从零开始的联邦学习（从FedAvg说起）</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>时间过到2026年，联邦学习的概念已经不新鲜了。但是在大模型快速发展的今天，联邦学习并没有过时，反而因为数据隐私、数据合规和多方协作训练等问题重新受到关注。因此，作为安全行业人员，了解联邦学习的相关概念也是必须的。今天就来简单介绍一下联邦学习，也为后面我们的学习做一个开始。</p>
+<h2 id="从数据说起"><a href="#从数据说起" class="headerlink" title="从数据说起"></a>从数据说起</h2><p>联邦学习解决的是模型训练中一个非常重要的问题：数据的来源问题。现代模型能力高度依赖数据规模和数据多样性。比如从 Llama 2 到 Llama 3 的演进可以看到，训练数据规模和质量的提升，会直接影响模型能力。</p>
+<p>而另一个非常现实的问题也随之显现：高质量公开文本数据正在接近可用上限，而最有价值的数据，往往是最敏感的数据。人们往往不愿意把自己的隐私数据提供进行训练。之所以这样，存在各种各样的原因：</p>
+<ul>
+<li>数据敏感，涉及个人隐私、医疗诊断、金融交易或组织机密。</li>
+<li>数据受监管限制，可能必须留在特定国家、地区或机构内。</li>
+<li>数据规模太大，迁移成本过高。</li>
+<li>数据所有者希望保留控制权，不愿上传原始数据。</li>
+<li>多个组织各自拥有一部分数据，单个组织的数据不足以训练强模型。</li>
+</ul>
+<p>通过经典的MNIST 实现可以直观的发现：将训练数据分为三份，并让每份数据缺少若干数字。分别在这些缺失数据上训练三个独立模型后，完整测试集准确率只有约 65% 到 70%，而在各自未见过的数字子集上准确率为 0%。混淆矩阵显示，模型会学会“永远不预测缺失类别”。这说明数据缺失不仅会降低整体精度，还会让模型对某些类别形成结构性盲区。</p>
+<p>联邦学习的价值就在这里：多个数据源不共享原始数据，却仍然可以通过协同训练得到一个利用整体数据分布的全局模型。</p>
+<h2 id="标准训练流程"><a href="#标准训练流程" class="headerlink" title="标准训练流程"></a>标准训练流程</h2><p>一个基础联邦学习系统由服务器和多个客户端组成。服务器通常不持有训练数据，负责初始化全局模型、选择客户端、下发模型、收集更新并聚合；而客户端持有本地数据，负责接收模型参数、在本地训练、返回更新后的模型或梯度。</p>
+<p>我们把一轮联邦训练拆开看，标准流程可以概括为：</p>
+<ol>
+<li>服务器初始化全局模型参数。</li>
+<li>服务器选择一批参与本轮训练的客户端。</li>
+<li>服务器将全局模型参数发送给客户端。</li>
+<li>客户端在本地数据上训练若干轮。</li>
+<li>客户端将更新后的参数或梯度返回服务器。</li>
+<li>服务器聚合客户端更新，得到新的全局模型。</li>
+<li>重复通信轮次，直到达到轮数、精度或收敛标准。</li>
+</ol>
+<p>在这个过程中，有三个问题尤其重要：客户端如何进行本地训练，数据隐私如何保护，以及频繁通信带来的开销如何降低。接下来我们一一探讨。</p>
+<h2 id="联邦平均"><a href="#联邦平均" class="headerlink" title="联邦平均"></a>联邦平均</h2><p>首先是客户端如何进行本地训练。模型在本地训练时，会不断根据本地数据调整自身参数，使模型在本地数据上的预测效果逐渐变好。在每一轮训练结束后，客户端并不上传原始数据，而是将训练后的模型参数，或者相对于全局模型的参数更新量，发送给中央服务器。</p>
+<p>中央服务器在收到多个客户端上传的模型参数后，并不是简单地随便合并，而是按照各客户端本地数据量的大小进行加权平均：数据量越大的客户端，在本轮全局模型更新中所占的权重通常也越大。因为数据量更多的客户端往往能提供更稳定的训练结果。</p>
+<p>这个过程就叫做联邦平均，即 FedAvg。它是联邦学习中最经典、最基础的算法之一。</p>
+<p>FedAvg 的基本流程可以概括为以下几步：</p>
+<p>第一，服务器初始化一个全局模型，并将该模型发送给参与训练的客户端。</p>
+<p>第二，每个客户端接收到全局模型后，使用自己的本地数据进行若干轮训练。这个过程只发生在客户端本地，原始数据不会上传到服务器。</p>
+<p>第三，客户端将本地训练后的模型参数或模型更新结果发送回服务器。</p>
+<p>第四，服务器根据各客户端的数据量，对上传的模型结果进行加权平均，得到新的全局模型。</p>
+<p>第五，服务器将更新后的全局模型再次下发给客户端，进入下一轮训练。</p>
+<h3 id="补充几个公式吧"><a href="#补充几个公式吧" class="headerlink" title="补充几个公式吧"></a>补充几个公式吧</h3><p>联邦学习的优化目标是最小化全局损失函数。假设总共有 $K$ 个客户端，数据被划分在这些客户端上，其中 $P_k$ 表示客户端 $k$ 上的数据点索引集合，$n_k &#x3D; |P_k|$ 为该客户端的数据量，总数据量为 $n$。</p>
+<p>全局损失函数可以被重写为各个客户端本地损失函数的加权平均：</p>
+<p>$$<br>f(w) &#x3D; \sum_{k&#x3D;1}^{K} \frac{n_k}{n} F_k(w)<br>$$</p>
+<p>其中，客户端 $k$ 的本地目标函数 $F_k(w)$ 为其本地数据上损失函数的平均值：</p>
+<p>$$<br>F_k(w) &#x3D; \frac{1}{n_k} \sum_{i \in P_k} f_i(w)<br>$$</p>
+<p>相比于仅计算一次梯度的普通联邦随机梯度下降（FedSGD），FedAvg 允许每个客户端在本地基于当前模型多次迭代更新本地参数：</p>
+<p>$$<br>w^k \leftarrow w^k - \eta \nabla F_k(w^k)<br>$$</p>
+<p>完成本地多步训练后，中心服务器通过以下公式计算各个本地模型参数的加权平均值，以此更新全局模型：</p>
+<p>$$<br>w_{t+1} \leftarrow \sum_{k&#x3D;1}^{K} \frac{n_k}{n} w_{t+1}^{k}<br>$$</p>
+<p>不过FedAvg 也存在一些问题。首先，不同客户端上的数据分布可能差异很大。例如在手机输入法场景中，不同用户的输入习惯、常用词汇和语言风格都不同，这会导致各客户端训练出的模型方向不完全一致。其次客户端设备性能和网络环境不同，有些客户端可能训练速度慢，或者无法稳定上传结果。最后虽然 FedAvg 不直接上传原始数据，但模型参数或更新量中仍然可能泄露部分数据信息，因此实际应用中还需要结合安全聚合、差分隐私等方法进一步增强隐私保护。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>联邦学习并不是一种新的模型结构，而是一种新的训练范式。它关注的重点不是“模型长什么样”，而是“当数据分散在不同主体手中时，模型应该如何被训练”。</p>
+<p>FedAvg 是联邦学习中最经典的基础算法。它的核心思想非常朴素：客户端先在本地数据上训练模型，然后服务器对多个客户端上传的模型参数或更新量进行加权平均，从而得到新的全局模型。</p>
+<p>FedAvg 只是联邦学习的起点。它仍然面临数据异质性、通信开销、客户端不稳定以及隐私泄露等问题。后续从安全方向继续深入，就需要进一步探讨安全聚合、差分隐私、同态加密和梯度泄露攻击等内容，这也是后续文章会继续分析的问题。</p>
+<p>‍</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从零开始的联邦学习（从FedAvg说起）</div>
+      <div>https://stefansky07.github.io/post/federated-learning-from-scratch-starting-with-fedavg-z1krtcs.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年4月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/22/from-report/RC4%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95/" title="RC4加密解密算法">
+                        <span class="hidden-mobile">RC4加密解密算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,666 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Stefansky">
+  <meta name="keywords" content="Stefansky">
+  
+    <meta name="description" content="P07.已知e _d n 求p q已知e,d n 求p q1234567891011121314151617181920212223242526272829303132333435363738394041# 给出n,e,d, 求 q,pimport randomimport gmpy2def gcd(a, b):    if a &lt; b:        a, b &#x3D; b, a    whil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="P07.已知e _d n 求p q">
+<meta property="og:url" content="https://stefansky07.github.io/2025/10/16/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P07.%E5%B7%B2%E7%9F%A5e%20_d%20n%20%E6%B1%82p%20q/index.html">
+<meta property="og:site_name" content="Stefansky">
+<meta property="og:description" content="P07.已知e _d n 求p q已知e,d n 求p q1234567891011121314151617181920212223242526272829303132333435363738394041# 给出n,e,d, 求 q,pimport randomimport gmpy2def gcd(a, b):    if a &lt; b:        a, b &#x3D; b, a    whil">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-10-16T02:04:00.000Z">
+<meta property="article:modified_time" content="2026-04-24T09:09:46.791Z">
+<meta property="article:author" content="Stefansky">
+<meta property="article:tag" content="Crypto">
+<meta property="article:tag" content="Script">
+<meta property="article:tag" content="RSA">
+<meta property="article:tag" content="参数恢复">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>P07.已知e _d n 求p q - Stefansky</title>
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"stefansky07.github.io","root":"/","version":"1.9.8","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Stefansky</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">P07.已知e _d n 求p q</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-10-16 10:04" pubdate>
+          2025年10月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          245 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          3 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">P07.已知e _d n 求p q</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="P07-已知e-d-n-求p-q"><a href="#P07-已知e-d-n-求p-q" class="headerlink" title="P07.已知e _d n 求p q"></a>P07.已知e _d n 求p q</h1><h3 id="已知e-d-n-求p-q"><a href="#已知e-d-n-求p-q" class="headerlink" title="已知e,d n 求p q"></a>已知e,d n 求p q</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-comment"># 给出n,e,d, 求 q,p</span><br><span class="hljs-attribute">import</span> random<br><span class="hljs-attribute">import</span> gmpy2<br><br><br><span class="hljs-attribute">def</span> gcd(a, b):<br>    <span class="hljs-attribute">if</span> a &lt; b:<br>        <span class="hljs-attribute">a</span>, b = b, a<br>    <span class="hljs-attribute">while</span> b != <span class="hljs-number">0</span>:<br>        <span class="hljs-attribute">temp</span> = a % b<br>        <span class="hljs-attribute">a</span> = b<br>        <span class="hljs-attribute">b</span> = temp<br>    <span class="hljs-attribute">return</span> a<br><br><br><span class="hljs-attribute">def</span> getpq(n, e, d):<br>    <span class="hljs-attribute">p</span> = <span class="hljs-number">1</span><br>    <span class="hljs-attribute">q</span> = <span class="hljs-number">1</span><br>    <span class="hljs-attribute">while</span> p == <span class="hljs-number">1</span> and q == <span class="hljs-number">1</span>:<br>        <span class="hljs-attribute">k</span> = d * e - <span class="hljs-number">1</span><br>        <span class="hljs-attribute">g</span> = random.randint(<span class="hljs-number">0</span>, n)<br>        <span class="hljs-attribute">while</span> p == <span class="hljs-number">1</span> and q == <span class="hljs-number">1</span> and k % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-attribute">k</span> //= <span class="hljs-number">2</span><br>            <span class="hljs-attribute">y</span> = pow(g, k, n)<br>            <span class="hljs-attribute">if</span> y != <span class="hljs-number">1</span> and gmpy2.gcd(y - <span class="hljs-number">1</span>, n) &gt; <span class="hljs-number">1</span>:<br>                <span class="hljs-attribute">p</span> = gmpy2.gcd(y - <span class="hljs-number">1</span>, n)<br>                <span class="hljs-attribute">q</span> = n // p<br>    <span class="hljs-attribute">return</span> p, q<br><br><br><span class="hljs-attribute">def</span> main():<br>    <span class="hljs-attribute">n</span> = <span class="hljs-number">16352578963372306131642407541567045533766691177138375676491913897592458965544068296813122740126583082006556217616296009516413202833698268845634497478988128850373221853516973259086845725813424850548682503827191121548693288763243619033224322698075987667531863213468223654181658012754897588147027437229269098246969811226129883327598021859724836993626315476699384610680857047403431430525708390695622848315322636785398223207468754197643541958599210127261345770914514670199047435085714403641469016212958361993969304545214061560160267760786482163373784437641808292654489343487613446165542988382687729593384887516272690654309</span><br>    <span class="hljs-attribute">e</span> = <span class="hljs-number">65537</span><br>    <span class="hljs-attribute">d</span> = <span class="hljs-number">9459928379973667430138068528059438139092368625339079253289560577985304435062213121398231875832264894458314629575455553485752685643743266654630829957442008775259776311585654014858165341757547284112061885158006881475740553532826576260839430343960738520822367975528644329172668877696208741007648370045520535298040161675407779239300466681615493892692265542290255408673533853011662134953869432632554008235340864803377610352438146264524770710345273439724107080190182918285547426166561803716644089414078389475072103315432638197578186106576626728869020366214077455194554930725576023274922741115941214789600089166754476449453</span><br>    <span class="hljs-attribute">p</span>, q = getpq(n, e, d)<br>    <span class="hljs-attribute">print</span>(p)<br>    <span class="hljs-attribute">print</span>(q)<br><br><span class="hljs-attribute">if</span> __name__ == &#x27;__main__&#x27;:<br>    <span class="hljs-attribute">main</span>()<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="已知e-d-n-求p-q-1"><a href="#已知e-d-n-求p-q-1" class="headerlink" title="已知e_d n 求p q"></a>已知e_d n 求p q</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-comment">#coding=utf-8</span><br><span class="hljs-keyword">from</span> random import randint<br>import gmpy2<br>def oddR(r):<br>    <span class="hljs-keyword">while</span> r%<span class="hljs-attribute">2</span>==0:<br>        <span class="hljs-attribute">r</span>=r//2<br>    return r<br>    <br>def bits(b):<br>    k=[]<br>    <span class="hljs-keyword">while</span> b:<br>        <span class="hljs-keyword">if</span> b%2!=0:<br>            k.append(1)<br>        <span class="hljs-keyword">else</span>:<br>            k.append(0)<br>        b&gt;&gt;=1<br>    k.reverse()      <br>    return k<br>    <br>def quickmod(a,b,n):      #a^b mod n 快速幂模n运算<br>    <span class="hljs-attribute">f</span>=1<br>    <span class="hljs-attribute">k</span>=bits(b)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(k)):<br>        f=(f<span class="hljs-number">*f</span>)%n<br>        <span class="hljs-keyword">if</span> k[i]:<br>            f=(f<span class="hljs-number">*a</span>)%n<br>    return f<br><br>def gcd(m,n):<br>    <span class="hljs-keyword">while</span>(n!=0):<br>        m,<span class="hljs-attribute">n</span>=n,m%n<br>    return m<br><br>def func(e_d,N):<br>    <span class="hljs-attribute">k</span>=e_d-1            <br>    <span class="hljs-attribute">r</span>=oddR(k)           #求出<span class="hljs-attribute">k</span>=2^t*r中的r<br>    <br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-attribute">b</span>=randint(2,N-1)    #获取区间(2,N-1)的一个随机数<br>        <span class="hljs-attribute">a</span>=quickmod(b,r,N)   <br>        <span class="hljs-keyword">if</span> <span class="hljs-attribute">a</span>==1:            <br>            continue    <br>        <span class="hljs-attribute">y</span>=gcd(a-1,N)<br>        <span class="hljs-keyword">if</span> a&gt;1 <span class="hljs-keyword">and</span> y&gt;1:    <br>            <span class="hljs-attribute">q</span>=N//y<br>            return q<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-attribute">r</span>=r*2         <br>    <br>def deciphering(e_d,n):    、<br>    <span class="hljs-attribute">p</span>=func(e_d,n)<br>    <span class="hljs-attribute">q</span>=n//p<br>    <span class="hljs-attribute">phi</span>=n-(p+q)+1<br>    <span class="hljs-keyword">if</span> p*<span class="hljs-attribute">q</span>==n:<br>        <span class="hljs-built_in">print</span> p<br>        <span class="hljs-built_in">print</span> q<br>    <span class="hljs-keyword">else</span>:<br>        print<span class="hljs-string">&quot;error&quot;</span><br><br><br><br>n =  20714298338160449749545360743688018842877274054540852096459485283936802341271363766157976112525034004319938054034934880860956966585051684483662535780621673316774842614701726445870630109196016676725183412879870463432277629916669130494040403733295593655306104176367902352484367520262917943100467697540593925707162162616635533550262718808746254599456286578409187895171015796991910123804529825519519278388910483133813330902530160448972926096083990208243274548561238253002789474920730760001104048093295680593033327818821255300893423412192265814418546134015557579236219461780344469127987669565138930308525189944897421753947<br>e_d=  100772079222298134586116156850742817855408127716962891929259868746672572602333918958075582671752493618259518286336122772703330183037221105058298653490794337885098499073583821832532798309513538383175233429533467348390389323225198805294950484802068148590902907221150968539067980432831310376368202773212266320112670699737501054831646286585142281419237572222713975646843555024731855688573834108711874406149540078253774349708158063055754932812675786123700768288048445326199880983717504538825498103789304873682191053050366806825802602658674268440844577955499368404019114913934477160428428662847012289516655310680119638600315228284298935201<br>deciphering(e_d,n)<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="category-chain-item">CTF学习笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/CTF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E8%84%9A%E6%9C%AC/" class="category-chain-item">脚本</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Crypto/" class="print-no-link">#Crypto</a>
+      
+        <a href="/tags/Script/" class="print-no-link">#Script</a>
+      
+        <a href="/tags/RSA/" class="print-no-link">#RSA</a>
+      
+        <a href="/tags/%E5%8F%82%E6%95%B0%E6%81%A2%E5%A4%8D/" class="print-no-link">#参数恢复</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>P07.已知e _d n 求p q</div>
+      <div>https://stefansky07.github.io/2025/10/16/ctf_publish_ready/02-原理学习/密码学/RSA加密算法/RSA基础篇/P07.已知e _d n 求p q/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Stefansky</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年10月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/10/18/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P08.wiener(%E7%BB%B4%E7%BA%B3)%E6%94%BB%E5%87%BB/" title="P08.wiener(维纳)攻击">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">P08.wiener(维纳)攻击</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/10/14/ctf_publish_ready/02-%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/%E5%AF%86%E7%A0%81%E5%AD%A6/RSA%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/RSA%E5%9F%BA%E7%A1%80%E7%AF%87/P06.RSA%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90%E4%B8%8E%E8%AF%BB%E5%8F%96/" title="P06.RSA密钥生成与读取">
+                        <span class="hidden-mobile">P06.RSA密钥生成与读取</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="//lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="//lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="//lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=//lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
