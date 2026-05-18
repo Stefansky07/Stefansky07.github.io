@@ -1,7 +1,7 @@
 # Site-level ShokaX overrides. The full theme defaults stay in
 # node_modules/hexo-theme-shokax/_config.yml.
 
-alternate: Stefansky
+alternate: 深空联合
 
 homeConfig:
   gradient: false
