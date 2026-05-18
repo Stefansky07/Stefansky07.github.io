@@ -1,0 +1,168 @@
+# Site-level ShokaX overrides. The full theme defaults stay in
+# node_modules/hexo-theme-shokax/_config.yml.
+
+alternate: Stefansky
+
+homeConfig:
+  gradient: false
+  fixedCover: "/img/default.png"
+  coverConfig:
+    enableCover: true
+    enablePreload: true
+    enableNextGradientCover: false
+  cateCards: []
+
+image_server:
+image_list:
+  - /img/default.png
+  - /img/default.png
+  - /img/default.png
+  - /img/default.png
+  - /img/default.png
+  - /img/default.png
+index_images: []
+
+modules:
+  debug: false
+  player: false
+  fireworks: false
+  visibilityListener: true
+  tabs: true
+  quiz: true
+  cloudflarePatch: false
+
+performance:
+  preConnect:
+    - "https://s4.zstatic.net"
+    - "https://at.alicdn.com"
+  dnsPrefetch: []
+
+icon:
+  favicon: "/favicon.ico"
+  apple_touch_icon: "/apple-touch-icon.png"
+
+visitor:
+  clarity: false
+  baiduAnalytics: false
+  googleAnalytics: false
+
+darkmode: true
+auto_dark:
+  enable: true
+  start: 20
+  end: 7
+
+loader:
+  start: true
+  switch: false
+
+fireworks:
+  enable: false
+
+font:
+  enable: false
+
+menu:
+  home: / || home
+  posts:
+    default: / || feather
+    archives: /archives/ || list-alt
+    categories: /categories/ || th
+    tags: /tags/ || tags
+  friends: /links/ || heart
+  about: /about/ || user
+
+twikoo:
+  enable: false
+
+waline:
+  enable: false
+  serverURL: ""
+  lang: "zh-CN"
+  locale: {}
+  emoji: []
+  meta:
+    - nick
+    - mail
+    - link
+  requiredMeta:
+    - nick
+    - mail
+  wordLimit: 0
+  pageSize: 10
+  pageview: false
+  recaptchaV3Key:
+  turnstileKey:
+
+summary:
+  enable: false
+
+pagefind:
+  enable: false
+
+social:
+  github: https://github.com/Stefansky07 || github || "#191717"
+  zhihu: https://www.zhihu.com/people/yu-yuan-chang-meng || zhihu || "#1e88e5"
+
+sidebar:
+  position: left
+  avatar: ../img/avatar.png
+
+widgets:
+  random_posts: true
+  recent_comments: false
+
+footer:
+  since: 2024
+  icon:
+    name: sakura rotate
+    color: "#ffc0cb"
+  count: true
+  powered: true
+  icp:
+    enable: false
+    icon: ""
+    icpnumber: ""
+    beian: ""
+    recordcode: ""
+
+post:
+  count: true
+
+outime:
+  enable: false
+  days: 90
+
+reward:
+  enable: false
+  account:
+    wechatpay: /wechatpay.png
+    alipay: /alipay.png
+
+tagcloud:
+  min: 16
+  max: 22
+  start: "#72cecf"
+  end: "#ffbac3"
+  amount: 200
+
+creative_commons:
+  license: by-nc-sa
+  language: deed.zh
+
+audio: []
+
+search:
+  hits:
+    per_page: 10
+
+aether:
+  markdownIt:
+    html: false
+    xhtmlOut: true
+    breaks: true
+    linkify: true
+    typographer: false
+    quotes: "“”‘’"
+  plugins:
+    spoiler: "你知道得太多了"
