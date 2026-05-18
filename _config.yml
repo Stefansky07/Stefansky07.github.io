@@ -96,6 +96,11 @@ ignore:
   - _posts/imported/**
   - '**/_posts/imported/**'
 
+# Publishing gate
+# When enabled, posts stay hidden unless their front matter contains `publish: true`.
+manual_publish_only: true
+manual_publish_field: publish
+
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
