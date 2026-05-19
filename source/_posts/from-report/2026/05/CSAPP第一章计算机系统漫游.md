@@ -2,13 +2,13 @@
 title: CSAPP 第一章 计算机系统漫游
 date: '2026-05-19 22:56:26'
 updated: '2026-05-19 23:26:38'
+tags: []
+categories:
+  - ''
 permalink: ''
 layout: post
 comments: true
 toc: true
-tags: []
-categories:
-  - ''
 cover: ''
 ---
 
