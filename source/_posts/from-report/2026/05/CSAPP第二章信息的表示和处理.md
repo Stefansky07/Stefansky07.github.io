@@ -2,19 +2,22 @@
 title: CSAPP 第二章 信息的表示和处理
 date: '2026-05-19 23:53:44'
 updated: '2026-05-20 00:29:33'
-permalink: ''
+permalink: /post/csapp-chapter-2-data-representation-and-processing.html
 layout: post
 comments: true
 toc: true
-tags: []
+tags:
+  - 读书笔记
+  - CSAPP
 categories:
-  - ''
-cover: ''
+  - 读书笔记
+cover: img/siyuan/2-20260520000529-h6wo8vu.jpg
 ---
 
 
 
-![image](assets/2-20260520000529-h6wo8vu.jpg)
+
+![image](/img/siyuan/2-20260520000529-h6wo8vu.jpg)
 
 # CSAPP 第二章 信息的表示和处理
 
