@@ -2,14 +2,14 @@
 title: CSAPP 第一章 计算机系统漫游
 date: '2026-05-19 22:56:26'
 updated: '2026-05-19 23:26:38'
-tags:
-  - 读书笔记
-  - CSAPP
-categories:
-  - 读书笔记
-permalink: /post/csapp-chapter-1-computer-system-tour-dsnwp.html
+permalink: ''
+layout: post
 comments: true
 toc: true
+tags: []
+categories:
+  - ''
+cover: ''
 ---
 
 
