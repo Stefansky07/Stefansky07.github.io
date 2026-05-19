@@ -158,7 +158,7 @@ search:
 
 aether:
   markdownIt:
-    html: false
+    html: true
     xhtmlOut: true
     breaks: true
     linkify: true
