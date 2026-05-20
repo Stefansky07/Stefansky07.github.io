@@ -1,0 +1,15 @@
+/* Hide ShokaX heading-level badges and permalink markers in article content. */
+.article .md .anchor,
+.article .md .headerlink {
+  visibility: hidden !important;
+  width: 0 !important;
+  margin-left: 0 !important;
+}
+
+.article .md .anchor::before,
+.article .md .anchor::after,
+.article .md .headerlink::before,
+.article .md .headerlink::after {
+  content: none !important;
+  display: none !important;
+}
