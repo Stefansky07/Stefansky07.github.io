@@ -1,37 +1,20 @@
 const katex = require('katex')
 
-const PLACEHOLDER_PREFIX = '__CODEX_KATEX_PROTECT__'
-const PROTECTED_PATTERNS = [
-  /```[\s\S]*?```/g,
-  /~~~[\s\S]*?~~~/g,
-  /`[^`\n]+`/g,
-  /<pre[\s\S]*?<\/pre>/gi,
-  /<code[\s\S]*?<\/code>/gi
-]
+const SKIP_TAGS = new Set(['code', 'pre', 'script', 'style', 'textarea', 'kbd', 'samp'])
 
-function protectSegments(text) {
-  const placeholders = []
-  let protectedText = text
-
-  for (const pattern of PROTECTED_PATTERNS) {
-    protectedText = protectedText.replace(pattern, (segment) => {
-      const key = `${PLACEHOLDER_PREFIX}${placeholders.length}__`
-      placeholders.push(segment)
-      return key
-    })
-  }
-
-  return { protectedText, placeholders }
-}
-
-function restoreSegments(text, placeholders) {
-  return text.replace(new RegExp(`${PLACEHOLDER_PREFIX}(\\d+)__`, 'g'), (_, index) => {
-    return placeholders[Number(index)] ?? ''
-  })
+function decodeHtmlEntities(text) {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, decimal) => String.fromCharCode(parseInt(decimal, 10)))
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
 }
 
 function renderFormula(expression, displayMode) {
-  return katex.renderToString(expression.trim(), {
+  return katex.renderToString(decodeHtmlEntities(expression).trim(), {
     displayMode,
     output: 'htmlAndMathml',
     throwOnError: false,
@@ -65,12 +48,46 @@ function renderMath(text) {
   return rendered
 }
 
-hexo.extend.filter.register('before_post_render', function(data) {
-  if (!data?.math || !data.content) {
+function shouldSkipTag(tag) {
+  const match = tag.match(/^<\/?\s*([a-z0-9-]+)/i)
+  return match ? SKIP_TAGS.has(match[1].toLowerCase()) : false
+}
+
+function renderMathInHtml(html) {
+  let skipDepth = 0
+
+  return html.split(/(<[^>]+>)/g).map((chunk) => {
+    if (!chunk) {
+      return chunk
+    }
+
+    if (chunk.startsWith('<')) {
+      if (shouldSkipTag(chunk)) {
+        skipDepth += chunk.startsWith('</') ? -1 : 1
+        if (skipDepth < 0) {
+          skipDepth = 0
+        }
+      }
+
+      return chunk
+    }
+
+    return skipDepth > 0 ? chunk : renderMath(chunk)
+  }).join('')
+}
+
+hexo.extend.filter.register('after_post_render', function(data) {
+  if (!data?.math) {
     return data
   }
 
-  const { protectedText, placeholders } = protectSegments(data.content)
-  data.content = restoreSegments(renderMath(protectedText), placeholders)
+  if (data.content) {
+    data.content = renderMathInHtml(data.content)
+  }
+
+  if (data.more) {
+    data.more = renderMathInHtml(data.more)
+  }
+
   return data
 })
