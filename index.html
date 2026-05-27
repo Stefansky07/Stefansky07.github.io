@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"/><meta name="theme-color" content="#222"/><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/><link rel="icon" type="image/ico" sizes="32x32" href="/assets/favicon.ico"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/><link rel="alternate" href="/rss.xml" title="Stefansky" type="application/rss+xml"><link rel="alternate" href="/atom.xml" title="Stefansky" type="application/atom+xml"><link rel="alternate" type="application/json" title="Stefansky" href="https://stefansky07.github.io/feed.json"/><link rel="preconnect" href="https://s4.zstatic.net"/><link rel="preconnect" href="https://at.alicdn.com"/><link rel="modulepreload" href="/js/siteInit.js"></link><link rel="modulepreload" href="/js/nyx-player-YLIAHGSA.js"></link><link rel="modulepreload" href="/js/copy-tex-YVLO3GUL.js"></link><link rel="modulepreload" href="/js/post-7JHK5TIT.js"></link><link rel="modulepreload" href="/js/chunk-X6XBSMK5.js"></link><link rel="modulepreload" href="/js/chunk-BEY2BGYO.js"></link><link rel="stylesheet" href="/css/siteInit.css" media="none" onload="this.media&#x3D;&#39;all&#39;"></link><link rel="preload" href="/img/default.png" as="image" fetchpriority="high"><meta name="keywords" content="Stefansky"/><meta name="description" content="Stefansky Blog"/><link rel="canonical" href="https://stefansky07.github.io/"><link rel="stylesheet" href="/css/page.css?v=0.5.4"><title>深空联合 = Stefansky</title><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/site-overrides.css"></head><body itemscope itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><a class="logo" href="/" rel="start"><p class="artboard">深空联合</p><h1 class="title" itemprop="name headline">Stefansky</h1></a></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/" rel="start">深空联合</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/img/default.png" loading="eager" decoding="async" fetchpriority="high" alt="Stefansky"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="index wrap"><h2 class="divider">文章列表</h2><div class="segments posts"><article class="item"><div class="cover"><a href="/post/csapp-chapter-3-machinelevel-representation-of-programs-zceiak.html" itemprop="url" title="CSAPP 第三章 程序的机器级表示"><img loading="lazy" decoding="async" src="/img/siyuan/1770005577240-20260520092910-fbfeo7l.jpeg" alt="article cover"></a></div><div class="info"><div class="meta"><span class="item" title="创建时间：2026-05-20 09:29:10"><span class="icon"><i class="ic i-calendar"></i></span><time itemprop="dateCreated datePublished" datetime="2026-05-20T09:29:10+08:00">2026-05-20</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span>12k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span>11 分钟</span></span></div><h3><a href="/post/csapp-chapter-3-machinelevel-representation-of-programs-zceiak.html" itemprop="url" title="CSAPP 第三章 程序的机器级表示">CSAPP 第三章 程序的机器级表示</a></h3><div class="excerpt">
+# CSAPP 第三章 程序的机器级表示
+编译器基于编程语言的规则、操作系统的惯例、目标机器的指令集生成机器代码。
+汇编代码是机器代码的一种形式，它是机器代码的文本表示。
+高级代码可移植性好，而汇编代码与特定机器密切相关。
+能够阅读汇编代码：
+好处：可以理解编译器的优化能力，并分析代码中隐含的低效率
+条件：了解编译器将高级语言转换为机器代码的转换方式。
+精通细节很重要，是理解更深和更基本概念的先决条件。要认真研究示例、完成练习。
+32位机器可以使用约 4GB 的随机访问存储器，64位机器可以使用 256TB(2^48) 的内存空间(这里说的是主存)。
+# 3.2 程序编码
+汇编器产生的目标代</div><div class="meta footer"><span><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" title="读书笔记"><i class="ic i-flag"></i>读书笔记</a></span></div><a href="/post/csapp-chapter-3-machinelevel-representation-of-programs-zceiak.html" class="btn" itemprop="url" title="CSAPP 第三章 程序的机器级表示">more...</a></div></article><article class="item"><div class="cover"><a href="/post/csapp-chapter-2-data-representation-and-processing.html" itemprop="url" title="CSAPP 第二章 信息的表示和处理"><img loading="lazy" decoding="async" src="/img/siyuan/2-20260520000529-h6wo8vu.jpg" alt="article cover"></a></div><div class="info"><div class="meta"><span class="item" title="创建时间：2026-05-19 23:53:44"><span class="icon"><i class="ic i-calendar"></i></span><time itemprop="dateCreated datePublished" datetime="2026-05-19T23:53:44+08:00">2026-05-19</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span>7.2k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span>7 分钟</span></span></div><h3><a href="/post/csapp-chapter-2-data-representation-and-processing.html" itemprop="url" title="CSAPP 第二章 信息的表示和处理">CSAPP 第二章 信息的表示和处理</a></h3><div class="excerpt">
+# CSAPP 第二章 信息的表示和处理
+第二章 信息的表示和处理
+计算机使用二值信号存储和表示信息
+当计算结果太大以至于不能表示时，就会产生溢出。
+浮点数表示的精度有限，因而浮点运算是不可结合的。
+整数的表示范围小但是精确，浮点数表示的范围大但是是近似的。
+许多安全漏洞是由算术运算的微妙细节导致的。
+# 2.1 信息存储
+计算机一般使用字节作为最小的可寻址的内存单位。
+在机器级程序中不包含关于数据类型的信息。
+指针的值是某个存储块的第一个字节的虚拟地址。
+每个程序对象可以视为一个字节块。
+# 2.1.1 十六进制表示法
+十六进制以 0x 开头。
+A：10；C:12；F：15
+# 2.1.2</div><div class="meta footer"><span><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" itemprop="url" title="读书笔记"><i class="ic i-flag"></i>读书笔记</a></span></div><a href="/post/csapp-chapter-2-data-representation-and-processing.html" class="btn" itemprop="url" title="CSAPP 第二章 信息的表示和处理">more...</a></div></article><article class="item"><div class="cover"><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" itemprop="url" title="CSAPP 第一章 计算机系统漫游"><img loading="lazy" decoding="async" src="/img/default.png" alt="article cover"></a></div><div class="info"><div class="meta"><span class="item" title="创建时间：2026-05-19 22:56:26"><span class="icon"><i class="ic i-calendar"></i></span><time itemprop="dateCreated datePublished" datetime="2026-05-19T22:56:26+08:00">2026-05-19</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span>6.8k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span>6 分钟</span></span></div><h3><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" itemprop="url" title="CSAPP 第一章 计算机系统漫游">CSAPP 第一章 计算机系统漫游</a></h3><div class="excerpt">
+# CSAPP 第一章 计算机系统漫游
+# 1.1  信息就是位 + 上下文
+程序的生命周期从源程序（源文件） 开始。源程序实际上就是由 0 和 1 组成的位序列。
+一般用  ASCII 标准来表示文本字符，实际上是用一个字节的整数值来表示一种字符。
+源文件中每个文本行都是以看不见的 &#39;\n&#39; 结束的。
+只由 ASCII 字符组成的文件成为文本文件，其他都是二进制文件。.cpp 文件就是文本文件。
+系统中的所有信息都是由一串比特（bit：位）表示的，区分不同数据对象的唯一方法就是根据上下文。
+C 语言的特点
+
+C 语言小而简单
+C 语言是为了实现 unix 而设计的
+C 语言</div><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" class="btn" itemprop="url" title="CSAPP 第一章 计算机系统漫游">more...</a></div></article><article class="item"><div class="cover"><a href="/post/heap-sort-zwnlhn.html" itemprop="url" title="堆排序"><img loading="lazy" decoding="async" src="/img/siyuan/12e6d14e0a9c02662c503fb81a53406-20260520222956-omzwou2.jpg" alt="article cover"></a></div><div class="info"><div class="meta"><span class="item" title="创建时间：2026-05-19 22:38:26"><span class="icon"><i class="ic i-calendar"></i></span><time itemprop="dateCreated datePublished" datetime="2026-05-19T22:38:26+08:00">2026-05-19</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span>7.7k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span>7 分钟</span></span></div><h3><a href="/post/heap-sort-zwnlhn.html" itemprop="url" title="堆排序">堆排序</a></h3><div class="excerpt">
+# 堆排序
+# 一、堆的知识点笔记
+# 1. 堆的基本概念
+堆是一种特殊的完全二叉树，通常用数组顺序存储。
+堆有两个核心要求：
+
+结构上必须是完全二叉树。
+数值上要满足堆的大小关系。
+
+大根堆要求：
+父节点 &gt;&#x3D; 子节点
+小根堆要求：
+父节点 &#x3C;&#x3D; 子节点
+大根堆的堆顶是最大值。
+小根堆的堆顶是最小值。
+
+# 2. 堆的数组下标关系
+如果数组下标从 1 开始：
+父节点 i
+左孩子 2i
+右孩子 2i + 1
+如果数组下标从 0 开始：
+父节点 (i - 1) &#x2F; 2
+左孩子 2i + 1
+右孩子 2i + 2
+考试中很多堆题默认下标从 1 开始。</div><div class="meta footer"><span><a href="/categories/408/" itemprop="url" title="408"><i class="ic i-flag"></i>408</a></span></div><a href="/post/heap-sort-zwnlhn.html" class="btn" itemprop="url" title="堆排序">more...</a></div></article></div></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"></div><div class="related panel pjax" data-title="系列文章"></div><div class="overview panel" data-title="站点概览"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="Stefansky" src="/assets/../img/avatar.png"/><p class="name" itemprop="name">Stefansky</p><div class="description" itemprop="description">Stefansky Blog</div></div><nav class="state"><div class="item posts"><a href="/archives/"><span class="count">4</span><span class="name">文章</span></a></div><div class="item categories"><a href="/categories/"><span class="count">2</span><span class="name">分类</span></a></div><div class="item tags"><a href="/tags/"><span class="count">4</span><span class="name">标签</span></a></div></nav><div class="social"><a target="_blank" rel="noopener" href="https://github.com/Stefansky07" class="item github" title="https:&#x2F;&#x2F;github.com&#x2F;Stefansky07"><i class="ic i-github"></i></a><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/yu-yuan-chang-meng" class="item zhihu" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-yuan-chang-meng"><i class="ic i-zhihu"></i></a></div><div class="menu"><li class="item"><a href="/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-feather"></i>文章</a><ul class="submenu"><li class="item"><a href="/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/tags/" rel="section"><i class="ic i-tags"></i>标签</a></li></ul></li><li class="item"><a href="/links/" rel="section"><i class="ic i-heart"></i>友链</a></li><li class="item"><a href="/about/" rel="section"><i class="ic i-user"></i>关于</a></li></div></div></div></div><ul id="quick"><li class="prev pjax"></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>随机文章</h2><ul><li class="item"><div class="breadcrumb"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="分类于读书笔记">读书笔记</a></div><span><a href="/post/csapp-chapter-2-data-representation-and-processing.html">CSAPP 第二章 信息的表示和处理</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="分类于读书笔记">读书笔记</a></div><span><a href="/post/csapp-chapter-3-machinelevel-representation-of-programs-zceiak.html">CSAPP 第三章 程序的机器级表示</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/408/" title="分类于408">408</a></div><span><a href="/post/heap-sort-zwnlhn.html">堆排序</a></span></li><li class="item"><div class="breadcrumb"></div><span><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/">CSAPP 第一章 计算机系统漫游</a></span></li></ul></div></div><div class="status"><div class="copyright">&copy; 2024 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">Stefansky @ 深空联合</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">34k 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">31 分钟</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config type="text/javascript">var LOCAL = {
+    ispost: false,
+    path: ``,
+    favicon: {
+        show: `（●´3｀●）やれやれだぜ`,
+        hide: `(´Д｀)大変だ！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer></script></body></html>

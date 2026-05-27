@@ -1,0 +1,442 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"/><meta name="theme-color" content="#222"/><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"/><meta name="renderer" content="webkit"/><link rel="icon" type="image/ico" sizes="32x32" href="/assets/favicon.ico"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png"/><link rel="alternate" href="/rss.xml" title="Stefansky" type="application/rss+xml"><link rel="alternate" href="/atom.xml" title="Stefansky" type="application/atom+xml"><link rel="alternate" type="application/json" title="Stefansky" href="https://stefansky07.github.io/feed.json"/><link rel="preconnect" href="https://s4.zstatic.net"/><link rel="preconnect" href="https://at.alicdn.com"/><link rel="modulepreload" href="/js/siteInit.js"></link><link rel="modulepreload" href="/js/nyx-player-YLIAHGSA.js"></link><link rel="modulepreload" href="/js/copy-tex-YVLO3GUL.js"></link><link rel="modulepreload" href="/js/post-7JHK5TIT.js"></link><link rel="modulepreload" href="/js/chunk-X6XBSMK5.js"></link><link rel="modulepreload" href="/js/chunk-BEY2BGYO.js"></link><link rel="stylesheet" href="/css/siteInit.css" media="none" onload="this.media&#x3D;&#39;all&#39;"></link><link rel="preload" href="/img/default.png" as="image" fetchpriority="high"><meta name="keywords" content="408,"/><meta name="description" content="Stefansky Blog"/><link rel="canonical" href="https://stefansky07.github.io/post/heap-sort-zwnlhn"><link rel="stylesheet" href="/css/post.css?v=0.5.4"><link rel="stylesheet" href="/css/mermaid.css?v=0.5.4"><!-- 临时处理--><link rel="stylesheet" media="none" onload="this.media='all'" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><title>堆排序</title><meta name="generator" content="Hexo 7.3.0"><link rel="stylesheet" href="/css/site-overrides.css"></head><body itemscope itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">堆排序</h1><div class="meta"><span class="item" title="创建时间：2026-05-19 22:38:26"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2026-05-19T22:38:26+08:00">2026-05-19</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>7.7k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>7 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/" rel="start">深空联合</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/img/default.png" loading="eager" decoding="async" fetchpriority="high" alt="Stefansky"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemListElement itemscope itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/">首页</a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/408/" itemprop="item" rel="index" title="分类于408"><span itemprop="name">408<meta itemprop="position" content="0"/></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://stefansky07.github.io/post/heap-sort-zwnlhn.html"/><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/assets/../img/avatar.png"/><meta itemprop="name" content="Stefansky"/><meta itemprop="description" content="null, Stefansky Blog"/></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="Stefansky"/></span><div class="body md" itemprop="articleBody"><p><img loading="lazy" src="assets/12e6d14e0a9c02662c503fb81a53406-20260520222956-omzwou2.jpg" alt="image" /></p>
+<h1 id="堆排序"><a class="anchor" href="#堆排序">#</a> 堆排序</h1>
+<h1 id="一-堆的知识点笔记"><a class="anchor" href="#一-堆的知识点笔记">#</a> 一、堆的知识点笔记</h1>
+<h2 id="1-堆的基本概念"><a class="anchor" href="#1-堆的基本概念">#</a> 1. 堆的基本概念</h2>
+<p>堆是一种特殊的完全二叉树，通常用数组顺序存储。</p>
+<p>堆有两个核心要求：</p>
+<ol>
+<li>结构上必须是完全二叉树。</li>
+<li>数值上要满足堆的大小关系。</li>
+</ol>
+<p>大根堆要求：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 >= 子节点</span></span></code></pre>
+<p>小根堆要求：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 &#x3C;= 子节点</span></span></code></pre>
+<p>大根堆的堆顶是最大值。<br />
+小根堆的堆顶是最小值。</p>
+<hr />
+<h2 id="2-堆的数组下标关系"><a class="anchor" href="#2-堆的数组下标关系">#</a> 2. 堆的数组下标关系</h2>
+<p>如果数组下标从 1 开始：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 i</span></span>
+<span class="line"><span>左孩子 2i</span></span>
+<span class="line"><span>右孩子 2i + 1</span></span></code></pre>
+<p>如果数组下标从 0 开始：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 (i - 1) / 2</span></span>
+<span class="line"><span>左孩子 2i + 1</span></span>
+<span class="line"><span>右孩子 2i + 2</span></span></code></pre>
+<p>考试中很多堆题默认下标从 1 开始。</p>
+<hr />
+<h2 id="3-堆的插入操作"><a class="anchor" href="#3-堆的插入操作">#</a> 3. 堆的插入操作</h2>
+<p>堆插入新元素时，不能指定位置插入。</p>
+<p>标准流程是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 新元素先放到堆的末尾</span></span>
+<span class="line"><span>2. 和父节点比较</span></span>
+<span class="line"><span>3. 如果不满足堆的性质，就向上调整</span></span></code></pre>
+<p>以大根堆为例：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>如果新元素 > 父节点，就交换</span></span>
+<span class="line"><span>如果新元素 &#x3C;= 父节点，就停止</span></span></code></pre>
+<p>以小根堆为例：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>如果新元素 &#x3C; 父节点，就交换</span></span>
+<span class="line"><span>如果新元素 >= 父节点，就停止</span></span></code></pre>
+<p>插入操作的调整方向是​<strong>向上调整</strong>。</p>
+<p>时间复杂度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(log n)</span></span></code></pre>
+<p>易错点：</p>
+<p><strong>最后一次判断“不需要交换”的比较也要算入关键字比较次数。</strong></p>
+<hr />
+<h2 id="4-堆的删除操作"><a class="anchor" href="#4-堆的删除操作">#</a> 4. 堆的删除操作</h2>
+<p>堆最常见的删除操作是删除堆顶元素。</p>
+<p>大根堆删除堆顶，就是删除最大值。<br />
+小根堆删除堆顶，就是删除最小值。</p>
+<p>标准流程是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 删除堆顶元素</span></span>
+<span class="line"><span>2. 用最后一个元素补到堆顶</span></span>
+<span class="line"><span>3. 从堆顶开始向下调整</span></span></code></pre>
+<p>为什么用最后一个元素补堆顶？</p>
+<p>因为堆必须保持完全二叉树结构。<br />
+最后一个元素是最右下角的叶子结点，删除它不会破坏完全二叉树。</p>
+<p>如果用堆顶的子结点补上去，中间会留下空洞，还要继续补空位，过程复杂，也不符合标准堆删除操作。</p>
+<hr />
+<h2 id="5-删除后的向下调整"><a class="anchor" href="#5-删除后的向下调整">#</a> 5. 删除后的向下调整</h2>
+<p>以大根堆为例，向下调整时：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 先比较左右孩子，选较大的孩子</span></span>
+<span class="line"><span>2. 再让当前元素和较大的孩子比较</span></span>
+<span class="line"><span>3. 如果当前元素小，就交换</span></span>
+<span class="line"><span>4. 继续向下检查</span></span></code></pre>
+<p>以小根堆为例，向下调整时：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 先比较左右孩子，选较小的孩子</span></span>
+<span class="line"><span>2. 再让当前元素和较小的孩子比较</span></span>
+<span class="line"><span>3. 如果当前元素大，就交换</span></span>
+<span class="line"><span>4. 继续向下检查</span></span></code></pre>
+<p>删除操作的调整方向通常是​<strong>向下调整</strong>。</p>
+<p>时间复杂度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(log n)</span></span></code></pre>
+<p>易错点：</p>
+<p><strong>向下调整中，最后一次判断“不需要交换”的比较也要算入关键字比较次数。</strong></p>
+<hr />
+<h2 id="6-大根堆能不能删除特定元素"><a class="anchor" href="#6-大根堆能不能删除特定元素">#</a> 6. 大根堆能不能删除特定元素</h2>
+<p>可以删除，但不擅长。</p>
+<p>如果只知道元素值，不知道位置，需要先查找该元素。</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>查找：O(n)</span></span>
+<span class="line"><span>调整：O(log n)</span></span>
+<span class="line"><span>整体：O(n)</span></span></code></pre>
+<p>如果已经知道该元素的位置，就可以：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 用最后一个元素替换该位置</span></span>
+<span class="line"><span>2. 根据情况向上或向下调整</span></span></code></pre>
+<p>如果替换后的元素比父节点大，大根堆中要向上调整。<br />
+如果替换后的元素比孩子小，大根堆中要向下调整。</p>
+<p>所以准确说：</p>
+<p><strong>堆不是不能删除特定元素，而是不擅长快速查找并删除特定元素。</strong></p>
+<hr />
+<h2 id="7-堆是否支持插入到特定位置"><a class="anchor" href="#7-堆是否支持插入到特定位置">#</a> 7. 堆是否支持插入到特定位置</h2>
+<p>一般不支持。</p>
+<p>堆的插入位置由完全二叉树结构决定，新元素必须先插入到最后一个位置。</p>
+<p>堆不是按位置组织数据的，而是按优先级组织数据的。</p>
+<p>所以堆关心的是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>堆顶最大或最小</span></span>
+<span class="line"><span>父子之间满足大小关系</span></span>
+<span class="line"><span>整体保持完全二叉树</span></span></code></pre>
+<p>它不关心某个元素必须放在哪个具体位置。</p>
+<hr />
+<h2 id="8-建堆操作"><a class="anchor" href="#8-建堆操作">#</a> 8. 建堆操作</h2>
+<p>建堆不是从第一个元素开始调，而是从最后一个非叶子结点开始调。</p>
+<p>如果有 n 个元素，最后一个非叶子结点是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>n / 2</span></span></code></pre>
+<p>从这个位置开始，依次向前调整：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>n/2, n/2 - 1, ..., 1</span></span></code></pre>
+<p>建堆的时间复杂度是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(n)</span></span></code></pre>
+<p>注意：</p>
+<p>如果一个一个插入来建堆，复杂度是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(nlog n)</span></span></code></pre>
+<p>但堆排序中的建初始堆是自底向上调整，所以是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(n)</span></span></code></pre>
+<hr />
+<h2 id="9-堆排序"><a class="anchor" href="#9-堆排序">#</a> 9. 堆排序</h2>
+<p>堆排序的基本流程是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1. 建初始堆</span></span>
+<span class="line"><span>2. 输出堆顶元素</span></span>
+<span class="line"><span>3. 用最后一个元素补堆顶</span></span>
+<span class="line"><span>4. 重新调整堆</span></span>
+<span class="line"><span>5. 重复直到排序完成</span></span></code></pre>
+<p>如果要从小到大排序，通常使用大根堆。<br />
+每次把最大值放到数组末尾。</p>
+<p>堆排序时间复杂度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>最好：O(nlog n)</span></span>
+<span class="line"><span>平均：O(nlog n)</span></span>
+<span class="line"><span>最坏：O(nlog n)</span></span></code></pre>
+<p>空间复杂度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(1)</span></span></code></pre>
+<p>稳定性：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>不稳定</span></span></code></pre>
+<p>原因是堆排序中会发生远距离交换，相同关键字的相对顺序可能被改变。</p>
+<hr />
+<h2 id="10-堆与-top-k-问题"><a class="anchor" href="#10-堆与-top-k-问题">#</a> 10. 堆与 Top-K 问题</h2>
+<p>堆非常适合处理海量数据中的前 k 个数问题。</p>
+<p>如果要选最大的 k 个数，用小根堆。</p>
+<p>原因是：</p>
+<p>小根堆堆顶是当前 k 个候选数中最小的数。<br />
+如果新数比堆顶还小，就没资格进入最大 k 个数。<br />
+如果新数比堆顶大，就替换堆顶，然后调整小根堆。</p>
+<p>如果要选最小的 k 个数，用大根堆。</p>
+<p>原因是：</p>
+<p>大根堆堆顶是当前 k 个候选数中最大的数。<br />
+如果新数比堆顶还大，就没资格进入最小 k 个数。<br />
+如果新数比堆顶小，就替换堆顶，然后调整大根堆。</p>
+<p>记忆：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>选最大 k 个数，用小根堆</span></span>
+<span class="line"><span>选最小 k 个数，用大根堆</span></span></code></pre>
+<p>堆顶保存的是当前结果中最容易被淘汰的那个元素。</p>
+<hr />
+<h1 id="二-做题整理"><a class="anchor" href="#二-做题整理">#</a> 二、做题整理</h1>
+<h2 id="第-2-题"><a class="anchor" href="#第-2-题">#</a> 第 2 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>简单选择排序算法的比较次数和移动次数分别为（ ）。</p>
+<p>A. <code>O(n)，O(log₂n)</code>​<br />
+B. <code>O(log₂n)，O(n²)</code>​<br />
+C. <code>O(n²)，O(n)</code>​<br />
+D. <code>O(nlog₂n)，O(n)</code></p>
+<p><strong>答案</strong></p>
+<p>C</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>简单选择排序每一趟都要在未排序部分中找最小值。</p>
+<p>比较次数为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>(n - 1) + (n - 2) + ... + 1 = O(n²)</span></span></code></pre>
+<p>但是每一趟最多只交换一次，所以移动次数是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(n)</span></span></code></pre>
+<p>所以答案是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>比较次数 O(n²)，移动次数 O(n)</span></span></code></pre>
+</blockquote>
+<hr />
+<h2 id="第-5-题"><a class="anchor" href="#第-5-题">#</a> 第 5 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>在含有 <code>n</code>​ 个元素的小根堆中，下标从 <code>1</code> 开始，关键字最大的元素可能存储在（ ）位置。</p>
+<p>A. <code>n/2</code>​<br />
+B. <code>n/2 + 2</code>​<br />
+C. <code>1</code>​<br />
+D. <code>n/2 - 1</code></p>
+<p><strong>答案</strong></p>
+<p>B</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>小根堆满足：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 &#x3C;= 子节点</span></span></code></pre>
+<p>所以堆顶一定是最小值。</p>
+<p>关键字最大的元素一般只能出现在叶子结点中。</p>
+<p>下标从 <code>1</code> 开始时：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>1 到 n/2 是非叶子结点</span></span>
+<span class="line"><span>n/2 + 1 到 n 是叶子结点</span></span></code></pre>
+<p>四个选项中，只有 <code>n/2 + 2</code> 属于叶子结点区域。</p>
+<p>所以选：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>B</span></span></code></pre>
+</blockquote>
+<hr />
+<h2 id="第-7-题"><a class="anchor" href="#第-7-题">#</a> 第 7 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>构建 <code>n</code>​ 个记录的初始堆，其时间复杂度为（ ）；对 <code>n</code> 个记录进行堆排序，最坏情况下其时间复杂度为（ ）。</p>
+<p>A. <code>O(n)</code>​<br />
+B. <code>O(n²)</code>​<br />
+C. <code>O(log₂n)</code>​<br />
+D. <code>O(nlog₂n)</code></p>
+<p><strong>答案</strong></p>
+<p>A，D</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>构建初始堆不是一个一个插入，而是从最后一个非叶子结点开始向前调整。</p>
+<p>所以建堆时间复杂度是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(n)</span></span></code></pre>
+<p>堆排序时，建堆之后要进行大约 <code>n - 1</code> 次删除堆顶和向下调整。</p>
+<p>每次调整最多走堆的高度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(log₂n)</span></span></code></pre>
+<p>所以堆排序最坏时间复杂度是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>O(nlog₂n)</span></span></code></pre>
+</blockquote>
+<hr />
+<h2 id="第-9-题"><a class="anchor" href="#第-9-题">#</a> 第 9 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>对由相同的 <code>n</code> 个整数构成的二叉排序树和小根堆，下列说法中不正确的是（ ）。</p>
+<p>A. 二叉排序树的高度大于或等于小根堆的高度。<br />
+B. 对二叉排序树进行中序遍历可以得到从小到大的序列。<br />
+C. 从小根堆的根结点到任意叶结点的路径构成从小到大的序列。<br />
+D. 对小根堆进行层次遍历可以得到从小到大的序列。</p>
+<p><strong>答案</strong></p>
+<p>D</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>A 正确。<br />
+小根堆是完全二叉树，结构最紧凑，所以高度较低。普通二叉排序树可能不平衡，高度大于或等于小根堆高度。</p>
+<p>B 正确。<br />
+二叉排序树的中序遍历结果是递增序列。</p>
+<p>C 正确。<br />
+小根堆满足：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>父节点 &#x3C;= 子节点</span></span></code></pre>
+<p>所以从根结点到叶结点的路径上，关键字是非递减的。</p>
+<p>D 错误。<br />
+小根堆只保证父子之间有序，不保证层次遍历整体有序。</p>
+<p>所以选：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>D</span></span></code></pre>
+<hr />
+</blockquote>
+<h2 id="第-11-题"><a class="anchor" href="#第-11-题">#</a> 第 11 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>对关键字序列：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>23, 17, 72, 60, 25, 8, 68, 71, 52</span></span></code></pre>
+<p>进行堆排序，输出两个最小关键字后的剩余堆是（ ）。</p>
+<p>A. <code>&#123;23, 72, 60, 25, 68, 71, 52&#125;</code>​<br />
+B. <code>&#123;23, 25, 52, 60, 71, 72, 68&#125;</code>​<br />
+C. <code>&#123;71, 25, 23, 52, 60, 72, 68&#125;</code>​<br />
+D. <code>&#123;23, 25, 68, 52, 60, 72, 71&#125;</code></p>
+<p><strong>答案</strong></p>
+<p>D</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>要输出两个最小关键字，所以要建立小根堆。</p>
+<p>原序列：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>23, 17, 72, 60, 25, 8, 68, 71, 52</span></span></code></pre>
+<p>建成小根堆后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>8, 17, 23, 52, 25, 72, 68, 71, 60</span></span></code></pre>
+<p>第一次输出最小值 <code>8</code>。</p>
+<p>用最后一个元素 <code>60</code> 补到堆顶：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>60, 17, 23, 52, 25, 72, 68, 71</span></span></code></pre>
+<p>向下调整后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>17, 25, 23, 52, 60, 72, 68, 71</span></span></code></pre>
+<p>第二次输出最小值 <code>17</code>。</p>
+<p>用最后一个元素 <code>71</code> 补到堆顶：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>71, 25, 23, 52, 60, 72, 68</span></span></code></pre>
+<p>向下调整：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>23, 25, 71, 52, 60, 72, 68</span></span></code></pre>
+<p>继续调整：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>23, 25, 68, 52, 60, 72, 71</span></span></code></pre>
+<p>所以最终剩余堆是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>23, 25, 68, 52, 60, 72, 71</span></span></code></pre>
+<p>选：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>D</span></span></code></pre>
+<p>注意，B 虽然也是一个合法小根堆，但它不是按照题目给定序列执行堆排序过程得到的结果。</p>
+</blockquote>
+<hr />
+<h2 id="第-16-题"><a class="anchor" href="#第-16-题">#</a> 第 16 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>已知序列：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>25, 13, 10, 12, 9</span></span></code></pre>
+<p>是大根堆，在序列尾部插入新元素 <code>18</code>，再将其调整为大根堆，调整过程中元素之间进行的比较次数是（ ）。</p>
+<p>A. <code>1</code>​<br />
+B. <code>2</code>​<br />
+C. <code>4</code><br />
+D. 图片中被笔迹遮挡，未辨清</p>
+<p><strong>答案</strong></p>
+<p>B</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>原大根堆：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>25, 13, 10, 12, 9</span></span></code></pre>
+<p>插入 <code>18</code> 后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>25, 13, 10, 12, 9, 18</span></span></code></pre>
+<p>​<code>18</code>​ 的父节点是 <code>10</code>。</p>
+<p>第一次比较：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>18 和 10 比</span></span></code></pre>
+<p>因为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>18 > 10</span></span></code></pre>
+<p>所以交换：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>25, 13, 18, 12, 9, 10</span></span></code></pre>
+<p>现在 <code>18</code>​ 的父节点是 <code>25</code>。</p>
+<p>第二次比较：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>18 和 25 比</span></span></code></pre>
+<p>因为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>18 &#x3C; 25</span></span></code></pre>
+<p>满足大根堆，停止。</p>
+<p>所以比较次数是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>2 次</span></span></code></pre>
+<p>这题容易漏掉最后一次“不需要交换”的比较。</p>
+</blockquote>
+<hr />
+<h2 id="第-17-题"><a class="anchor" href="#第-17-题">#</a> 第 17 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>已知小根堆为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>8, 15, 10, 21, 34, 16, 12</span></span></code></pre>
+<p>删除关键字 <code>8</code> 之后需重建堆，在此过程中，关键字之间的比较次数是（ ）。</p>
+<p>A. <code>1</code>​<br />
+B. <code>2</code>​<br />
+C. <code>3</code>​<br />
+D. <code>4</code></p>
+<p><strong>答案</strong></p>
+<p>C</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>删除堆顶 <code>8</code>​，用最后一个元素 <code>12</code> 补到堆顶：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>12, 15, 10, 21, 34, 16</span></span></code></pre>
+<p>开始向下调整。</p>
+<p>第一次比较左右孩子：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>15 和 10 比</span></span></code></pre>
+<p>较小的是 <code>10</code>。</p>
+<p>第二次比较当前元素和较小孩子：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>12 和 10 比</span></span></code></pre>
+<p>因为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>12 > 10</span></span></code></pre>
+<p>所以交换：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>10, 15, 12, 21, 34, 16</span></span></code></pre>
+<p>现在 <code>12</code>​ 还有一个孩子 <code>16</code>。</p>
+<p>第三次比较：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>12 和 16 比</span></span></code></pre>
+<p>因为：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>12 &#x3C; 16</span></span></code></pre>
+<p>满足小根堆，停止。</p>
+<p>所以比较次数是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>3 次</span></span></code></pre>
+<p>选：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>C</span></span></code></pre>
+</blockquote>
+<hr />
+<h2 id="第-18-题"><a class="anchor" href="#第-18-题">#</a> 第 18 题</h2>
+<p><strong>题目文字版</strong></p>
+<p>将序列：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>6, 1, 5, 9, 8, 4, 7</span></span></code></pre>
+<p>建成大根堆时，正确的序列变化过程是（ ）。</p>
+<p>A. <code>6,1,7,9,8,4,5 → 6,9,7,1,8,4,5 → 9,6,7,1,8,4,5 → 9,8,7,1,6,4,5</code></p>
+<p>B. <code>6,9,5,1,8,4,7 → 6,9,7,1,8,4,5 → 9,6,7,1,8,4,5 → 9,8,7,1,6,4,5</code></p>
+<p>C. <code>6,9,5,1,8,4,7 → 9,6,5,1,8,4,7 → 9,6,7,1,8,4,5 → 9,8,7,1,6,4,5</code></p>
+<p>D. <code>6,1,7,9,8,4,5 → 7,1,6,9,8,4,5 → 7,9,6,1,8,4,5 → 9,7,6,1,8,4,5 → ...</code></p>
+<p><strong>答案</strong></p>
+<p>A</p>
+<blockquote>
+<p>[!NOTE]<br />
+<strong>解析</strong></p>
+<p>原序列：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>6, 1, 5, 9, 8, 4, 7</span></span></code></pre>
+<p>一共有 7 个元素，最后一个非叶子结点是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>7 / 2 = 3</span></span></code></pre>
+<p>所以从第 3 个位置开始向前调整。</p>
+<p>第一步，调整 <code>5</code>。</p>
+<p>​<code>5</code>​ 的孩子是 <code>4</code>​ 和 <code>7</code>​，较大的是 <code>7</code>。</p>
+<p>交换后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>6, 1, 7, 9, 8, 4, 5</span></span></code></pre>
+<p>第二步，调整 <code>1</code>。</p>
+<p>​<code>1</code>​ 的孩子是 <code>9</code>​ 和 <code>8</code>​，较大的是 <code>9</code>。</p>
+<p>交换后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>6, 9, 7, 1, 8, 4, 5</span></span></code></pre>
+<p>第三步，调整 <code>6</code>。</p>
+<p>​<code>6</code>​ 的孩子是 <code>9</code>​ 和 <code>7</code>​，较大的是 <code>9</code>。</p>
+<p>交换后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>9, 6, 7, 1, 8, 4, 5</span></span></code></pre>
+<p>此时 <code>6</code>​ 下沉到第 2 个位置，它还有孩子 <code>1</code>​ 和 <code>8</code>。</p>
+<p>较大的是 <code>8</code>，继续交换：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>9, 8, 7, 1, 6, 4, 5</span></span></code></pre>
+<p>所以正确变化过程是：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>6,1,7,9,8,4,5</span></span>
+<span class="line"><span>6,9,7,1,8,4,5</span></span>
+<span class="line"><span>9,6,7,1,8,4,5</span></span>
+<span class="line"><span>9,8,7,1,6,4,5</span></span></code></pre>
+<p>选：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>A</span></span></code></pre>
+</blockquote>
+<hr />
+<h1 id="三-今天最重要的易错点总结"><a class="anchor" href="#三-今天最重要的易错点总结">#</a> 三、今天最重要的易错点总结</h1>
+<ol>
+<li>堆插入时，新元素必须先放到末尾，然后向上调整。</li>
+<li>堆删除堆顶时，必须用最后一个元素补到堆顶，然后向下调整。</li>
+<li>建堆从最后一个非叶子结点开始，不是从根节点开始。</li>
+<li>大根堆向下调整时，优先选较大的孩子。</li>
+<li>小根堆向下调整时，优先选较小的孩子。</li>
+<li>比较次数题中，最后一次判断“不交换”的比较也要算。</li>
+<li>合法堆不唯一，但题目问算法过程时，必须按给定过程一步步调整。</li>
+<li>选最大 k 个数用小根堆，选最小 k 个数用大根堆。</li>
+</ol>
+<p>‍</p>
+<div class="tags"><a href="/tags/408/" rel="tag"><i class="ic i-tag"></i>408</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"><i class="ic i-tag"></i>数据结构</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-05-20 22:30:59" itemprop="dateModified" datetime="2026-05-20T22:30:59+08:00">2026-05-20</time></span></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>Stefansky<i class="ic i-at"><em>@</em></i>Stefansky</li><li class="link"><strong>本文链接：</strong><a href="https://stefansky07.github.io/post/heap-sort-zwnlhn.html" title="堆排序">https://stefansky07.github.io/post/heap-sort-zwnlhn.html</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"></div><div class="item right"><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" rel="next" itemprop="url" data-background-image="&#x2F;img&#x2F;default.png" title="CSAPP 第一章 计算机系统漫游"><span class="type">下一篇</span><h3>CSAPP 第一章 计算机系统漫游</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text"> 堆排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80-%E5%A0%86%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9%E7%AC%94%E8%AE%B0"><span class="toc-number">2.</span> <span class="toc-text"> 一、堆的知识点笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A0%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text"> 1. 堆的基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A0%86%E7%9A%84%E6%95%B0%E7%BB%84%E4%B8%8B%E6%A0%87%E5%85%B3%E7%B3%BB"><span class="toc-number">2.2.</span> <span class="toc-text"> 2. 堆的数组下标关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A0%86%E7%9A%84%E6%8F%92%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.</span> <span class="toc-text"> 3. 堆的插入操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%A0%86%E7%9A%84%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C"><span class="toc-number">2.4.</span> <span class="toc-text"> 4. 堆的删除操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%88%A0%E9%99%A4%E5%90%8E%E7%9A%84%E5%90%91%E4%B8%8B%E8%B0%83%E6%95%B4"><span class="toc-number">2.5.</span> <span class="toc-text"> 5. 删除后的向下调整</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%A4%A7%E6%A0%B9%E5%A0%86%E8%83%BD%E4%B8%8D%E8%83%BD%E5%88%A0%E9%99%A4%E7%89%B9%E5%AE%9A%E5%85%83%E7%B4%A0"><span class="toc-number">2.6.</span> <span class="toc-text"> 6. 大根堆能不能删除特定元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%A0%86%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81%E6%8F%92%E5%85%A5%E5%88%B0%E7%89%B9%E5%AE%9A%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.7.</span> <span class="toc-text"> 7. 堆是否支持插入到特定位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%BB%BA%E5%A0%86%E6%93%8D%E4%BD%9C"><span class="toc-number">2.8.</span> <span class="toc-text"> 8. 建堆操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E5%A0%86%E6%8E%92%E5%BA%8F"><span class="toc-number">2.9.</span> <span class="toc-text"> 9. 堆排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%A0%86%E4%B8%8E-top-k-%E9%97%AE%E9%A2%98"><span class="toc-number">2.10.</span> <span class="toc-text"> 10. 堆与 Top-K 问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C-%E5%81%9A%E9%A2%98%E6%95%B4%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text"> 二、做题整理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-2-%E9%A2%98"><span class="toc-number">3.1.</span> <span class="toc-text"> 第 2 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-5-%E9%A2%98"><span class="toc-number">3.2.</span> <span class="toc-text"> 第 5 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-7-%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text"> 第 7 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-9-%E9%A2%98"><span class="toc-number">3.4.</span> <span class="toc-text"> 第 9 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-11-%E9%A2%98"><span class="toc-number">3.5.</span> <span class="toc-text"> 第 11 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-16-%E9%A2%98"><span class="toc-number">3.6.</span> <span class="toc-text"> 第 16 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-17-%E9%A2%98"><span class="toc-number">3.7.</span> <span class="toc-text"> 第 17 题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC-18-%E9%A2%98"><span class="toc-number">3.8.</span> <span class="toc-text"> 第 18 题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89-%E4%BB%8A%E5%A4%A9%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E6%98%93%E9%94%99%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text"> 三、今天最重要的易错点总结</span></a></li></ol></div><div class="related panel pjax" data-title="系列文章"><ul><li  class="active"><a href="/post/heap-sort-zwnlhn.html" rel="bookmark" title="堆排序">堆排序</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="Stefansky" src="/assets/../img/avatar.png"/><p class="name" itemprop="name">Stefansky</p><div class="description" itemprop="description">Stefansky Blog</div></div><nav class="state"><div class="item posts"><a href="/archives/"><span class="count">4</span><span class="name">文章</span></a></div><div class="item categories"><a href="/categories/"><span class="count">2</span><span class="name">分类</span></a></div><div class="item tags"><a href="/tags/"><span class="count">4</span><span class="name">标签</span></a></div></nav><div class="social"><a target="_blank" rel="noopener" href="https://github.com/Stefansky07" class="item github" title="https:&#x2F;&#x2F;github.com&#x2F;Stefansky07"><i class="ic i-github"></i></a><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/yu-yuan-chang-meng" class="item zhihu" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yu-yuan-chang-meng"><i class="ic i-zhihu"></i></a></div><div class="menu"><li class="item"><a href="/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-feather"></i>文章</a><ul class="submenu"><li class="item"><a href="/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/tags/" rel="section"><i class="ic i-tags"></i>标签</a></li></ul></li><li class="item"><a href="/links/" rel="section"><i class="ic i-heart"></i>友链</a></li><li class="item"><a href="/about/" rel="section"><i class="ic i-user"></i>关于</a></li></div></div></div></div><ul id="quick"><li class="prev pjax"><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>随机文章</h2><ul><li class="item"><div class="breadcrumb"></div><span><a href="/2026/05/19/from-report/2026/05/CSAPP%E7%AC%AC%E4%B8%80%E7%AB%A0%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%BC%AB%E6%B8%B8/">CSAPP 第一章 计算机系统漫游</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="分类于读书笔记">读书笔记</a></div><span><a href="/post/csapp-chapter-2-data-representation-and-processing.html">CSAPP 第二章 信息的表示和处理</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/408/" title="分类于408">408</a></div><span><a href="/post/heap-sort-zwnlhn.html">堆排序</a></span></li><li class="item"><div class="breadcrumb"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="分类于读书笔记">读书笔记</a></div><span><a href="/post/csapp-chapter-3-machinelevel-representation-of-programs-zceiak.html">CSAPP 第三章 程序的机器级表示</a></span></li></ul></div></div><div class="status"><div class="copyright">&copy; 2024 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">Stefansky @ 深空联合</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">34k 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">31 分钟</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `/post/heap-sort-zwnlhn`,
+    favicon: {
+        show: `（●´3｀●）やれやれだぜ`,
+        hide: `(´Д｀)大変だ！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer></script></body></html>
