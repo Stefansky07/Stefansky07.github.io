@@ -1,3 +1,7 @@
 name = "stefansky-notion-blog-trigger"
 main = "notion-webhook.js"
 compatibility_date = "2026-11-01"
+
+[vars]
+GH_REPO = "Stefansky07/Stefansky07.github.io"
+GH_BRANCH = "blog-src"
