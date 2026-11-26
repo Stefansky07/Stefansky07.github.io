@@ -1,0 +1,302 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"html/template"
+	"io"
+	"os"
+	"path/filepath"
+	"regexp"
+	"strings"
+	"time"
+	"unicode"
+
+	cjkfriendly "github.com/tats-u/goldmark-cjk-friendly/v2"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/ast"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
+	gmhtml "github.com/yuin/goldmark/renderer/html"
+	"github.com/yuin/goldmark/text"
+	"gopkg.in/yaml.v3"
+)
+
+type Heading struct {
+	ID, Title string
+	Level     int
+}
+
+type PostMetadata struct {
+	Title       string   `json:"title" yaml:"title"`
+	Description string   `json:"description" yaml:"description"`
+	Date        string   `json:"date" yaml:"date"`
+	Tag         string   `json:"tag,omitempty" yaml:"tag,omitempty"` // the category
+	Tags        []string `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Updated     string   `json:"updated,omitempty" yaml:"updated,omitempty"`
+	Draft       bool     `json:"draft,omitempty" yaml:"draft,omitempty"`
+	Aliases     []string `json:"aliases,omitempty" yaml:"aliases,omitempty"`
+}
+
+type Post struct {
+	PostMetadata
+	Slug, Path, File string
+	Lang             *Lang
+	Content          template.HTML
+	Minutes, Units   int
+	TOC              []Heading
+	Category         *Term
+	Terms            []*Term
+	History          []Commit
+	Source           string
+	Translation      *Post
+	body             []byte // Markdown after the metadata
+	scripted         string // text the post's widgets draw, for its font subsets
+}
+
+// Modified is the last substantive edit, for dateModified and sitemap lastmod.
+func (p Post) Modified() string {
+	if p.Updated != "" {
+		return p.Updated
+	}
+	return p.Date
+}
+
+func init() {
+	// Goldmark drops image attributes it does not know; images.go sets this one.
+	gmhtml.ImageAttributeFilter = gmhtml.ImageAttributeFilter.Extend([]byte("fetchpriority"))
+}
+
+// newMarkdown is the renderer of one edition, localized with ui.
+// CommonMark won't open or close ** between CJK punctuation and a letter, as in
+// 用**“引语”**完成; the CJK-friendly parsers allow it.
+func newMarkdown(ui UI) goldmark.Markdown {
+	return goldmark.New(goldmark.WithExtensions(extension.GFM, cjkfriendly.CJKFriendlyEmphasisAndStrikethrough, mathExtension{}, dataExtension{listSep: ui.ListSep}, figureExtension{}, mediaExtension{}, widgetExtension{hint: ui.WidgetStill}, tickerExtension{button: ui.LiveChart}, citeExtension{back: ui.BackToText}, codeExtension{copy: ui.Copy}), goldmark.WithParserOptions(parser.WithAutoHeadingID()))
+}
+
+var slugPattern = regexp.MustCompile(`^[a-z0-9]+(?:-[a-z0-9]+)*$`)
+
+// headingIDs keeps CJK and other letters so anchors stay readable, e.g. #问题一屏幕花屏.
+type headingIDs map[string]bool
+
+func (ids headingIDs) Generate(value []byte, _ ast.NodeKind) []byte {
+	var b strings.Builder
+	for _, r := range strings.ToLower(string(value)) {
+		switch {
+		case unicode.IsLetter(r) || unicode.IsDigit(r) || unicode.IsMark(r) || r == '_':
+			b.WriteRune(r)
+		case unicode.IsSpace(r) || r == '-':
+			b.WriteByte('-')
+		}
+	}
+	id := strings.Trim(b.String(), "-")
+	if id == "" {
+		id = "section"
+	}
+	for i, base := 1, id; ids[id]; i++ {
+		id = fmt.Sprintf("%s-%d", base, i)
+	}
+	ids[id] = true
+	return []byte(id)
+}
+
+func (ids headingIDs) Put(value []byte) { ids[string(value)] = true }
+
+func plainText(n ast.Node, src []byte) string {
+	var b strings.Builder
+	_ = ast.Walk(n, func(c ast.Node, entering bool) (ast.WalkStatus, error) {
+		switch t := c.(type) {
+		case *ast.Text:
+			if entering {
+				b.Write(t.Segment.Value(src))
+			}
+		case *ast.String:
+			if entering {
+				b.Write(t.Value)
+			}
+		case *mathInline:
+			if entering {
+				b.Write(t.TeX)
+			}
+		}
+		return ast.WalkContinue, nil
+	})
+	return b.String()
+}
+
+// contentHooks are build steps that run on the parsed post; nil ones are skipped.
+type contentHooks struct {
+	image  func(*ast.Image) error   // rewrites each image node
+	figure func(*figureBlock) error // draws each figure
+	widget func(*widgetBlock) error // publishes each widget's module
+}
+
+// renderContent renders a post body with an edition's renderer.
+func renderContent(markdown goldmark.Markdown, src []byte, hooks contentHooks) (template.HTML, []Heading, error) {
+	srcStr := string(src)
+	cardsSec, err := findCardsSection(srcStr)
+	if err != nil {
+		return "", nil, err
+	}
+	var cardsHTML string
+	if cardsSec != nil {
+		cardsBody := srcStr[cardsSec.contentStartOffset:cardsSec.endOffset]
+		cardsHTML, err = renderCardsDeck(cardsBody, markdown, uiForMarkdown(markdown), hooks)
+		if err != nil {
+			return "", nil, err
+		}
+		src = []byte(srcStr[:cardsSec.startOffset] + srcStr[cardsSec.endOffset:])
+	}
+	ctx := parser.NewContext(parser.WithIDs(headingIDs{}))
+	doc := markdown.Parser().Parse(text.NewReader(src), parser.WithContext(ctx))
+	if err := resolveCitations(doc); err != nil {
+		return "", nil, err
+	}
+	var toc []Heading
+	err = ast.Walk(doc, func(n ast.Node, entering bool) (ast.WalkStatus, error) {
+		if node, ok := n.(*ast.Image); entering && ok && hooks.image != nil {
+			if err := hooks.image(node); err != nil {
+				return ast.WalkStop, err
+			}
+		}
+		if node, ok := n.(*figureBlock); entering && ok {
+			err := node.parse()
+			if err == nil && hooks.figure != nil {
+				err = hooks.figure(node)
+			}
+			if err != nil {
+				return ast.WalkStop, fmt.Errorf("%s block %q: %w", node.Lang, node.Info, err)
+			}
+		}
+		if node, ok := n.(*widgetBlock); entering && ok && hooks.widget != nil {
+			if err := hooks.widget(node); err != nil {
+				return ast.WalkStop, fmt.Errorf("widget block %q: %w", node.Info, err)
+			}
+		}
+		if h, ok := n.(*ast.Heading); entering && ok && h.Level >= 2 && h.Level <= 3 {
+			id, _ := h.AttributeString("id")
+			toc = append(toc, Heading{ID: string(id.([]byte)), Title: plainText(h, src), Level: h.Level})
+		}
+		return ast.WalkContinue, nil
+	})
+	if err != nil {
+		return "", nil, err
+	}
+	var out bytes.Buffer
+	err = markdown.Renderer().Render(&out, src, doc)
+	// Only Goldmark output crosses the template trust boundary. Raw HTML stays disabled.
+	html := strings.ReplaceAll(out.String(), "<pre>", `<pre tabindex="0">`) + cardsHTML
+	return template.HTML(html), toc, err
+}
+
+var sectionHeading = regexp.MustCompile(`<h([23]) id="([^"]+)">`)
+
+// withAnchors adds a hover link to each section heading; feeds keep the plain HTML.
+func withAnchors(content template.HTML) template.HTML {
+	return template.HTML(sectionHeading.ReplaceAllString(string(content), `<h$1 id="$2"><a class="anchor" href="#$2" aria-hidden="true" tabindex="-1">#</a>`))
+}
+
+// readPost parses and validates a post; render turns its body into HTML.
+func readPost(name string) (Post, error) {
+	var p Post
+	src, err := os.ReadFile(name)
+	if err != nil {
+		return p, err
+	}
+	normalized := strings.ReplaceAll(string(src), "\r\n", "\n")
+	parts := strings.SplitN(normalized, "\n---\n", 2)
+	if len(parts) != 2 || parts[0] != "---" && !strings.HasPrefix(parts[0], "---\n") {
+		return p, fmt.Errorf("%s: expected YAML metadata between --- delimiter lines", name)
+	}
+	metadata := strings.TrimPrefix(parts[0], "---\n")
+	if parts[0] == "---" {
+		metadata = ""
+	}
+	// Unknown keys fail the build, so a typo such as "udpated" is never silently dropped.
+	decoder := yaml.NewDecoder(strings.NewReader(metadata))
+	decoder.KnownFields(true)
+	if err := decoder.Decode(&p.PostMetadata); err != nil {
+		return p, fmt.Errorf("%s: metadata: %w", name, err)
+	}
+	if decoder.Decode(&struct{}{}) != io.EOF {
+		return p, fmt.Errorf("%s: metadata: unexpected data after the YAML document", name)
+	}
+	p.Slug = strings.TrimSuffix(filepath.Base(name), ".md")
+	if !slugPattern.MatchString(p.Slug) {
+		return p, fmt.Errorf("invalid slug: %s", p.Slug)
+	}
+	if strings.TrimSpace(p.Title) == "" || strings.TrimSpace(p.Description) == "" {
+		return p, fmt.Errorf("%s: title and description are required", name)
+	}
+	if _, err := time.Parse(time.DateOnly, p.Date); err != nil {
+		return p, fmt.Errorf("%s: invalid date: %w", name, err)
+	}
+	p.Path = "/posts/" + p.Slug + "/"
+	if p.Updated != "" {
+		if _, err := time.Parse(time.DateOnly, p.Updated); err != nil || p.Updated < p.Date {
+			return p, fmt.Errorf("%s: updated must be a YYYY-MM-DD date on or after date", name)
+		}
+	}
+	p.body = []byte(parts[1])
+	p.Units = readingUnits(parts[1])
+	p.Minutes = max(1, (p.Units+299)/300)
+	return p, nil
+}
+
+// render fills Content and TOC in the post's edition.
+func (p *Post) render(hooks contentHooks) (err error) {
+	if p.Content, p.TOC, err = renderContent(p.Lang.markdown(), p.body, hooks); err != nil && p.File != "" {
+		err = fmt.Errorf("%s: %w", p.File, err)
+	}
+	return err
+}
+
+// fencePrefix returns a leading run of three or more backticks or tildes and the trimmed remainder.
+func fencePrefix(trimmed string) (string, string) {
+	if len(trimmed) < 3 || (trimmed[0] != '`' && trimmed[0] != '~') {
+		return "", ""
+	}
+	i := 0
+	for i < len(trimmed) && trimmed[i] == trimmed[0] {
+		i++
+	}
+	if i < 3 {
+		return "", ""
+	}
+	return trimmed[:i], strings.TrimSpace(trimmed[i:])
+}
+
+// readingUnits counts each Han character and each other word once, skipping
+// fenced code and data blocks, which readers scan rather than read.
+func readingUnits(src string) int {
+	src = stripCardsSection(src)
+	units, fence, inWord := 0, "", false
+	for _, line := range strings.Split(src, "\n") {
+		trimmed := strings.TrimSpace(line)
+		if fence != "" {
+			if mark, rest := fencePrefix(trimmed); rest == "" && len(mark) >= len(fence) && mark[0] == fence[0] {
+				fence = ""
+			}
+			continue
+		}
+		if mark, rest := fencePrefix(trimmed); mark != "" && (mark[0] != '`' || !strings.ContainsRune(rest, '`')) {
+			fence = mark
+			continue
+		}
+		for _, r := range line + " " {
+			switch {
+			case unicode.Is(unicode.Han, r):
+				units++
+				inWord = false
+			case unicode.IsLetter(r) || unicode.IsDigit(r):
+				if !inWord {
+					units++
+				}
+				inWord = true
+			default:
+				inWord = false
+			}
+		}
+	}
+	return units
+}

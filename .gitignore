@@ -1,0 +1,7 @@
+/public/
+/.build-*/
+.DS_Store
+/reports/
+/.cache/
+__pycache__/
+/blog

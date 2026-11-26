@@ -1,0 +1,601 @@
+package main
+
+import (
+	"encoding/json"
+	"encoding/xml"
+	"html/template"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+
+	"github.com/yuin/goldmark/ast"
+)
+
+// render uses the default edition's renderer.
+func render(src []byte, image func(*ast.Image) error) (template.HTML, []Heading, error) {
+	return renderContent(languages[0].markdown(), src, contentHooks{image: image})
+}
+
+func TestPostValidation(t *testing.T) {
+	for _, tc := range []struct {
+		name, input string
+		valid       bool
+	}{
+		{"valid", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\ntag: 技术\ntags: [Go, YAML]\naliases: [/old/]\n---\n## 内容\n<script>alert(1)</script>\n[bad](javascript:alert(1))", true},
+		{"updated", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\nupdated: 2026-10-20\n---\nHello", true},
+		{"updated-before-date", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\nupdated: 2026-10-01\n---\nHello", false},
+		{"bad-date", "---\ntitle: A\ndescription: B\ndate: 2026-02-30\n---\nHello", false},
+		{"missing-title", "---\ndescription: B\ndate: 2026-10-02\n---\nHello", false},
+		{"bad-metadata", "---\ntitle: [\n---\nHello", false},
+		{"no-metadata", "Hello", false},
+		{"json-metadata", "{\"title\":\"A\",\"description\":\"B\",\"date\":\"2026-10-02\"}\n---\nHello", false},
+		{"missing-opening-delimiter", "title: A\ndescription: B\ndate: 2026-10-02\n---\nHello", false},
+		{"missing-closing-delimiter", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\nHello", false},
+		{"unknown-field", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\nimage: a.png\n---\nHello", false},
+		{"misspelled-field", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\nudpated: 2026-10-20\n---\nHello", false},
+		{"duplicate-field", "---\ntitle: A\ntitle: B\ndescription: B\ndate: 2026-10-02\n---\nHello", false},
+		{"wrong-field-type", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\ntags: Linux\n---\nHello", false},
+		{"trailing-data", "---\ntitle: A\ndescription: B\ndate: 2026-10-02\n...\nunexpected\n---\nHello", false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			path := filepath.Join(t.TempDir(), tc.name+".md")
+			if err := os.WriteFile(path, []byte(tc.input), 0600); err != nil {
+				t.Fatal(err)
+			}
+			p, err := readPost(path)
+			if err == nil {
+				err = p.render(contentHooks{})
+			}
+			if (err == nil) != tc.valid {
+				t.Fatalf("valid=%v, err=%v", tc.valid, err)
+			}
+			if tc.valid && (strings.Contains(string(p.Content), "<script>") || strings.Contains(string(p.Content), "href=\"javascript:")) {
+				t.Fatal("unsafe HTML rendered")
+			}
+		})
+	}
+}
+
+func TestBuild(t *testing.T) {
+	// Work in a disposable fixture; do not replace local preview output.
+	dir := t.TempDir()
+	for _, name := range []string{"templates", "static", "fonts"} {
+		if err := os.CopyFS(filepath.Join(dir, name), os.DirFS(name)); err != nil {
+			t.Fatal(err)
+		}
+	}
+	// Fixture posts keep the test independent of real articles and their images.
+	fixtures := map[string]string{
+		"content/posts/alpha.md":    "---\ntitle: Alpha\ndescription: A\ndate: 2026-10-02\ntag: 技术\ntags: [Next.js, Linux]\n---\n## 第一节\n\n正文。\n",
+		"content/posts/draft.md":    "---\ntitle: Draft\ndescription: D\ndate: 2026-10-03\ndraft: true\n---\n草稿。\n\n![unfinished](../images/missing.png)\n",
+		"content/posts/en/alpha.md": "---\ntitle: Alpha EN\ndescription: A\ndate: 2026-10-02\ntags: [Linux]\n---\nText.\n",
+		"content/posts/beta.md":     "---\ntitle: Beta\ndescription: B\ndate: 2026-10-02\n---\n正文。\n",
+		"content/posts/gamma.md":    "---\ntitle: Gamma\ndescription: C\ndate: 2026-09-28\n---\n正文。\n",
+	}
+	for name, body := range fixtures {
+		if err := os.MkdirAll(filepath.Join(dir, filepath.Dir(name)), 0755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(filepath.Join(dir, name), []byte(body), 0600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	config, err := os.ReadFile("site.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile(filepath.Join(dir, "site.json"), config, 0600); err != nil {
+		t.Fatal(err)
+	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = os.Chdir(dir); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.Chdir(cwd) })
+	if err = os.WriteFile("static/photo.svg", []byte("<svg/>"), 0644); err != nil {
+		t.Fatal(err)
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := os.Stat("public/static/photo.svg"); err != nil {
+		t.Fatal("author-linked assets must retain their path:", err)
+	}
+	version, err := assetVersion("static")
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, unused := range []string{"style.css", "fonts/maple-mono-400.woff2"} {
+		if _, err := os.Stat("public/static/" + version + "/" + unused); err == nil {
+			t.Fatalf("%s is inlined and must not be published", unused)
+		}
+	}
+	if _, err := os.Stat("public/static/" + version + "/" + echartsFile); err != nil {
+		t.Fatal("ECharts must be published with the versioned, immutable assets:", err)
+	}
+	lateFonts, _ := filepath.Glob("public/static/" + version + "/fonts/sans-400-*.woff2")
+	if len(lateFonts) == 0 {
+		t.Fatal("pages need their late font subsets")
+	}
+	headers, _ := os.ReadFile("public/_headers")
+	if !strings.Contains(string(headers), "/notes/static/"+version+"/*") || !strings.Contains(string(headers), "/notes/images/*\n  Cache-Control: public, max-age=31536000, immutable") {
+		t.Fatal("deployment cache rules must include the base path and content version")
+	}
+	for _, route := range []string{"/notes/\n", "/notes/index.html\n", "/notes/about/*\n", "/notes/posts/*\n", "/notes/en/*\n", "/notes/search.json\n", "/notes/feed.xml\n", "/notes/robots.txt\n", "/notes/favicon.ico\n", "/notes/apple-touch-icon.png\n", "/notes/static/avatar.webp\n", "/notes/static/avatar.png\n", "/notes/static/photo.svg\n"} {
+		if !strings.Contains(string(headers), route+"  Cache-Control: no-cache") {
+			t.Fatalf("documents must revalidate: %s missing from\n%s", route, headers)
+		}
+	}
+	for _, name := range []string{"index.html", "about/index.html", "posts/beta/index.html", "404.html"} {
+		b, err := os.ReadFile(filepath.Join("public", name))
+		if err != nil {
+			t.Fatal(err)
+		}
+		html := string(b)
+		if strings.Count(html, "<script") > strings.Count(html, `<script type="application/ld+json">`)+3 || !strings.Contains(html, `<style>@font-face`) || !strings.Contains(html, `url("/notes/static/`+version+`/fonts/`) || !strings.Contains(html, `href="/notes/static/`) || !strings.Contains(html, `<main id="main">`) || !strings.Contains(html, `<a href="/notes/about/"`) {
+			t.Fatalf("invalid static page %s", name)
+		}
+		if strings.Contains(html, "og:image") || strings.Contains(html, "summary_large_image") || strings.Contains(html, "max-image-preview") || !strings.Contains(html, `<meta name="twitter:card" content="summary">`) {
+			t.Fatalf("%s must not carry a share preview image", name)
+		}
+	}
+	for _, tc := range []struct{ slug, previous, next string }{
+		{"alpha", "/notes/posts/beta/", ""},
+		{"beta", "/notes/posts/gamma/", "/notes/posts/alpha/"},
+		{"gamma", "", "/notes/posts/beta/"},
+	} {
+		b, err := os.ReadFile("public/posts/" + tc.slug + "/index.html")
+		if err != nil {
+			t.Fatal(err)
+		}
+		html := string(b)
+		for rel, target := range map[string]string{"prev": tc.previous, "next": tc.next} {
+			if target == "" && strings.Contains(html, `rel="`+rel+`"`) {
+				t.Fatalf("unexpected %s on %s", rel, tc.slug)
+			}
+			if target != "" && !strings.Contains(html, `rel="`+rel+`" href="`+target+`"`) {
+				t.Fatalf("missing %s on %s", rel, tc.slug)
+			}
+		}
+		if !strings.Contains(html, `<p class="article-meta">`) || !strings.Contains(html, "分钟阅读") || strings.Count(html, `aria-label="文章目录"`) > 2 {
+			t.Fatalf("article metadata is missing on %s", tc.slug)
+		}
+	}
+	home, _ := os.ReadFile("public/index.html")
+	if !strings.Contains(string(home), `matches(".theme")`) || strings.Contains(string(home), "tradingview") || strings.Contains(string(home), `querySelector(".toc")`) || strings.Contains(string(home), "[data-copy]") {
+		t.Fatal("the home page needs the base script only")
+	}
+	if strings.Contains(string(home), `class="intro"`) || !strings.Contains(string(home), `class="ledger"`) || !strings.Contains(string(home), "<title>Stefansky</title>") || !strings.Contains(string(home), "2026.09–2026.10") {
+		t.Fatal("the home page must display its edition title and editorial dashboard without intro tagline")
+	}
+	enHome, _ := os.ReadFile("public/en/index.html")
+	if !strings.Contains(string(enHome), "<title>Stefansky</title>") || !strings.Contains(string(enHome), `content="Stefansky’s personal blog on security research, CTFs, reverse engineering, and AI systems."`) || !strings.Contains(string(enHome), `class="ledger"`) {
+		t.Fatal("the English home page must use its own brand title, description and dashboard")
+	}
+	aboutZH, _ := os.ReadFile("public/about/index.html")
+	for _, want := range []string{`aria-current="page">关于</a>`, "github.com/Stefansky07", "zhihu.com/people/yu-yuan-chang-meng", "/notes/feed.xml", `"ProfilePage"`} {
+		if !strings.Contains(string(aboutZH), want) {
+			t.Fatalf("Chinese about page lacks %s", want)
+		}
+	}
+	aboutEN, _ := os.ReadFile("public/en/about/index.html")
+	for _, want := range []string{`aria-current="page">About</a>`, "github.com/Stefansky07", "zhihu.com/people/yu-yuan-chang-meng", "/notes/en/feed.xml"} {
+		if !strings.Contains(string(aboutEN), want) {
+			t.Fatalf("English about page lacks %s", want)
+		}
+	}
+	alpha, _ := os.ReadFile("public/posts/alpha/index.html")
+	if !strings.Contains(string(alpha), `querySelector(".toc")`) {
+		t.Fatal("a post with headings needs the table of contents script")
+	}
+	for _, want := range []string{`href="/notes/categories/%e6%8a%80%e6%9c%af/"`, `href="/notes/tags/nextjs/">#Next.js`, `hreflang="en" href="https://example.com/notes/en/posts/alpha/"`, `class="anchor" href="#第一节"`, `rel="license"`, `class="progress"`, "© 2026 "} {
+		if !strings.Contains(string(alpha), want) {
+			t.Fatalf("post lacks %s", want)
+		}
+	}
+	for _, name := range []string{"tags/index.html", "tags/linux/index.html", "tags/linux/feed.xml", "categories/技术/index.html", "search/index.html", "search.json", "en/index.html", "en/posts/alpha/index.html", "en/tags/linux/index.html"} {
+		if _, err := os.Stat(filepath.Join("public", name)); err != nil {
+			t.Fatalf("missing %s: %v", name, err)
+		}
+	}
+	if _, err := os.Stat("public/posts/draft/index.html"); err == nil {
+		t.Fatal("drafts must not be published")
+	}
+	if en404, err := os.ReadFile("public/en/404.html"); err != nil || !strings.Contains(string(en404), `<html lang="en">`) || !strings.Contains(string(en404), "Page not found") || !strings.Contains(string(en404), `<a href="/notes/en/">← Home</a>`) || !strings.Contains(string(en404), `href="/notes/" hreflang="zh-CN"`) || strings.Contains(string(en404), `rel="alternate" hreflang=`) {
+		t.Fatal("the English edition needs its own 404 page, edition home link, and header switcher")
+	}
+	if zh404, err := os.ReadFile("public/404.html"); err != nil || !strings.Contains(string(zh404), `<a href="/notes/">← 回到首页</a>`) || !strings.Contains(string(zh404), `href="/notes/en/" hreflang="en"`) {
+		t.Fatal("the root 404 page needs its home link and header switcher")
+	}
+	en, _ := os.ReadFile("public/en/posts/alpha/index.html")
+	if !strings.Contains(string(en), `<html lang="en">`) || !strings.Contains(string(en), "1 min read") || !strings.Contains(string(en), `href="/notes/posts/alpha/" hreflang="zh-CN"`) {
+		t.Fatal("English edition must use its own language and link its translation")
+	}
+	linuxZH, _ := os.ReadFile("public/tags/linux/index.html")
+	nextjsZH, _ := os.ReadFile("public/tags/nextjs/index.html")
+	if !strings.Contains(string(linuxZH), `rel="alternate" hreflang="en" href="https://example.com/notes/en/tags/linux/"`) {
+		t.Fatal("matched tag pages must emit reciprocal hreflang")
+	}
+	if strings.Contains(string(nextjsZH), `rel="alternate" hreflang=`) || !strings.Contains(string(nextjsZH), `href="/notes/en/tags/" hreflang="en"`) {
+		t.Fatal("unmatched tag pages must omit hreflang while keeping the header language switch")
+	}
+	var index map[string]struct{ T, X string }
+	b, _ := os.ReadFile("public/search.json")
+	if err = json.Unmarshal(b, &index); err != nil || !strings.Contains(index["/posts/alpha/"].T, "Next.js") || !strings.Contains(index["/posts/alpha/"].X, "正文") {
+		t.Fatalf("invalid search index: %v %v", err, index)
+	}
+	search, _ := os.ReadFile("public/search/index.html")
+	if !strings.Contains(string(search), `font-family:"Blog Search"`) || !strings.Contains(string(search), "搜索需要开启 JavaScript") || !strings.Contains(string(search), ".theme,.copy,.textbtn,.ticker button") {
+		t.Fatal("search snippets need their font and no-JS fallback")
+	}
+	var rss Feed
+	b, _ = os.ReadFile("public/feed.xml")
+	if err = xml.Unmarshal(b, &rss); err != nil || len(rss.Channel.Items) != 3 {
+		t.Fatalf("invalid RSS: %v", err)
+	}
+	// encoding/xml lets the Atom <link> shadow the RSS one when decoding, so check the text.
+	for _, want := range []string{"<link>https://example.com/notes/</link>", `<link xmlns="http://www.w3.org/2005/Atom" href="https://example.com/notes/feed.xml" rel="self" type="application/rss+xml"></link>`, "<language>zh-CN</language>"} {
+		if !strings.Contains(string(b), want) {
+			t.Fatalf("RSS channel lacks %s", want)
+		}
+	}
+	if !strings.Contains(rss.Channel.Items[0].Description, "<h2") {
+		t.Fatal("RSS must include full content")
+	}
+	var sitemap Sitemap
+	b, _ = os.ReadFile("public/sitemap.xml")
+	if err = xml.Unmarshal(b, &sitemap); err != nil || len(sitemap.URLs) != 14 {
+		t.Fatalf("invalid sitemap: %v (%d urls)", err, len(sitemap.URLs))
+	}
+	for _, want := range []string{"<loc>https://example.com/notes/tags/</loc>", "<loc>https://example.com/notes/en/tags/</loc>", "<loc>https://example.com/notes/categories/%E6%8A%80%E6%9C%AF/</loc>"} {
+		if !strings.Contains(string(b), want) {
+			t.Fatalf("sitemap lacks %s in\n%s", want, b)
+		}
+	}
+	techCat, _ := os.ReadFile("public/categories/技术/index.html")
+	for _, want := range []string{`<link rel="canonical" href="https://example.com/notes/categories/%E6%8A%80%E6%9C%AF/">`, `<meta property="og:url" content="https://example.com/notes/categories/%E6%8A%80%E6%9C%AF/">`} {
+		if !strings.Contains(string(techCat), want) {
+			t.Fatalf("CJK category page lacks %s", want)
+		}
+	}
+	for _, u := range sitemap.URLs {
+		if u.LastMod != "2026-10-02" && u.LastMod != "2026-09-28" {
+			t.Fatalf("sitemap lastmod must come from post dates: %+v", u)
+		}
+	}
+	if err = os.WriteFile("public/stale.html", []byte("old"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err != nil {
+		t.Fatal(err)
+	}
+	if _, err = os.Stat("public/stale.html"); !os.IsNotExist(err) {
+		t.Fatal("stale output survived rebuild")
+	}
+	for _, slug := range []string{"alpha", "gamma", "en/alpha"} {
+		if err = os.Remove("content/posts/" + slug + ".md"); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err != nil {
+		t.Fatal(err)
+	}
+	single, _ := os.ReadFile("public/posts/beta/index.html")
+	if strings.Contains(string(single), `class="post-pagination"`) {
+		t.Fatal("single article should have no adjacent navigation")
+	}
+	before, _ := os.ReadFile("public/index.html")
+	original, _ := os.ReadFile("content/posts/beta.md")
+	if err = os.WriteFile("content/posts/beta.md", append(original, []byte("\n![missing](../images/missing.png)\n")...), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err == nil {
+		t.Fatal("missing image should fail build")
+	}
+	unchanged, _ := os.ReadFile("public/index.html")
+	if string(before) != string(unchanged) {
+		t.Fatal("missing image damaged previous output")
+	}
+	if err = os.WriteFile("content/posts/beta.md", original, 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err = os.WriteFile("content/posts/broken.md", []byte("invalid"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err == nil {
+		t.Fatal("invalid content should fail build")
+	}
+	after, _ := os.ReadFile("public/index.html")
+	if string(before) != string(after) {
+		t.Fatal("failed build changed previous output")
+	}
+}
+
+func TestTableOfContents(t *testing.T) {
+	body, toc, err := render([]byte("## 中文标题\n\n### A **bold** `code` heading\n\n## 中文标题\n\n```md\n## not a heading\n```\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(toc) != 3 {
+		t.Fatalf("unexpected TOC: %+v", toc)
+	}
+	seen := map[string]bool{}
+	for _, h := range toc {
+		if h.ID == "" || seen[h.ID] || !strings.Contains(string(body), `id="`+h.ID+`"`) {
+			t.Fatalf("invalid heading target: %+v", h)
+		}
+		seen[h.ID] = true
+	}
+	if toc[1].Title != "A bold code heading" || toc[1].Level != 3 {
+		t.Fatalf("invalid inline heading: %+v", toc[1])
+	}
+	if toc[0].ID != "中文标题" || toc[1].ID != "a-bold-code-heading" || toc[2].ID != "中文标题-1" {
+		t.Fatalf("anchors must stay readable: %+v", toc)
+	}
+	_, toc, err = render([]byte("Just a paragraph."), nil)
+	if err != nil || len(toc) != 0 {
+		t.Fatal("heading-free content should have no TOC")
+	}
+}
+
+func TestCodeHighlighting(t *testing.T) {
+	body, _, err := render([]byte("```go\nfunc main() { return }\n```\n\n```nosuchlang\n<b>x</b>\n```\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	html := string(body)
+	if !strings.Contains(html, `<pre tabindex="0" class="chroma">`) || !strings.Contains(html, `<span class="kd">func</span>`) {
+		t.Fatalf("known languages must be highlighted with classes and stay focusable: %s", html)
+	}
+	if strings.Contains(html, "style=") || !strings.Contains(html, `<code>&lt;b&gt;x&lt;/b&gt;</code>`) || !strings.Contains(html, `<span class="lang">go</span>`) || !strings.Contains(html, `>复制</button>`) {
+		t.Fatalf("unknown languages must stay plain and escaped, with the language and edition copy label: %s", html)
+	}
+	if enCode, _, err := renderContent(languages[1].markdown(), []byte("```go\nx := 1\n```\n"), contentHooks{}); err != nil || !strings.Contains(string(enCode), `>copy</button>`) {
+		t.Fatalf("English code blocks must use English copy label: %s %v", enCode, err)
+	}
+	body, _, err = render([]byte("```go src=\"https://github.com/o/r/blob/ad8012c1a0926822307f56454bd26be9ef9dd2dc/a/b.go#L76-L77\" title=\"T\"\nx := 1\ny := 2\n```\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if html = string(body); !strings.Contains(html, `<b>a/b.go</b><span>T</span>`) || !strings.Contains(html, `L76–77 · ad8012c ↗`) || !strings.Contains(html, `>77</span>`) || strings.Contains(html, `class="lang"`) {
+		t.Fatalf("source quotes need a path header and their own line numbers: %s", html)
+	}
+	if _, _, err = render([]byte("```go src=\"https://example.com/a.go\"\nx\n```\n"), nil); err == nil {
+		t.Fatal("src must be a GitHub permalink")
+	}
+}
+
+func TestCJKEmphasis(t *testing.T) {
+	body, _, err := render([]byte("用**“借 `ip` 的肉身”**完成，**「引号」**后面，~~（删）~~掉，a **b** c\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	html := string(body)
+	for _, want := range []string{"用<strong>“借 <code>ip</code> 的肉身”</strong>完成", "<strong>「引号」</strong>后面", "<del>（删）</del>掉", "a <strong>b</strong> c"} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("emphasis beside CJK punctuation must parse, want %q: %s", want, html)
+		}
+	}
+}
+
+func TestBlocks(t *testing.T) {
+	src := "```chart line title=\"累计\"\n周五 | BTC | ETH\n2023-12-29 | 0.1 | -0.2\n2024-01-05 | 0.3 | 0.1\n```\n\n" +
+		"```chart bar mirror=\"true\"\n区间 | A | B\n0 | 3 | 1\n1 | 5 | 2\n```\n\n" +
+		"```chart scatter diag=\"true\" mark=\"p\"\n点 | x | y\np | -0.05 | -0.09\nq | 0.01 | 0.01\n```\n\n" +
+		"```stats title=\"S\"\n## BTC 单利\n总收益 | +1.1 | 说明\n回撤 | -0.1\n```\n\n::tv BINANCE:BTCUSDT 比特币 height=420\n"
+	body, _, err := render([]byte(src), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	html := string(body)
+	for _, want := range []string{`<svg viewBox="0 0 664`, `role="img" aria-label="累计"`, `>2024</span>`, `BTC 0.3</span>`, `ETH 0.1</span>`, `A ↑</span>`, `>p</span>`,
+		`<p class="stats-group"><b>BTC</b>单利</p>`, `<dd class="up">+1.1</dd><dd class="s">说明</dd>`, `<dd>−0.1</dd>`,
+		`<div class="ticker" data-symbol="BINANCE:BTCUSDT" data-interval="" data-height="420"><span><b>BINANCE:BTCUSDT</b><span class="ticker-label">比特币</span>`} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("missing %s in %s", want, html)
+		}
+	}
+	if en, _, err := renderContent(languages[1].markdown(), []byte("$BTC\n\n```chart bar mirror=\"true\"\nx | A | B\n0 | 3 | 1\n```\n"), contentHooks{}); err != nil || !strings.Contains(string(en), ">Live chart</button>") || !strings.Contains(string(en), `aria-label="A, B"`) {
+		t.Fatalf("ticker button and untitled chart aria-label must follow the edition: %s %v", en, err)
+	}
+	if !strings.Contains(html, `aria-label="A、B"`) {
+		t.Fatalf("Chinese untitled chart aria-label must join with 、: %s", html)
+	}
+	pct, _, err := render([]byte("```chart bar yfmt=\"%.0f%%\"\n项 | 占比\nA | 24.0%\nB | 10.0%\n```\n"), nil)
+	if err != nil || !strings.Contains(string(pct), "24.0% · A") || strings.Contains(string(pct), "24.0%%") {
+		t.Fatalf("percent cell with %% yfmt must not double %%: %v %s", err, pct)
+	}
+	for _, bad := range []string{
+		"```chart pie\nx | y\n1 | 2\n```\n",
+		"```chart line\nx\n1\n```\n",
+		"```chart scatter\n点 | x | y\np | a | 1\n```\n",
+		"```chart scatter\n点 | x | y\np | 1 | a\n```\n",
+		"```chart scatter\n点 | x | y\np | 1 | —\n```\n",
+		"```chart line yfmt=\"%.0f%\"\nx | y\n1 | 2\n```\n",
+		"```chart line xfmt=\"%d\"\nx | y\n1 | 2\n```\n",
+		"```stats\n## A\n```\n",
+		"::tv\n",
+		"::tv interval=W\n",
+		"::tv BINANCE:BTCUSDT intervl=W\n",
+		"::tv BINANCE:BTCUSDT height=480px\n",
+		"::tv BINANCE:BTCUSDT height=0\n",
+	} {
+		if _, _, err := render([]byte(bad), nil); err == nil {
+			t.Fatalf("expected an error for %q", bad)
+		}
+	}
+}
+
+func TestMath(t *testing.T) {
+	body, _, err := render([]byte("面积 $\\pi r^2$ 与 $$f(h) = (1-h)$$ 与 $\\|x\\|_2$ 与 $\\langle A, B \\rangle_F$。\n\n$$\n\\frac{a}{b}\n$$\n\n价格 $0.0028/$0.14，$5 和 $10，`$x$`，\\$y$。\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	html := string(body)
+	for _, want := range []string{`<span class="math-inline"><svg class="math-svg"`, `<div class="math" tabindex="0"><svg class="math-svg"`, `MJX-TEX-`, `aria-label="\frac{a}{b}"`, "价格 $0.0028/$0.14，$5 和 $10，<code>$x$</code>，$y$。"} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("missing %q in %s", want, html)
+		}
+	}
+	if strings.Count(html, `<svg class="math-svg"`) != 5 || strings.Contains(html, "\n  ") {
+		t.Fatalf("expected five compact SVG formulas: %s", html)
+	}
+	hoisted := hoistMathDefs("<body>" + html + "</body>")
+	if strings.Count(hoisted, `<svg aria-hidden="true" class="math-defs"><defs>`) != 1 || strings.Contains(hoisted[:strings.Index(hoisted, `class="math-defs"`)], "<defs>") {
+		t.Fatalf("expected shared math-defs and stripped inline defs: %s", hoisted)
+	}
+	first, _, _ := render([]byte("$$\n\\left( \\frac{a}{b} \\right)\n$$\n"), nil)
+	for range 20 {
+		if again, _, _ := render([]byte("$$\n\\left( \\frac{a}{b} \\right)\n$$\n"), nil); again != first {
+			t.Fatalf("Math SVG must be identical on every build:\n%s\n%s", first, again)
+		}
+	}
+	if _, _, err = render([]byte("$\\nope$"), nil); err == nil {
+		t.Fatal("unsupported LaTeX must fail the build")
+	}
+}
+
+func TestDataTable(t *testing.T) {
+	body, _, err := render([]byte("```data title=\"Sharpe <x>\" bars=\"BTC\" mark=\"Δ0.35\" note=\"周频\"\nDelta | BTC | 说明\n--- | ---: | ---\nΔ0.05 | −1.00 | <b>\nΔ0.35 | 3.00 | —\n```\n"), nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	html := string(body)
+	for _, want := range []string{
+		`<figcaption>Sharpe &lt;x&gt;</figcaption>`,
+		`<th class="num">BTC</th><th>说明</th>`,
+		`<td class="num bar neg" style="--vw:5ch"><span class="bar-cell"><span class="bar-track zero" style="--z:25.0%" aria-hidden="true"><i class="bar-fill" style="left:0.0%;width:25.0%"></i></span><span class="bar-val">−1.00</span></span></td><td>&lt;b&gt;</td>`,
+		`<tr class="mark"><td class="row-key mono-key">Δ0.35</td><td class="num bar" style="--vw:5ch"><span class="bar-cell"><span class="bar-track zero" style="--z:25.0%" aria-hidden="true"><i class="bar-fill" style="left:25.0%;width:75.0%"></i></span><span class="bar-val">3.00</span></span></td>`,
+		`<p class="data-note">周频</p>`,
+	} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("missing %q in %s", want, html)
+		}
+	}
+	shared, _, _ := render([]byte("```data bars=\"A,B\"\nx | A | B\na | 1 | 4\n```\n"), nil)
+	column, _, _ := render([]byte("```data bars=\"A,B\" scale=\"column\"\nx | A | B\na | 1 | 4\n```\n"), nil)
+	if !strings.Contains(string(shared), `width:25.0%"></i></span><span class="bar-val">1</span>`) || !strings.Contains(string(column), `width:100.0%"></i></span><span class="bar-val">1</span>`) {
+		t.Fatalf("bars must share a scale unless scale=column: %s %s", shared, column)
+	}
+	sub, _, _ := render([]byte("```data\n组别 | 得分 | 结构\nA | 8.90 | 2 家 7 人混编公司\nB | -7.88（不显著） | -\n```\n"), nil)
+	for _, want := range []string{`<span class="num-main">−7.88</span><span class="num-sub">（不显著）</span>`, `<td class="prose-col">2 家 7 人混编公司</td>`} {
+		if !strings.Contains(string(sub), want) {
+			t.Fatalf("missing %q in %s", want, sub)
+		}
+	}
+	emptyEdge, _, err := render([]byte("```data\nA | B | C\n1 | 2 |\n| 3 | 4\n```\n\n```data\n| A | B | C |\n| 1 | 2 | |\n| | 3 | 4 |\n```\n"), nil)
+	if err != nil || strings.Count(string(emptyEdge), `<td class="num"></td>`) != 2 || strings.Count(string(emptyEdge), `<td class="row-key mono-key"></td>`) != 2 {
+		t.Fatalf("empty leading or trailing cells must be preserved: %v\n%s", err, emptyEdge)
+	}
+	gfm, _, _ := render([]byte("| Delta | PnL |\n| --- | ---: |\n| 0.05 | +1.2 |\n"), nil)
+	if !strings.Contains(string(gfm), `<div class="table-scroll" tabindex="0"><table>`) || !strings.Contains(string(gfm), `<td class="mono-key">0.05</td>`) || !strings.Contains(string(gfm), `<td class="num" style="text-align:right">+1.2</td>`) {
+		t.Fatalf("GFM table should wrap in .table-scroll and classify numeric cells: %s", gfm)
+	}
+	st, _, _ := render([]byte("```stats\n## 人类供给（共 14 人）\n程序员 | 6 人 | 详情 -0.1\n文案 | 6 人\n协调者 | 2 人\n```\n"), nil)
+	for _, want := range []string{`<b>人类供给</b>（共 14 人）`, `style="--k:3"`, `6<span class="kpi-u"> 人</span>`, `详情 −0.1`} {
+		if !strings.Contains(string(st), want) {
+			t.Fatalf("missing %q in %s", want, st)
+		}
+	}
+	for _, bad := range []string{
+		"```data colour=\"red\"\na | b\n1 | 2\n```",
+		"```data bars=\"C\"\na | b\n1 | 2\n```",
+		"```data mark=\"missing\"\na | b\n1 | 2\n```",
+		"```data\na | b\n1\n```",
+		"```data\na | b\n```",
+	} {
+		if _, _, err := render([]byte(bad), nil); err == nil {
+			t.Fatalf("invalid data table must fail the build: %s", bad)
+		}
+	}
+}
+
+func TestReadingUnits(t *testing.T) {
+	if n := readingUnits("中文字 and English words\n\n```go\nfunc ignored() {}\n```\n\n2026 年"); n != 3+3+1+1 {
+		t.Fatalf("got %d units", n)
+	}
+	nested := "前言\n\n````md\n```go\nignored code here\n```\n````\n\n~~~txt\n````\nignored tilde\n~~~~\n\n结尾"
+	if n := readingUnits(nested); n != 4 {
+		t.Fatalf("nested and tilde fences: got %d units, want 4", n)
+	}
+}
+
+func TestStructuredData(t *testing.T) {
+	site := Site{Title: "T", Author: "A", URL: "https://example.com", About: "https://about.example.com", SameAs: []string{"https://github.com/a"}}
+	post := &Post{PostMetadata: PostMetadata{Title: "</script><b>", Description: "D", Date: "2026-10-02", Updated: "2026-10-20", Tag: "x"}, Path: "/posts/p/"}
+	ld := string(structuredData(Page{Site: site, Kind: "post", Post: post}))
+	if strings.Contains(ld, "</script>") {
+		t.Fatal("JSON-LD must not close its script element")
+	}
+	var data map[string]any
+	if err := json.Unmarshal([]byte(ld), &data); err != nil {
+		t.Fatal(err)
+	}
+	if data["@type"] != "BlogPosting" || data["headline"] != "</script><b>" || data["dateModified"] != "2026-10-20" || data["image"] != nil || data["author"].(map[string]any)["url"] != "https://about.example.com" {
+		t.Fatalf("unexpected JSON-LD: %v", data)
+	}
+	if structuredData(Page{Site: site, Kind: "404"}) != "" {
+		t.Fatal("404 pages carry no structured data")
+	}
+	homeLD := string(structuredData(Page{Site: site, UI: UI{Title: "Stefansky"}, Path: "/en/", Kind: "home", Description: "Writing"}))
+	if err := json.Unmarshal([]byte(homeLD), &data); err != nil || data["@type"] != "WebSite" || data["name"] != "Stefansky" || data["url"] != "https://example.com/en/" {
+		t.Fatalf("unexpected home JSON-LD: %v %v", err, data)
+	}
+	aboutLD := string(structuredData(Page{Site: site, Path: "/about/", Title: "关于 — Stefansky", Description: "Bio", Kind: "about"}))
+	if err := json.Unmarshal([]byte(aboutLD), &data); err != nil || data["@type"] != "ProfilePage" || data["url"] != "https://example.com/about/" || data["mainEntity"].(map[string]any)["name"] != "A" {
+		t.Fatalf("unexpected about JSON-LD: %v %v", err, data)
+	}
+}
+
+func TestTermCollision(t *testing.T) {
+	posts := []*Post{{PostMetadata: PostMetadata{Tags: []string{"C++"}}, File: "a.md"}, {PostMetadata: PostMetadata{Tags: []string{"c"}}, File: "b.md"}}
+	if _, err := collectTerms(posts, "", "tags", func(p *Post) []string { return p.Tags }); err == nil {
+		t.Fatal("C++ and c must not share /tags/c/")
+	}
+	posts[1].Tags = []string{"C++"}
+	if terms, err := collectTerms(posts, "", "tags", func(p *Post) []string { return p.Tags }); err != nil || len(terms) != 1 || len(terms[0].Posts) != 2 {
+		t.Fatalf("one name must group posts: %v %v", terms, err)
+	}
+}
+
+func TestRedirects(t *testing.T) {
+	files := map[string]string{}
+	write := func(name string, body []byte) error { files[filepath.ToSlash(name)] = string(body); return nil }
+	site := Site{URL: "https://example.com/notes", Redirects: []Redirect{{"/zh/*", "/"}, {"/about/", "https://about.example.com"}}}
+	posts := []*Post{{PostMetadata: PostMetadata{Title: "T", Aliases: []string{"/zh/技术/x/"}}, Slug: "x", Path: "/posts/x/"}}
+	posts = append(posts, &Post{PostMetadata: PostMetadata{Title: "E", Aliases: []string{"/old-en/"}}, Slug: "e", Path: "/en/posts/e/", Lang: &languages[1]})
+	if err := writeRedirects(site, "/notes", posts, write); err != nil {
+		t.Fatal(err)
+	}
+	want := "/notes/zh/%E6%8A%80%E6%9C%AF/x/ /notes/posts/x/ 301\n/notes/zh/%E6%8A%80%E6%9C%AF/x /notes/posts/x/ 301\n" +
+		"/notes/zh/技术/x/ /notes/posts/x/ 301\n/notes/zh/技术/x /notes/posts/x/ 301\n" +
+		"/notes/old-en/ /notes/en/posts/e/ 301\n/notes/old-en /notes/en/posts/e/ 301\n" +
+		"/notes/zh/* /notes/ 301\n/notes/about/ https://about.example.com 301\n"
+	if files["_redirects"] != want {
+		t.Fatalf("unexpected _redirects:\n%s", files["_redirects"])
+	}
+	if page := files["zh/技术/x/index.html"]; !strings.Contains(page, `content="0; url=https://example.com/notes/posts/x/"`) || !strings.Contains(page, `rel="canonical" href="https://example.com/notes/posts/x/"`) || !strings.Contains(page, "noindex") {
+		t.Fatalf("missing fallback page: %q", page)
+	}
+	if page := files["old-en/index.html"]; !strings.Contains(page, `<html lang="en">`) || !strings.Contains(page, "This post has moved") {
+		t.Fatalf("redirect pages must use the post's language: %q", page)
+	}
+	for _, bad := range [][]string{{"zh/x/"}, {"/zh/x"}, {"/zh/../x/"}, {"/posts/y/"}, {"/about/"}, {"/en/about/"}, {"/"}, {"/a/", "/a/"}} {
+		p := *posts[0]
+		p.Aliases = bad
+		if err := writeRedirects(site, "", []*Post{&p}, write); err == nil {
+			t.Fatalf("alias %v must be rejected", bad)
+		}
+	}
+}
+
+func TestCompactScript(t *testing.T) {
+	got := compactScript("// comment\n{\n  const url = \"https://x\";\n\n  run(); // trailing comments stay\n}\n")
+	if got != "{\nconst url = \"https://x\";\nrun(); // trailing comments stay\n}" {
+		t.Fatalf("unexpected compact script: %q", got)
+	}
+}

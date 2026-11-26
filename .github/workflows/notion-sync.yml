@@ -1,0 +1,95 @@
+name: Sync Notion Blog
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/20 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: notion-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-and-deploy:
+    name: Sync Notion posts and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: blog-src
+          fetch-depth: 0
+
+      - name: Check secrets
+        id: cfg
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_BLOG_DB_ID: ${{ secrets.NOTION_BLOG_DB_ID }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ] || [ -z "$NOTION_BLOG_DB_ID" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync pending Notion posts (stage)
+        id: sync
+        if: steps.cfg.outputs.enabled == 'true'
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_BLOG_DB_ID: ${{ secrets.NOTION_BLOG_DB_ID }}
+          SITE_URL: https://stefansky07.github.io
+        run: python3 scripts/notion-sync.py --manifest "${RUNNER_TEMP}/notion-sync.json" --github-output "$GITHUB_OUTPUT"
+
+      - name: Check content changes
+        id: diff
+        if: steps.cfg.outputs.enabled == 'true'
+        run: |
+          if [ -n "$(git status --porcelain content/)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Go
+        if: steps.diff.outputs.changed == 'true' || steps.sync.outputs.pending == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Setup uv
+        if: steps.diff.outputs.changed == 'true' || steps.sync.outputs.pending == 'true' || github.event_name == 'workflow_dispatch'
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Build site
+        if: steps.diff.outputs.changed == 'true' || steps.sync.outputs.pending == 'true' || github.event_name == 'workflow_dispatch'
+        run: go run ./src
+
+      - name: Commit synced posts
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/
+          git commit -m "chore(blog): sync posts from Notion"
+          git push origin HEAD:blog-src
+
+      - name: Publish to main
+        if: steps.diff.outputs.changed == 'true' || steps.sync.outputs.pending == 'true' || github.event_name == 'workflow_dispatch'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: main
+          publish_dir: ./public
+          force_orphan: true
+
+      - name: Acknowledge Notion publish status
+        if: steps.cfg.outputs.enabled == 'true' && steps.sync.outputs.pending == 'true'
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python3 scripts/notion-sync.py --ack "${RUNNER_TEMP}/notion-sync.json"

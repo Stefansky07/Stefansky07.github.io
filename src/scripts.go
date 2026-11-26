@@ -1,0 +1,90 @@
+package main
+
+import (
+	"html/template"
+	"os"
+	"path/filepath"
+	"strings"
+)
+
+// pageScripts are the readable sources in templates/js. A page carries the
+// base script plus only the parts its content uses, compacted and inline.
+type pageScripts map[string]string
+
+var scriptParts = []string{"base", "tip", "plot", "cite", "ticker", "toc", "draw", "chart-theme", "echart", "widget", "video", "cards", "search", "about"}
+
+// loadScripts reads the parts; echarts is the URL echart.js loads ECharts from.
+func loadScripts(echarts string) (pageScripts, error) {
+	scripts := pageScripts{}
+	for _, name := range scriptParts {
+		src, err := os.ReadFile(filepath.Join("templates", "js", name+".js"))
+		if err != nil {
+			return nil, err
+		}
+		scripts[name] = strings.ReplaceAll(compactScript(string(src)), "{{echarts}}", echarts)
+	}
+	return scripts, nil
+}
+
+// compactScript drops indentation, blank lines and whole-line comments. Line
+// breaks stay, so the result means exactly what the source says.
+func compactScript(src string) string {
+	var lines []string
+	for _, line := range strings.Split(src, "\n") {
+		if line = strings.TrimSpace(line); line != "" && !strings.HasPrefix(line, "//") {
+			lines = append(lines, line)
+		}
+	}
+	return strings.Join(lines, "\n")
+}
+
+// For is the script of one page, in a block so its names stay local.
+func (s pageScripts) For(p Page) template.JS {
+	copied, failed := strings.ToLower(p.UI.Copied), p.UI.CopyFailed
+	if copied == "" {
+		copied = "copied"
+	}
+	if failed == "" {
+		failed = "failed"
+	}
+	parts := []string{strings.NewReplacer("{{copied}}", copied, "{{failed}}", failed).Replace(s["base"])}
+	if p.Post != nil {
+		if strings.Contains(string(p.Post.Content), ` data-tip="`) {
+			parts = append(parts, s["tip"])
+		}
+		if strings.Contains(string(p.Post.Content), `<figure class="plotfig"`) && strings.Contains(string(p.Post.Content), ` data-t="`) {
+			parts = append(parts, s["plot"])
+		}
+		if strings.Contains(string(p.Post.Content), `<sup class="cite">`) {
+			parts = append(parts, s["cite"])
+		}
+		if strings.Contains(string(p.Post.Content), `<div class="ticker"`) {
+			parts = append(parts, s["ticker"])
+		}
+		if len(p.Post.TOC) > 0 {
+			parts = append(parts, s["toc"])
+		}
+		if strings.Contains(string(p.Post.Content), "<strong>") {
+			parts = append(parts, s["draw"])
+		}
+		if strings.Contains(string(p.Post.Content), `<figure class="echart"`) {
+			parts = append(parts, s["chart-theme"], s["echart"])
+		}
+		if strings.Contains(string(p.Post.Content), `<figure class="widget"`) {
+			parts = append(parts, s["widget"])
+		}
+		if strings.Contains(string(p.Post.Content), ` data-autoplay>`) {
+			parts = append(parts, s["video"])
+		}
+		if strings.Contains(string(p.Post.Content), `<details class="cards-deck"`) {
+			parts = append(parts, s["cards"])
+		}
+	}
+	if p.Kind == "search" {
+		parts = append(parts, s["search"])
+	}
+	if p.Kind == "about" {
+		parts = append(parts, s["about"])
+	}
+	return template.JS("{\n" + strings.Join(parts, "\n") + "\n}")
+}

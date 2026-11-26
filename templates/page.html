@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="{{.Lang.HTML}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}}</title>
+<meta name="description" content="{{.Description}}">
+<meta name="author" content="{{.Site.Author}}">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#151714" media="(prefers-color-scheme: dark)">
+{{if eq .Kind "404"}}<meta name="robots" content="noindex">{{else}}<link rel="canonical" href="{{.Site.URL}}{{escape .Path}}">{{end}}
+{{range .Alternates}}<link rel="alternate" hreflang="{{.Lang}}" href="{{$.Site.URL}}{{escape .Path}}">
+{{end}}<link rel="author" href="{{.Site.About}}">
+<meta property="og:site_name" content="{{if .UI.Title}}{{.UI.Title}}{{else}}{{.Site.Title}}{{end}}">
+<meta property="og:locale" content="{{.Lang.OG}}">
+<meta property="og:title" content="{{if .Post}}{{.Post.Title}}{{else}}{{.Title}}{{end}}">
+<meta property="og:description" content="{{.Description}}">
+<meta property="og:type" content="{{if eq .Kind "post"}}article{{else}}website{{end}}">
+{{if .Path}}<meta property="og:url" content="{{.Site.URL}}{{escape .Path}}">{{end}}
+<meta name="twitter:card" content="summary">
+{{with .Post}}<meta property="article:published_time" content="{{.Date}}">
+<meta property="article:modified_time" content="{{.Modified}}">
+<meta property="article:author" content="{{$.Site.About}}">
+{{if .Tag}}<meta property="article:section" content="{{.Tag}}">{{end}}{{range .Tags}}<meta property="article:tag" content="{{.}}">{{end}}{{end}}
+{{with jsonld .}}<script type="application/ld+json">{{.}}</script>{{end}}
+<link rel="icon" href="{{asset "favicon.svg"}}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{local "/apple-touch-icon.png"}}">
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch{}</script>
+<style>{{css}}</style>
+<noscript><style>:root{--cjk:"Blog Sans","Blog Sans Late";--cjk-serif:"Blog Serif","Blog Serif Late"}.theme,.copy,.textbtn,.ticker button,.code>.code-tools:not(:has(.lang)),.about-actions:not(.pgp-box),.search-form,.search-status,.cards-tools,.cloze-mask{display:none}.search-nojs[hidden]{display:block!important}.cloze{padding:0;border:0;background:none;cursor:text}.cloze .cloze-ans{display:inline!important}.anki-extra{display:block!important}</style></noscript>
+<link rel="alternate" type="application/rss+xml" title="{{if .UI.Title}}{{.UI.Title}}{{else}}{{.Site.Title}}{{end}}" href="{{local .Lang.Base}}/feed.xml">
+{{if eq .Kind "term"}}<link rel="alternate" type="application/rss+xml" title="{{.Term.Name}} — {{if .UI.Title}}{{.UI.Title}}{{else}}{{.Site.Title}}{{end}}" href="{{local .Term.Path}}feed.xml">
+{{end}}<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"{{local "/*"}}"},{"not":{"href_matches":"{{local "/*.xml"}}"}},{"not":{"href_matches":"{{local "/*.json"}}"}}]},"eagerness":"moderate"}]}</script>
+</head>
+<body id="top">
+<a class="skip" href="#main">{{.UI.Skip}}</a>
+{{if eq .Kind "post"}}<div class="progress" aria-hidden="true"></div>
+{{end}}<div class="shell">
+<header class="site-header"><a class="brand" href="{{local .Lang.Base}}/"{{if eq .Kind "home"}} aria-current="page"{{end}}><img src="{{local "/static/avatar.webp"}}" alt="" width="24" height="24">{{if .UI.Title}}{{.UI.Title}}{{else}}{{.Site.Title}}{{end}}</a><nav aria-label="{{.UI.Nav}}"><a href="{{local .Lang.Base}}/tags/"{{if or (eq .Kind "tags") (eq .Kind "term")}} aria-current="page"{{end}}>{{.UI.Tags}}</a><a href="{{local .Lang.Base}}/search/"{{if eq .Kind "search"}} aria-current="page"{{end}}>{{.UI.Search}}</a><a href="{{local .Lang.Base}}/about/"{{if eq .Kind "about"}} aria-current="page"{{end}}>{{.UI.About}}</a>{{with .Switch}}<a href="{{local .Path}}" hreflang="{{.Lang}}" lang="{{.Lang}}">{{.Label}}</a>{{end}}<button class="theme" type="button" aria-label="{{.UI.Theme}}"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg></button></nav></header>
+<main id="main">
+{{template "main" .}}
+</main>
+<footer class="site-footer"><span>© {{with year}}{{.}} {{end}}{{.Site.Author}}{{with .Site.Commit}} · <a href="{{$.Site.Repo}}/commit/{{.}}">{{slice . 0 7}}</a>{{end}}</span><nav aria-label="{{.UI.Elsewhere}}">{{range .Site.SameAs}}<a href="{{.}}" rel="me">{{profile .}}</a>{{end}}{{with .Site.Email}}<a href="mailto:{{.}}">Email</a>{{end}}<a href="{{local .Lang.Base}}/feed.xml">RSS</a></nav></footer>
+</div>
+<script>{{script .}}</script>
+</body>
+</html>
+{{define "toc"}}<nav aria-label="{{.UI.TOC}}"><ol>{{range .Post.TOC}}<li class="level-{{.Level}}"><a href="#{{.ID}}">{{.Title}}</a></li>{{end}}</ol></nav>{{end}}
+{{define "row"}}<article class="post-row" data-path="{{.Path}}"><div class="post-meta"><time datetime="{{.Date}}">{{.Date}}</time>{{with .Category}}<a href="{{local .Path}}">{{.Name}}</a>{{end}}<span>{{printf .Lang.UI.Minutes .Minutes}}</span></div><div class="post-summary"><h2><a href="{{local .Path}}">{{.Title}}<span aria-hidden="true">↗</span></a></h2><p>{{.Description}}</p><p class="snippet" hidden></p>{{with .Terms}}<p class="tags">{{range .}}<a href="{{local .Path}}">#{{.Name}}</a>{{end}}</p>{{end}}</div><i class="rule" aria-hidden="true"></i></article>
+{{end}}

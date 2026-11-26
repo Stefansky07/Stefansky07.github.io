@@ -1,0 +1,21 @@
+# AGENTS.md
+
+这是一个用 Go 写的静态博客（见 `README.md`）。文章在 `content/posts/`，框架代码在 `src/`、`templates/`、`static/`、`scripts/`。
+
+## 写或改博客文章时
+
+动笔之前先读这三个 skill，写作过程中按它们来：
+
+- `.claude/skills/post-writing/SKILL.md`：文章的逻辑链组织（开头立路线图、先搭框架再逐层递进、章节因果衔接）与语言风格（平实质朴、不一惊一乍、短句易读、多分段）。
+- `.claude/skills/post-components/SKILL.md`：文章能用的组件和确切语法（元数据、公式、代码、`data`、`chart`、`echarts`、`mermaid`、`sketch`、`stats`……），以及图表风格。
+- `.claude/skills/post-diagrams/SKILL.md`：什么时候该画示意图（多画）、本博客的示意图风格、好图的标准和画图流程。
+
+写完要构建并在浏览器里看过每一张图（浅色、深色、手机宽度），数字要和正文、数据对得上。
+
+## 改框架代码时
+
+按 `REVIEW.md` 的审查标准做：`go vet ./...`、`go test ./...`、`gofmt -l .` 无输出，`go run ./src` 能完整构建；改了文章组件就同步改 `post-components` skill，改了 CLI 就改 `README.md`。提交保持原子。
+
+## 推送之后
+
+推送到 `main` 会触发 GitHub Actions（`.github/workflows/pages.yml`）：构建并部署到 Cloudflare Pages，同时在手机模式下测每个页面的 Lighthouse 性能分，低于 90 这次运行就失败。**这次运行必须通过**，文章和框架改动都一样：推送后用 `gh run list` 找到运行、等它结束（`gh run view <id> --json jobs` 看每个 job 的结论），失败就看日志（`gh run view <id> --log-failed`）修好再推，直到全绿才算完成。本地 `sh scripts/lighthouse.sh` 的分数通常比 Actions 高 2–4 分，不能代替它。
