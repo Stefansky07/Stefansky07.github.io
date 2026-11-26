@@ -9,6 +9,7 @@ import json
 import mimetypes
 import os
 import re
+import shutil
 import sys
 import time
 import urllib.error
@@ -64,7 +65,15 @@ def query_pending(token: str, db_id: str) -> list[dict]:
     pages: list[dict] = []
     cursor: str | None = None
     while True:
-        payload: dict = {"filter": {"property": "状态", "status": {"equals": "待发布"}}, "page_size": 100}
+        payload: dict = {
+            "filter": {
+                "or": [
+                    {"property": "状态", "status": {"equals": "待发布"}},
+                    {"property": "状态", "status": {"equals": "撤回"}},
+                ]
+            },
+            "page_size": 100,
+        }
         if cursor:
             payload["start_cursor"] = cursor
         res = _request("POST", f"{NOTION_API_BASE}/databases/{db_id}/query", token, payload)
@@ -258,14 +267,24 @@ def blocks_to_markdown(blocks: list[dict], slug: str, dry_run: bool, img_counter
     return "".join(parts)
 
 
-def update_page_status(token: str, page_id: str, status_name: str, note: str, slug: str | None = None, live_url: str | None = None) -> None:
+def update_page_status(
+    token: str,
+    page_id: str,
+    status_name: str,
+    note: str,
+    slug: str | None = None,
+    live_url: str | None = None,
+    clear_url: bool = False,
+) -> None:
     props: dict = {
         "状态": {"status": {"name": status_name}},
         "同步备注": {"rich_text": [{"text": {"content": note[:1800]}}]},
     }
     if slug is not None:
         props["Slug"] = {"rich_text": [{"text": {"content": slug}}]}
-    if live_url is not None:
+    if clear_url:
+        props["线上链接"] = {"url": None}
+    elif live_url is not None:
         props["线上链接"] = {"url": live_url}
     _request("PATCH", f"{NOTION_API_BASE}/pages/{page_id}", token, {"properties": props})
 
@@ -293,7 +312,44 @@ def stage_page(token: str, page: dict, site_url: str, dry_run: bool, used_slugs:
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     post_path.write_text(content, encoding="utf-8")
     print(f"Staged: {post_path} -> {live_url}")
-    return {"page_id": page_id, "slug": slug, "live_url": live_url}
+    return {"action": "publish", "page_id": page_id, "slug": slug, "live_url": live_url}
+
+
+def stage_unpublish(page: dict, dry_run: bool) -> dict | None:
+    page_id = page["id"]
+    props = page.get("properties", {})
+    title = plain_text(props.get("标题", {}).get("title", [])) or ""
+    date_obj = props.get("发布日期", {}).get("date") or {}
+    date_str = (date_obj.get("start") or dt.datetime.now(TZ).strftime("%Y-%m-%d"))[:10]
+    raw_slug = plain_text(props.get("Slug", {}).get("rich_text", []))
+    candidate = raw_slug.strip().lower() or title.strip().lower()
+    slug = re.sub(r"[^a-z0-9-]+", "-", candidate).strip("-")[:120].rstrip("-")
+    if not slug:
+        compact_date = date_str.replace("-", "")[:8] or dt.datetime.now(TZ).strftime("%Y%m%d")
+        slug = f"post-{compact_date}-{page_id.replace('-', '')[:6].lower()}"
+    post_path = POSTS_DIR / f"{slug}.md"
+    img_dir = IMAGES_DIR / slug
+    content_root = Path("content").resolve()
+    if not post_path.parent.resolve().is_relative_to(content_root) or not img_dir.parent.resolve().is_relative_to(content_root):
+        raise ValueError(f"Unsafe unpublish path for slug: {slug}")
+    if dry_run:
+        print(f"[DRY-RUN UNPUBLISH] {post_path}")
+        return None
+    if post_path.exists() and not post_path.is_symlink():
+        post_path.unlink()
+    if img_dir.exists() and img_dir.is_dir() and not img_dir.is_symlink():
+        shutil.rmtree(img_dir)
+    print(f"Staged unpublish: {slug}")
+    return {"action": "unpublish", "page_id": page_id, "slug": slug}
+
+
+def _ack_record(token: str, rec: dict, now_str: str) -> None:
+    if rec.get("action") == "unpublish":
+        update_page_status(token, rec["page_id"], "已撤回", f"已撤回于 {now_str}", clear_url=True)
+        print(f"Acked unpublish: {rec['slug']}")
+        return
+    update_page_status(token, rec["page_id"], "已上线", f"已同步于 {now_str}", slug=rec["slug"], live_url=rec["live_url"])
+    print(f"Acked: {rec['slug']} -> {rec['live_url']}")
 
 
 def ack_manifest(token: str, manifest_path: Path) -> int:
@@ -302,8 +358,7 @@ def ack_manifest(token: str, manifest_path: Path) -> int:
     had_err = False
     for rec in records:
         try:
-            update_page_status(token, rec["page_id"], "已上线", f"已同步于 {now_str}", slug=rec["slug"], live_url=rec["live_url"])
-            print(f"Acked: {rec['slug']} -> {rec['live_url']}")
+            _ack_record(token, rec, now_str)
         except Exception as exc:
             had_err = True
             print(f"Ack failed for {rec.get('page_id')}: {exc}", file=sys.stderr)
@@ -317,10 +372,10 @@ def _write_gh_output(output_path: str, pending: bool) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Sync Notion blog posts marked 待发布.")
-    parser.add_argument("--dry-run", action="store_true", help="Preview generated Markdown without writing files or Notion.")
-    parser.add_argument("--manifest", help="Write staged sync records to JSON and defer 已上线 writeback until --ack.")
-    parser.add_argument("--ack", help="Acknowledge staged manifest JSON back to Notion as 已上线.")
+    parser = argparse.ArgumentParser(description="Sync Notion blog posts marked 待发布 or 撤回.")
+    parser.add_argument("--dry-run", action="store_true", help="Preview sync/unpublish without writing files or Notion.")
+    parser.add_argument("--manifest", help="Write staged sync records to JSON and defer Notion writeback until --ack.")
+    parser.add_argument("--ack", help="Acknowledge staged manifest JSON back to Notion.")
     parser.add_argument("--github-output", default="", help="Append pending=true/false to GitHub Actions output file.")
     args = parser.parse_args()
     token = os.environ.get("NOTION_TOKEN", "").strip()
@@ -343,8 +398,9 @@ def main() -> int:
     used_slugs: set[str] = set()
     had_err = False
     for page in pages:
+        status_name = (page.get("properties", {}).get("状态", {}).get("status") or {}).get("name", "")
         try:
-            rec = stage_page(token, page, site_url, args.dry_run, used_slugs)
+            rec = stage_unpublish(page, args.dry_run) if status_name == "撤回" else stage_page(token, page, site_url, args.dry_run, used_slugs)
             if rec:
                 staged.append(rec)
         except Exception as exc:
@@ -361,7 +417,7 @@ def main() -> int:
     elif not args.manifest and not args.dry_run and staged:
         now_str = dt.datetime.now(TZ).strftime("%Y-%m-%d %H:%M")
         for rec in staged:
-            update_page_status(token, rec["page_id"], "已上线", f"已同步于 {now_str}", slug=rec["slug"], live_url=rec["live_url"])
+            _ack_record(token, rec, now_str)
     return 1 if had_err else 0
 
 
