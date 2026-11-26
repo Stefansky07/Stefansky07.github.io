@@ -94,6 +94,17 @@ h1,.post-summary h2,.prose h2,.prose h3,.post-pagination a{font-family:var(--ser
 .about-mono{display:block;font-family:var(--mono);font-size:13px;line-height:1.88;color:var(--ink)}
 .about-hint{display:block;margin-top:2px;font-size:12.5px;line-height:1.65;color:var(--muted)}
 .about-actions{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;margin-top:6px;font-family:var(--mono);font-size:12px}
+.friend-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:760px}
+.friend-card{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);text-decoration:none;color:inherit;transition:border-color .18s ease,background-color .18s ease,transform .18s ease}
+.friend-card:hover{border-color:color-mix(in srgb,var(--green) 55%,var(--line));background:var(--wash);transform:translateY(-1px)}
+.friend-card:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.friend-avatar{width:52px;height:52px;border-radius:10px;object-fit:cover;flex:none;background:var(--wash);box-shadow:0 0 0 1px var(--line)}
+.friend-info{min-width:0;flex:1}
+.friend-name{display:flex;align-items:baseline;gap:4px;font-size:15px;font-weight:500;line-height:1.35;color:var(--ink)}
+.friend-name-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.friend-name .ext{flex:none;font-size:11.5px;color:var(--faint);transition:color .18s ease}
+.friend-card:hover .friend-name,.friend-card:hover .friend-name .ext{color:var(--green)}
+.friend-desc{margin:4px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pgp-toggle{display:contents}
 .pgp-toggle summary{cursor:pointer;list-style:none}
 .pgp-toggle summary::-webkit-details-marker{display:none}
@@ -605,6 +616,7 @@ main::after{bottom:0}
 .empty{padding:32px}
 .site-footer{padding:24px 32px 28px}
 }
+@media(max-width:760px){.friend-grid{grid-template-columns:1fr}}
 @media(max-width:640px){
 .shell{min-height:calc(100vh - 32px);margin:16px 12px}
 .shell::before{display:none}
@@ -623,6 +635,8 @@ main::after{bottom:0}
 .page-head{padding:32px 20px 30px}
 .about-head{display:flex;align-items:flex-start;gap:16px}
 .about-avatar{width:48px;height:48px}
+.friend-card{padding:12px 14px;gap:12px}
+.friend-avatar{width:46px;height:46px}
 .about-section h2{padding:0}
 .about-dl{grid-template-columns:1fr;row-gap:2px}
 .about-dl dt{font-size:12px;line-height:1.45}

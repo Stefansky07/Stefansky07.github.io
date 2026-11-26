@@ -24,10 +24,19 @@ func profileName(link string) string {
 	return u.Hostname()
 }
 
+// Friend is one blogroll entry rendered on the /about/ page.
+type Friend struct {
+	Name        string `json:"name"`
+	URL         string `json:"url"`
+	Avatar      string `json:"avatar"`
+	Description string `json:"description"`
+}
+
 type Site struct {
 	Title, Author, Description, URL, About, Repo, Email string
 	SameAs                                              []string
 	Redirects                                           []Redirect
+	Friends                                             []Friend
 	Commit                                              string `json:"-"`
 }
 

@@ -177,7 +177,7 @@ func TestBuild(t *testing.T) {
 		t.Fatal("the English home page must use its own brand title, description and dashboard")
 	}
 	aboutZH, _ := os.ReadFile("public/about/index.html")
-	for _, want := range []string{`aria-current="page">关于</a>`, "github.com/Stefansky07", "zhihu.com/people/yu-yuan-chang-meng", "/notes/feed.xml", `"ProfilePage"`} {
+	for _, want := range []string{`aria-current="page">关于</a>`, "兴趣使然的Cryptoer", `id="s-friends"`, "Yuuko", "https://yuuko.site", "Amor che nella mente mi ragiona.", "github.com/Stefansky07", "zhihu.com/people/yu-yuan-chang-meng", "/notes/feed.xml", `"ProfilePage"`} {
 		if !strings.Contains(string(aboutZH), want) {
 			t.Fatalf("Chinese about page lacks %s", want)
 		}

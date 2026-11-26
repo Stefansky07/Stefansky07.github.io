@@ -25,5 +25,22 @@
 </dl>
 <i class="rule" aria-hidden="true"></i>
 </section>
+{{if .Site.Friends}}
+<section class="about-section" aria-labelledby="s-friends">
+<h2 id="s-friends">{{.UI.Friends}}</h2>
+<div class="friend-grid">
+{{range .Site.Friends}}
+<a class="friend-card" href="{{.URL}}" target="_blank" rel="noopener noreferrer">
+<img class="friend-avatar" src="{{.Avatar}}" alt="{{.Name}}" width="52" height="52" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+<div class="friend-info">
+<div class="friend-name"><span class="friend-name-text">{{.Name}}</span><span class="ext" aria-hidden="true">↗</span></div>
+{{if .Description}}<p class="friend-desc">{{.Description}}</p>{{end}}
+</div>
+</a>
+{{end}}
+</div>
+<i class="rule" aria-hidden="true"></i>
+</section>
+{{end}}
 </section>
 {{end}}

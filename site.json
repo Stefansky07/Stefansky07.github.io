@@ -10,5 +10,13 @@
     "https://github.com/Stefansky07",
     "https://www.zhihu.com/people/yu-yuan-chang-meng"
   ],
-  "redirects": []
+  "redirects": [],
+  "friends": [
+    {
+      "name": "Yuuko",
+      "url": "https://yuuko.site",
+      "avatar": "https://files.yuuko.site/picture/yuuko.jpg",
+      "description": "Amor che nella mente mi ragiona."
+    }
+  ]
 }

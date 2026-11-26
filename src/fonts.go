@@ -210,7 +210,8 @@ serif:
 			e.is("b") && within("sketch"),
 			e.is("case-q"),
 			e.is("anki-title"),
-			e.is("plot-title"):
+			e.is("plot-title"),
+			within("friend-name"):
 			return sans500
 		}
 	}

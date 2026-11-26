@@ -24,6 +24,7 @@ var fontRules = []string{
 	`.about-section h2 { font-family:var(--mono); font-weight:400 }`,
 	`.about-mono { font-family:var(--mono) }`,
 	`.about-actions { font-family:var(--mono) }`,
+	`.friend-name { font-weight:500 }`,
 	`.pgp-key { font-family:var(--mono) }`,
 	`.post-meta { font-family:var(--mono) }`,
 	`.post-summary h2 { font-weight:500 }`,

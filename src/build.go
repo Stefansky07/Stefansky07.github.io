@@ -119,6 +119,12 @@ func (b *builder) loadSite() error {
 	if err = json.Unmarshal(data, &b.site); err != nil {
 		return fmt.Errorf("site.json: %w", err)
 	}
+	for i := range b.site.Friends {
+		u := strings.TrimSpace(b.site.Friends[i].URL)
+		if u != "" && !strings.HasPrefix(u, "http://") && !strings.HasPrefix(u, "https://") {
+			b.site.Friends[i].URL = "https://" + u
+		}
+	}
 	origURL := strings.TrimRight(b.site.URL, "/")
 	if b.URL != "" {
 		b.site.URL = b.URL
