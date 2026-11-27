@@ -313,6 +313,19 @@ func TestBuild(t *testing.T) {
 	if string(before) != string(after) {
 		t.Fatal("failed build changed previous output")
 	}
+	for _, slug := range []string{"broken", "beta"} {
+		if err = os.Remove("content/posts/" + slug + ".md"); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err = build(Options{URL: "https://example.com/notes"}); err != nil {
+		t.Fatalf("zero-post build failed: %v", err)
+	}
+	for _, name := range []string{"tags/index.html", "search/index.html", "search.json"} {
+		if _, err := os.Stat(filepath.Join("public", name)); err != nil {
+			t.Fatalf("zero-post build missing %s: %v", name, err)
+		}
+	}
 }
 
 func TestTableOfContents(t *testing.T) {

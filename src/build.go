@@ -280,10 +280,7 @@ func (b *builder) switchTo(from *edition, path string) *Link {
 
 // writeEdition writes every page and feed of one language.
 func (b *builder) writeEdition(e *edition) error {
-	steps := []func(*edition) error{b.writeHome, b.writeAbout, b.writePosts, b.writeNotFound}
-	if len(e.posts) > 0 {
-		steps = append(steps, b.writeTerms, b.writeSearch)
-	}
+	steps := []func(*edition) error{b.writeHome, b.writeAbout, b.writePosts, b.writeNotFound, b.writeTerms, b.writeSearch}
 	for _, step := range steps {
 		if err := step(e); err != nil {
 			return err
