@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Stefansky</title>
+    <link>https://stefansky07.github.io/</link>
+    <link xmlns="http://www.w3.org/2005/Atom" href="https://stefansky07.github.io/feed.xml" rel="self" type="application/rss+xml"></link>
+    <description>Stefansky 的个人博客，记录安全研究、CTF、逆向工程与 AI 系统折腾。</description>
+    <language>zh-CN</language>
+  </channel>
+</rss>

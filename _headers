@@ -1,0 +1,34 @@
+/
+  Cache-Control: no-cache
+/about/*
+  Cache-Control: no-cache
+/apple-touch-icon.png
+  Cache-Control: no-cache
+/favicon.ico
+  Cache-Control: no-cache
+/feed.xml
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/robots.txt
+  Cache-Control: no-cache
+/search/*
+  Cache-Control: no-cache
+/search.json
+  Cache-Control: no-cache
+/sitemap.xml
+  Cache-Control: no-cache
+/static/avatar.png
+  Cache-Control: no-cache
+/static/avatar.webp
+  Cache-Control: no-cache
+/tags/*
+  Cache-Control: no-cache
+/404.html
+  Cache-Control: no-store
+/static/0664e98377b68a06/*
+  Cache-Control: public, max-age=31536000, immutable
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+/widgets/*
+  Cache-Control: public, max-age=31536000, immutable
